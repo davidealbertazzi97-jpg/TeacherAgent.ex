@@ -1137,7 +1137,8 @@ class OdeApiController extends DefaultApiController
 
             // Validate file extension
             $extension = strtolower(pathinfo($odeFileName, PATHINFO_EXTENSION));
-            $allowedExtensions = ['elpx', 'elp', 'zip'];
+            // Allow editable epub files as they are treated as zip archives
+            $allowedExtensions = ['elpx', 'elp', 'zip', 'epub'];
             if (!in_array($extension, $allowedExtensions, true)) {
                 throw new \RuntimeException($this->translator->trans('Invalid file type'));
             }
