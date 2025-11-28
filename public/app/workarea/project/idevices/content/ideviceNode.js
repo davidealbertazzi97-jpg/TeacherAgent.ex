@@ -117,9 +117,28 @@ export default class IdeviceNode {
             let defaultValue =
                 this.default[param] != undefined ? this.default[param] : null;
             let value = data[param] ? data[param] : defaultValue;
-            this[param] = this.parseParams.includes(param)
-                ? JSON.parse(value)
-                : value;
+            if (
+                this.parseParams.includes(param) &&
+                value !== null &&
+                value !== ''
+            ) {
+                try {
+                    const sanitizedValue =
+                        $exeDevices.iDevice.gamification.helpers.sanitizeJSONString(
+                            value
+                        );
+                    this[param] = JSON.parse(sanitizedValue);
+                } catch (e) {
+                    console.error(
+                        `Error parsing JSON for param "${param}":`,
+                        e
+                    );
+                    console.error('Invalid JSON:', value);
+                    this[param] = defaultValue;
+                }
+            } else {
+                this[param] = value;
+            }
         }
         if (data.odeComponentsSyncProperties) {
             this.setProperties(data.odeComponentsSyncProperties);
