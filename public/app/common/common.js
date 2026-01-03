@@ -26,15 +26,31 @@
 window.MathJax = window.MathJax || (function() {
     var isWorkarea = typeof window.eXeLearning !== 'undefined' || document.querySelector('script[src*="app/common/exe_math"]');
     var isIndex = document.documentElement.id === 'exe-index';
-    var basePath = isWorkarea ? '/app/common/exe_math' : (isIndex ? './libs/exe_math' : '../libs/exe_math');
+    // For workarea: use versioned path from eXeLearning config or detect from script tags
+    // For exports: use relative paths (./libs or ../libs)
+    var version = (window.eXeLearning && window.eXeLearning.version) || '';
+    if (!version && isWorkarea) {
+        // Try to detect version from existing script tags (e.g., /v0.0.0-alpha/app/...)
+        var scriptTag = document.querySelector('script[src*="/app/common/"]');
+        if (scriptTag) {
+            var match = scriptTag.src.match(/\/(v[\d.]+[^/]*)\//);
+            if (match) version = match[1];
+        }
+    }
+    var basePath = isWorkarea
+        ? (version ? '/' + version + '/app/common/exe_math' : '/app/common/exe_math')
+        : (isIndex ? './libs/exe_math' : '../libs/exe_math');
     
     var externalExtensions = [
-        'amscd', 'bbox', 'boldsymbol', 'braket', 'bussproofs', 'cancel', 
-        'cases', 'centernot', 'color', 'colortbl', 'empheq', 'enclose', 
+        'amscd', 'bbox', 'boldsymbol', 'braket', 'bussproofs', 'cancel',
+        'cases', 'centernot', 'color', 'colortbl', 'empheq', 'enclose',
         'extpfeil', 'gensymb', 'html', 'mathtools', 'mhchem', 'noerrors',
-        'physics', 'tagformat', 'textcomp', 'unicode', 'upgreek', 'verb', 
-        'setoptions',
-        'bbm', 'bboldx', 'begingroup', 'colorv2', 'dsfont', 'texhtml', 'units'
+        'physics', 'tagformat', 'textcomp', 'unicode', 'upgreek', 'verb',
+        'setoptions'
+        // TODO: Enable these extensions when upgrading to MathJax 4.0
+        // Currently disabled due to dependency issues with bundled tex-mml-svg.js (MathJax 3.x)
+        // These extensions require input/tex-base to be fully loaded before initialization
+        // 'bbm', 'bboldx', 'begingroup', 'colorv2', 'dsfont', 'texhtml', 'units'
     ];
     
     return {
@@ -206,7 +222,18 @@ var $exe = {
                         }
                     });
                     $exe.math.loadMathJax(function () {
-                        MathJax.typesetPromise();
+                        // For SPA preview: only typeset active page (prevents replaceChild errors)
+                        var activePage = document.querySelector('.spa-page.active');
+                        if (activePage) {
+                            MathJax.typesetPromise([activePage]).catch(function(e) {
+                                console.warn('[MathJax] Typeset error:', e.message);
+                            });
+                        } else {
+                            // Not a SPA preview, typeset everything
+                            MathJax.typesetPromise().catch(function(e) {
+                                console.warn('[MathJax] Typeset error:', e.message);
+                            });
+                        }
                         $exe.math.createLinks();
                     });
                 } else {
@@ -220,7 +247,7 @@ var $exe = {
         // Mermaid script path
         engine: $("html").prop("id") === "exe-index" ? "./libs/mermaid/mermaid.min.js" : "../app/common/mermaid/mermaid.min.js",
         reload_pending: false,
-            //'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js',
+        initialized: false,
         loadMermaid: function () {
             if (typeof window.mermaid === 'undefined') {
                 const script = document.createElement("script");
@@ -228,24 +255,94 @@ var $exe = {
                 script.async = true;
                 script.onload = function () {
                     mermaid = window.mermaid;
-                    mermaid.initialize({ startOnLoad: false });
-                    mermaid.run();
+                    mermaid.initialize({
+                        startOnLoad: false,
+                        suppressErrorRendering: true,
+                        logLevel: 'fatal',
+                        // Gantt configuration to prevent negative width errors
+                        gantt: {
+                            useMaxWidth: true,
+                            useWidth: undefined
+                        },
+                        flowchart: {
+                            useMaxWidth: true
+                        }
+                    });
+                    $exe.mermaid.initialized = true;
+                    $exe.mermaid.renderDiagrams();
                 };
                 document.head.appendChild(script);
-                this.reload_pending = false;
-            } else {
+            } else if (this.initialized) {
                 // debounce reloading to avoid multiple calls
                 if (!this.reload_pending) {
                     this.reload_pending = true;
                     setTimeout(function () {
                         $exe.mermaid.reload_pending = false;
-                        mermaid.run();
+                        $exe.mermaid.renderDiagrams();
                     }, 100);
                 }
             }
         },
+        renderDiagrams: function (retryCount) {
+            retryCount = retryCount || 0;
+            var maxRetries = 10;
+            // Include elements without data-processed OR with data-processed="pending" (failed previous render)
+            var mermaidNodes = $(".mermaid:not([data-processed]), .mermaid[data-processed='pending']");
+
+            if (mermaidNodes.length === 0) return;
+
+            // Check if elements have valid dimensions
+            var readyNodes = [];
+            var pendingNodes = [];
+
+            mermaidNodes.each(function () {
+                var $el = $(this);
+                // Element needs to be visible AND have width > 0
+                if ($el.is(':visible') && $el.width() > 0) {
+                    readyNodes.push(this);
+                    // Remove pending status so mermaid.run() will process it
+                    $el.removeAttr('data-processed');
+                } else {
+                    pendingNodes.push(this);
+                }
+            });
+
+            // Only call mermaid.run() if there are ready nodes
+            // IMPORTANT: Pass the specific nodes to render, not all .mermaid elements
+            // This prevents Mermaid from rendering hidden elements with 0 width
+            if (readyNodes.length > 0) {
+                try {
+                    // Pass only the ready nodes to mermaid.run()
+                    mermaid.run({ nodes: readyNodes });
+                } catch (e) {
+                    // Silently handle rendering errors
+                }
+            }
+
+            // Mark pending nodes so we know they need retry later
+            // (when the page containing them becomes visible)
+            pendingNodes.forEach(function(node) {
+                if (!node.hasAttribute('data-processed')) {
+                    node.setAttribute('data-processed', 'pending');
+                }
+            });
+
+            // Retry for pending nodes that don't have dimensions yet
+            if (pendingNodes.length > 0 && retryCount < maxRetries) {
+                setTimeout(function () {
+                    $exe.mermaid.renderDiagrams(retryCount + 1);
+                }, 200);
+            }
+        },
         init: function () {
+            // Check for mermaid elements that need rendering
+            // Pre-rendered diagrams have class exe-mermaid-rendered (not .mermaid)
+            // so they won't be matched by this selector.
+            // Include ALL .mermaid elements (even data-processed="pending" which means
+            // a previous render failed) so Mermaid library gets loaded and they can retry.
             var mermaidNodes = $(".mermaid");
+
+            // Load Mermaid if there are any mermaid elements
             if (mermaidNodes.length > 0) {
                 this.loadMermaid();
             }
@@ -360,7 +457,18 @@ var $exe = {
             // Multimedia galleries
             $exe.mediaelements = $(".mediaelement");
             $exe.mediaelements.each(function () {
-                if (typeof this.localName != "undefined" && this.localName == "video") {
+                // Only process actual audio/video elements, not MEJS wrapper containers
+                // When MEJS wraps an element, the container also gets class 'mediaelement'
+                // which can cause double-initialization issues
+                var tagName = this.localName || this.tagName?.toLowerCase();
+                if (tagName !== "audio" && tagName !== "video") {
+                    return; // Skip non-media elements (like mejs-container divs)
+                }
+                // Skip if already processed by MEJS
+                if (this.player !== undefined) {
+                    return;
+                }
+                if (tagName === "video") {
                     var e = this.width;
                     var t = $(window).width();
                     if (e > t) {
@@ -482,7 +590,12 @@ var $exe = {
         if ($("A.exe-tooltip").length > 0) {
             var p = "";
             if (typeof (eXeLearning) !== 'undefined') {
-                p = eXeLearning.symfony.fullURL + "/app/common/exe_tooltips/";
+                // TODO: UNIFY - Fallback for branch compatibility.
+                // In 'main' branch: eXeLearning.symfony.fullURL exists (added by Symfony backend)
+                // In this branch: only eXeLearning.config.fullURL exists (set in workarea.njk)
+                // To unify: Either add 'symfony' property to workarea.njk template,
+                // or update main branch to use 'config' consistently.
+                p = (eXeLearning.symfony?.fullURL || eXeLearning.config?.fullURL || '') + "/app/common/exe_tooltips/";
             } else {
                 var ref = window.location.href;
                 // Check if it's the home page
@@ -1318,7 +1431,23 @@ var $exeDevices = {
                     }
 
                     self._loading = true;
-                    var basePath = $("html").prop("id") == "exe-index" ? "./libs/exe_math" : "../libs/exe_math";
+                    // For exports: use relative paths. For workarea: use versioned path if available
+                    var isExport = $("html").prop("id") == "exe-index" || !document.querySelector('script[src*="/app/common/"]');
+                    var basePath;
+                    if (isExport) {
+                        basePath = $("html").prop("id") == "exe-index" ? "./libs/exe_math" : "../libs/exe_math";
+                    } else {
+                        // Workarea: detect version from script tags
+                        var version = (window.eXeLearning && window.eXeLearning.version) || '';
+                        if (!version) {
+                            var scriptTag = document.querySelector('script[src*="/app/common/"]');
+                            if (scriptTag) {
+                                var match = scriptTag.src.match(/\/(v[\d.]+[^/]*)\//);
+                                if (match) version = match[1];
+                            }
+                        }
+                        basePath = version ? '/' + version + '/app/common/exe_math' : '/app/common/exe_math';
+                    }
                     if (!window.MathJax) {
                         window.MathJax = self.engineConfig;
                     }
@@ -1366,10 +1495,19 @@ var $exeDevices = {
 
                     function runV3(nodes) {
                         if (!nodes.length) return;
+                        // Filter out nodes in hidden SPA pages (prevents replaceChild errors)
+                        var visibleNodes = nodes.filter(function(n) {
+                            var spaPage = n.closest('.spa-page');
+                            // If inside a SPA page, only process if active
+                            if (spaPage) return spaPage.classList.contains('active');
+                            // If not in a SPA page, always process
+                            return true;
+                        });
+                        if (!visibleNodes.length) return;
                         var start = (MathJax.startup && MathJax.startup.promise) ? MathJax.startup.promise : Promise.resolve();
                         return start.then(function () {
-                            if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear(nodes);
-                            return (MathJax.typesetPromise ? MathJax.typesetPromise(nodes) : MathJax.typeset(nodes));
+                            if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear(visibleNodes);
+                            return (MathJax.typesetPromise ? MathJax.typesetPromise(visibleNodes) : MathJax.typeset(visibleNodes));
                         }).catch(function (e) { console.error('MathJax v3 typeset error:', e); });
                     }
 
@@ -2034,4 +2172,14 @@ var $exeDevices = {
         },
 
     }
+}
+
+// Export globals for browser and test environments
+if (typeof window !== 'undefined') {
+    window.$exe = $exe;
+    window.$exeDevices = $exeDevices;
+}
+if (typeof global !== 'undefined') {
+    global.$exe = $exe;
+    global.$exeDevices = $exeDevices;
 }
