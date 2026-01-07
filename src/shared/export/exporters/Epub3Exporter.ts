@@ -157,6 +157,14 @@ export class Epub3Exporter extends BaseExporter {
                 this.spineItems.push({ idref: pageId });
             }
 
+            // 4b. Add content.xml (ODE format for re-import) - only if exportSource is enabled
+            // This allows EPUBs to be re-imported and edited in eXeLearning
+            if (meta.exportSource !== false) {
+                const contentXml = this.generateContentXml();
+                this.zip.addFile('EPUB/content.xml', contentXml);
+                this.addManifestItem('content-xml', 'content.xml', 'application/xml');
+            }
+
             // 5. Add base CSS (fetch from content/css, then add EPUB-specific)
             const contentCssFiles = await this.resources.fetchContentCss();
             const fetchedBaseCss = contentCssFiles.get('content/css/base.css');
