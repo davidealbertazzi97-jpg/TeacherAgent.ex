@@ -556,6 +556,26 @@ describe('Epub3Exporter', () => {
             // Content.xml should NOT be included
             expect(zip.files.has('EPUB/content.xml')).toBe(false);
         });
+
+        it('should include content.dtd alongside content.xml', async () => {
+            await exporter.export();
+
+            // DTD file should be included in EPUB folder
+            expect(zip.files.has('EPUB/content.dtd')).toBe(true);
+            const dtdContent = zip.files.get('EPUB/content.dtd') as string;
+            expect(dtdContent).toContain('<!ELEMENT ode');
+            expect(dtdContent).toContain('ODE Content DTD');
+        });
+
+        it('should NOT include content.dtd when exportSource is false', async () => {
+            document = new MockDocument({ exportSource: false }, samplePages);
+            exporter = new Epub3Exporter(document, resources, assets, zip);
+
+            await exporter.export();
+
+            // DTD should NOT be included
+            expect(zip.files.has('EPUB/content.dtd')).toBe(false);
+        });
     });
 
     describe('Metadata Handling', () => {
