@@ -230,10 +230,14 @@ export class WorkareaPage {
      * Waits for TinyMCE to be fully initialized
      */
     private async waitForTinyMceEditor(timeout: number = 12000): Promise<void> {
-        await this.page.waitForFunction(() => {
-            const editor = (window as any).tinymce?.activeEditor;
-            return !!editor && editor.initialized;
-        }, null, { timeout });
+        await this.page.waitForFunction(
+            () => {
+                const editor = (window as any).tinymce?.activeEditor;
+                return !!editor && editor.initialized;
+            },
+            null,
+            { timeout },
+        );
     }
 
     /**

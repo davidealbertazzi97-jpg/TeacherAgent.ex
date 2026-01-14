@@ -146,10 +146,14 @@ async function saveIdevice(page: Page): Promise<void> {
  * Helper to type content in the TinyMCE editor
  */
 async function typeInTinyMCE(page: Page, text: string): Promise<void> {
-    await page.waitForFunction(() => {
-        const editor = (window as any).tinymce?.activeEditor;
-        return !!editor && editor.initialized;
-    }, null, { timeout: 15000 });
+    await page.waitForFunction(
+        () => {
+            const editor = (window as any).tinymce?.activeEditor;
+            return !!editor && editor.initialized;
+        },
+        null,
+        { timeout: 15000 },
+    );
 
     await page.evaluate(content => {
         const editor = (window as any).tinymce?.activeEditor;

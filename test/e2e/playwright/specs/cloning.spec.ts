@@ -98,10 +98,14 @@ async function addTextIdeviceWithContent(page: Page, content: string): Promise<v
     await tinyMceFrame.waitFor({ timeout: 15000 });
 
     // Set content via TinyMCE API for deterministic updates
-    await page.waitForFunction(() => {
-        const editor = (window as any).tinymce?.activeEditor;
-        return !!editor && editor.initialized;
-    }, null, { timeout: 15000 });
+    await page.waitForFunction(
+        () => {
+            const editor = (window as any).tinymce?.activeEditor;
+            return !!editor && editor.initialized;
+        },
+        null,
+        { timeout: 15000 },
+    );
 
     await page.evaluate(newContent => {
         const editor = (window as any).tinymce?.activeEditor;
