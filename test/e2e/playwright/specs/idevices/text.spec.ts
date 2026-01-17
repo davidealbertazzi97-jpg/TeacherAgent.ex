@@ -1797,14 +1797,29 @@ test.describe('Text iDevice', () => {
             // 14. Wait for modal to close and URL to be set in TinyMCE dialog
             await page.waitForTimeout(1000);
 
-            // 15. Close TinyMCE dialog by clicking Save button
-            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save")');
+            // 15. Fill in alt text to avoid accessibility warning dialog
+            const altTextInput = page.getByLabel(/Alternative description|Descripción alternativa/i);
+            if ((await altTextInput.count()) > 0) {
+                const currentAlt = await altTextInput.inputValue().catch(() => '');
+                if (!currentAlt) {
+                    await altTextInput.fill('Test image');
+                }
+            }
+
+            // 16. Close TinyMCE dialog by clicking Save button
+            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")').first();
             if ((await tinyMceSaveBtn.count()) > 0) {
                 await tinyMceSaveBtn.click();
             }
-            await page.waitForTimeout(1000);
 
-            // 12. Save iDevice
+            // Wait for dialog to close
+            await page.waitForFunction(
+                () => !document.querySelector('.tox-dialog'),
+                { timeout: 10000 },
+            ).catch(() => {});
+            await page.waitForTimeout(500);
+
+            // 17. Save iDevice
             const saveBtn = block.locator('.btn-save-idevice');
             if ((await saveBtn.count()) > 0) {
                 await saveBtn.click();
@@ -1936,15 +1951,32 @@ test.describe('Text iDevice', () => {
             await expect(insertBtn).toBeVisible({ timeout: 5000 });
             await insertBtn.click();
 
-            // 12. Wait for modal to close and close TinyMCE dialog
+            // 12. Wait for modal to close
             await page.waitForTimeout(1000);
-            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save")');
+
+            // 13. Fill in alt text to avoid accessibility warning dialog
+            const altTextInput = page.getByLabel(/Alternative description|Descripción alternativa/i);
+            if ((await altTextInput.count()) > 0) {
+                const currentAlt = await altTextInput.inputValue().catch(() => '');
+                if (!currentAlt) {
+                    await altTextInput.fill('Test image');
+                }
+            }
+
+            // 14. Close TinyMCE dialog
+            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")').first();
             if ((await tinyMceSaveBtn.count()) > 0) {
                 await tinyMceSaveBtn.click();
             }
-            await page.waitForTimeout(1000);
 
-            // 13. Save iDevice
+            // Wait for dialog to close
+            await page.waitForFunction(
+                () => !document.querySelector('.tox-dialog'),
+                { timeout: 10000 },
+            ).catch(() => {});
+            await page.waitForTimeout(500);
+
+            // 15. Save iDevice
             const saveBtn = block.locator('.btn-save-idevice');
             if ((await saveBtn.count()) > 0) {
                 await saveBtn.click();
