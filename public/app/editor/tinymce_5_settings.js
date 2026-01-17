@@ -23,7 +23,7 @@ var $exeTinyMCE = {
         },
         insert: {
             title: 'Insert',
-            items: 'template | hr charmap anchor clearfloat addcontent | abbr insertdatetime',
+            items: 'template | hr charmap anchor clearfloat addcontent exemermaid | abbr insertdatetime',
         }, // ' | exegames_hangman' removed
         format: {
             title: 'Format',
