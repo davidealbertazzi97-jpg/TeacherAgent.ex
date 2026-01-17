@@ -1635,13 +1635,15 @@ test.describe('Text iDevice', () => {
                 { timeout: 15000 },
             );
 
-            // Wait for iframe to appear in the iDevice content (PDF was inserted)
+            // Wait for iframe or embed to appear in the iDevice content (PDF was inserted)
+            // PDFs can be inserted as either <iframe> or <embed> depending on how they're detected
             await page.waitForFunction(
                 () => {
                     const idevice = document.querySelector('#node-content article .idevice_node.text');
                     if (!idevice) return false;
                     const iframe = idevice.querySelector('iframe');
-                    return !!iframe;
+                    const embed = idevice.querySelector('embed[type="application/pdf"]');
+                    return !!iframe || !!embed;
                 },
                 { timeout: 10000 },
             );
