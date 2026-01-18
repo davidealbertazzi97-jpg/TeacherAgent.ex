@@ -1807,16 +1807,17 @@ test.describe('Text iDevice', () => {
             }
 
             // 16. Close TinyMCE dialog by clicking Save button
-            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")').first();
+            const tinyMceSaveBtn = page
+                .locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")')
+                .first();
             if ((await tinyMceSaveBtn.count()) > 0) {
                 await tinyMceSaveBtn.click();
             }
 
             // Wait for dialog to close
-            await page.waitForFunction(
-                () => !document.querySelector('.tox-dialog'),
-                { timeout: 10000 },
-            ).catch(() => {});
+            await page
+                .waitForFunction(() => !document.querySelector('.tox-dialog'), { timeout: 10000 })
+                .catch(() => {});
             await page.waitForTimeout(500);
 
             // 17. Save iDevice
@@ -1964,16 +1965,17 @@ test.describe('Text iDevice', () => {
             }
 
             // 14. Close TinyMCE dialog
-            const tinyMceSaveBtn = page.locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")').first();
+            const tinyMceSaveBtn = page
+                .locator('.tox-dialog .tox-button:has-text("Save"), .tox-dialog .tox-button:has-text("Guardar")')
+                .first();
             if ((await tinyMceSaveBtn.count()) > 0) {
                 await tinyMceSaveBtn.click();
             }
 
             // Wait for dialog to close
-            await page.waitForFunction(
-                () => !document.querySelector('.tox-dialog'),
-                { timeout: 10000 },
-            ).catch(() => {});
+            await page
+                .waitForFunction(() => !document.querySelector('.tox-dialog'), { timeout: 10000 })
+                .catch(() => {});
             await page.waitForTimeout(500);
 
             // 15. Save iDevice
