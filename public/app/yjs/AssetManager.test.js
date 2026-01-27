@@ -3101,6 +3101,54 @@ describe('extractAssetsFromZip', () => {
       expect(assetMap.has('random-folder/document.pdf')).toBe(false);
     });
   });
+
+  describe('v3.0 ELP custom/ folder support', () => {
+    it('extracts assets from custom/ folder', async () => {
+      const zipData = {
+        'content.xml': new Uint8Array([60, 63]),
+        'custom/image.png': new Uint8Array([1, 2, 3, 4]),
+        'custom/photo.jpg': new Uint8Array([5, 6, 7, 8]),
+      };
+      const assetMap = await assetManager.extractAssetsFromZip(zipData);
+      expect(assetMap.has('custom/image.png')).toBe(true);
+      expect(assetMap.has('custom/photo.jpg')).toBe(true);
+    });
+
+    it('creates normalized filename mapping for files with spaces', async () => {
+      const zipData = {
+        'content.xml': new Uint8Array([60, 63]),
+        'custom/11 A1.png': new Uint8Array([1, 2, 3, 4]),
+      };
+      const assetMap = await assetManager.extractAssetsFromZip(zipData);
+      // Both the original path (with space) and normalized path (with underscore) should exist
+      expect(assetMap.has('custom/11 A1.png')).toBe(true);
+      expect(assetMap.has('custom/11_A1.png')).toBe(true);
+      // Both mappings should point to the same asset ID
+      expect(assetMap.get('custom/11 A1.png')).toBe(assetMap.get('custom/11_A1.png'));
+    });
+
+    it('does not create normalized mapping for files without spaces', async () => {
+      const zipData = {
+        'content.xml': new Uint8Array([60, 63]),
+        'custom/image.png': new Uint8Array([1, 2, 3, 4]),
+      };
+      const assetMap = await assetManager.extractAssetsFromZip(zipData);
+      // Only original path should exist, no underscore variant since there are no spaces
+      expect(assetMap.has('custom/image.png')).toBe(true);
+      expect(assetMap.size).toBe(1);
+    });
+
+    it('ignores custom/ directory entries (not files)', async () => {
+      const zipData = {
+        'content.xml': new Uint8Array([60, 63]),
+        'custom/': new Uint8Array([]), // directory entry
+        'custom/image.png': new Uint8Array([1, 2, 3, 4]),
+      };
+      const assetMap = await assetManager.extractAssetsFromZip(zipData);
+      expect(assetMap.has('custom/')).toBe(false);
+      expect(assetMap.has('custom/image.png')).toBe(true);
+    });
+  });
 });
 
 describe('convertContextPathToAssetRefs', () => {
@@ -3199,6 +3247,48 @@ describe('convertContextPathToAssetRefs', () => {
     const result = assetManager.convertContextPathToAssetRefs(html, assetMap);
     expect(result).toBe(html);
     expect(console.warn).toHaveBeenCalled();
+  });
+
+  describe('v3.0 ELP custom/ folder support', () => {
+    it('finds asset in custom/ folder by filename', () => {
+      const assetMap = new Map([['custom/image.png', 'uuid-custom']]);
+      const html = '<img src="{{context_path}}/someid/image.png">';
+      const result = assetManager.convertContextPathToAssetRefs(html, assetMap);
+      expect(result).toBe('<img src="asset://uuid-custom.png">');
+    });
+
+    it('finds custom/ asset when XML uses underscores but file has spaces', () => {
+      // Simulate the v3.0 bug: file stored as "11 A1.png" but XML references "11_A1.png"
+      const assetMap = new Map([
+        ['custom/11 A1.png', 'uuid-space'],
+        ['custom/11_A1.png', 'uuid-space'], // normalized mapping added during extraction
+      ]);
+      const html = '<img src="{{context_path}}/20251211173343CEGCIN/11_A1.png">';
+      const result = assetManager.convertContextPathToAssetRefs(html, assetMap);
+      expect(result).toContain('asset://');
+      expect(result).toContain('uuid-space');
+    });
+
+    it('finds custom/ asset via denormalization when no normalized mapping exists', () => {
+      // Test the denormalization fallback (underscores → spaces)
+      const assetMap = new Map([
+        ['custom/file with spaces.png', 'uuid-denorm'],
+      ]);
+      const html = '<img src="{{context_path}}/someid/file_with_spaces.png">';
+      const result = assetManager.convertContextPathToAssetRefs(html, assetMap);
+      expect(result).toContain('asset://');
+      expect(result).toContain('uuid-denorm');
+    });
+
+    it('searches custom/ folder for matching filename', () => {
+      const assetMap = new Map([
+        ['custom/my image.jpg', 'uuid-search'],
+      ]);
+      const html = '<img src="{{context_path}}/randomuuid/my_image.jpg">';
+      const result = assetManager.convertContextPathToAssetRefs(html, assetMap);
+      expect(result).toContain('asset://');
+      expect(result).toContain('uuid-search');
+    });
   });
 });
 
