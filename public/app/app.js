@@ -47,6 +47,9 @@ export default class App {
         this.shortcuts = new Shortcuts(this);
         this.sessionMonitor = null;
         this.sessionExpirationHandled = false;
+        this.electronFileOpenHandlerBound = false;
+        this.pendingElectronOpenFiles = [];
+        this.pendingStaticOpenFiles = [];
 
         if (!this.eXeLearning.config.isOfflineInstallation) {
             this.setupSessionMonitor();
@@ -57,6 +60,14 @@ export default class App {
      *
      */
     async init() {
+        // Register file-open listener as early as possible to avoid losing IPC events.
+        this.bindElectronFileOpenHandler();
+        // Pick up pending PWA/static file opens queued before app init.
+        if (window.__pendingImportFile instanceof File) {
+            this.pendingStaticOpenFiles.push(window.__pendingImportFile);
+            window.__pendingImportFile = null;
+        }
+
         // Initialize API (loads static data if in static mode)
         await this.api.init();
 
@@ -87,6 +98,10 @@ export default class App {
         await this.loadUser();
         // Show LOPDGDD modal if necessary and load project data
         await this.showModalLopd();
+        // Process pending static/PWA files after project init.
+        await this.flushPendingStaticOpenFilesWhenReady();
+        // Process any pending Electron file-open events after project init.
+        await this.flushPendingElectronOpenFilesWhenReady();
         // "Not for production use" warning
         await this.showProvisionalDemoWarning();
         // To review (showProvisionalToDoWarning might be useful for future beta releases)
@@ -102,9 +117,6 @@ export default class App {
 
         // Electron: show toast with final saved path
         this.bindElectronDownloadToasts();
-
-        // Electron: handle files opened via file association
-        this.bindElectronFileOpenHandler();
 
         // Handle exe-package:elp protocol for download-source-file iDevice
         this.initExePackageProtocolHandler();
@@ -1093,16 +1105,24 @@ export default class App {
      * Bind handler for files opened via Electron file association
      */
     bindElectronFileOpenHandler() {
+        if (this.electronFileOpenHandlerBound) return;
         if (
             !window.electronAPI ||
             typeof window.electronAPI.onOpenFile !== 'function'
         )
             return;
 
+        this.electronFileOpenHandlerBound = true;
         window.electronAPI.onOpenFile(async (filePath) => {
             console.log('[App] Received file to open:', filePath);
             await this.openFileFromPath(filePath);
         });
+
+        if (
+            typeof window.electronAPI.notifyRendererReadyForOpenFile === 'function'
+        ) {
+            window.electronAPI.notifyRendererReadyForOpenFile();
+        }
     }
 
     /**
@@ -1111,6 +1131,24 @@ export default class App {
      */
     async openFileFromPath(filePath) {
         try {
+            if (
+                this.runtimeConfig?.isStaticMode?.() &&
+                !this.isYjsBridgeReadyForElectronOpen()
+            ) {
+                this.pendingElectronOpenFiles.push(filePath);
+                void this.flushPendingElectronOpenFilesWhenReady();
+                return;
+            }
+
+            if (
+                !this.modals?.openuserodefiles ||
+                typeof this.modals.openuserodefiles.largeFilesUpload !== 'function'
+            ) {
+                this.pendingElectronOpenFiles.push(filePath);
+                void this.flushPendingElectronOpenFilesWhenReady();
+                return;
+            }
+
             // Read file via Electron API
             const res = await window.electronAPI.readFile(filePath);
 
@@ -1144,6 +1182,103 @@ export default class App {
             this.modals.openuserodefiles.largeFilesUpload(file);
         } catch (error) {
             console.error('[App] Error opening file:', error);
+        }
+    }
+
+    async openStaticFile(file) {
+        if (!(file instanceof File)) return;
+        if (!this.runtimeConfig?.isStaticMode?.()) return;
+
+        if (
+            !this.isYjsBridgeReadyForElectronOpen() ||
+            !this.modals?.openuserodefiles ||
+            typeof this.modals.openuserodefiles.largeFilesUpload !== 'function'
+        ) {
+            this.pendingStaticOpenFiles.push(file);
+            void this.flushPendingStaticOpenFilesWhenReady();
+            return;
+        }
+
+        this.modals.openuserodefiles.largeFilesUpload(file);
+    }
+
+    isYjsBridgeReadyForElectronOpen() {
+        const bridge = this.project?._yjsBridge;
+        if (!bridge) return false;
+        const getDocumentManager = bridge.getDocumentManager;
+        if (typeof getDocumentManager !== 'function') return false;
+        return !!getDocumentManager.call(bridge);
+    }
+
+    async flushPendingElectronOpenFilesWhenReady(
+        maxWaitMs = 20000,
+        pollMs = 150
+    ) {
+        if (this.pendingElectronOpenFiles.length === 0) return;
+
+        if (this.runtimeConfig?.isStaticMode?.()) {
+            const start = Date.now();
+            while (
+                this.pendingElectronOpenFiles.length > 0 &&
+                !this.isYjsBridgeReadyForElectronOpen() &&
+                Date.now() - start < maxWaitMs
+            ) {
+                await new Promise((resolve) => setTimeout(resolve, pollMs));
+            }
+        }
+
+        await this.flushPendingElectronOpenFiles();
+    }
+
+    async flushPendingStaticOpenFilesWhenReady(maxWaitMs = 20000, pollMs = 150) {
+        if (this.pendingStaticOpenFiles.length === 0) return;
+
+        if (this.runtimeConfig?.isStaticMode?.()) {
+            const start = Date.now();
+            while (
+                this.pendingStaticOpenFiles.length > 0 &&
+                !this.isYjsBridgeReadyForElectronOpen() &&
+                Date.now() - start < maxWaitMs
+            ) {
+                await new Promise((resolve) => setTimeout(resolve, pollMs));
+            }
+        }
+
+        if (
+            !this.modals?.openuserodefiles ||
+            typeof this.modals.openuserodefiles.largeFilesUpload !== 'function' ||
+            this.pendingStaticOpenFiles.length === 0
+        ) {
+            return;
+        }
+
+        const filesToOpen = [...this.pendingStaticOpenFiles];
+        this.pendingStaticOpenFiles = [];
+        for (const file of filesToOpen) {
+            this.modals.openuserodefiles.largeFilesUpload(file);
+        }
+    }
+
+    async flushPendingElectronOpenFiles() {
+        if (
+            this.runtimeConfig?.isStaticMode?.() &&
+            !this.isYjsBridgeReadyForElectronOpen()
+        ) {
+            return;
+        }
+
+        if (
+            !this.modals?.openuserodefiles ||
+            typeof this.modals.openuserodefiles.largeFilesUpload !== 'function' ||
+            this.pendingElectronOpenFiles.length === 0
+        ) {
+            return;
+        }
+
+        const filesToOpen = [...this.pendingElectronOpenFiles];
+        this.pendingElectronOpenFiles = [];
+        for (const filePath of filesToOpen) {
+            await this.openFileFromPath(filePath);
         }
     }
 
