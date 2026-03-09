@@ -24,6 +24,7 @@
 ### Fixed
 
 - Mixed languages on first launch
+- File > New / Open / Import flow: fix issues in static mode and desktop app
 - Pixelated application icons
 - Desktop no longer closes silently with unsaved changes
 - Boxes missing `.box-content` within eXe
@@ -53,6 +54,7 @@
 - Race condition causing Image Optimizer to get stuck in "Queued"
 - Traversal vulnerability (Zip Slip) in the ZIP extraction logic
 - Assets exported with unknown/unknown_N filenames
+- `make run-app` workflow: install missing Electron libraries to fix runtime errors
 - Optimize asset check to use a single bulk database query
 - Constraint error in PostgreSQL when syncing builtin themes
 - MySQL/MariaDB syntax error in theme upsert
