@@ -4435,7 +4435,7 @@ describe('YjsProjectBridge', () => {
       await expect(bridge.exportToElpx()).rejects.toThrow('Export failed');
     });
 
-    it('uses electronAPI.saveBuffer() in Electron mode with saveAs: false', async () => {
+    it('uses electronAPI.saveBuffer() in Electron mode (always prompts)', async () => {
       const mockExporter = {
         export: mock(() => Promise.resolve({
           success: true,
@@ -4452,17 +4452,16 @@ describe('YjsProjectBridge', () => {
       global.window.__currentProjectId = 'test-project-123';
       global.window.electronAPI = {
         saveBuffer: mock(() => Promise.resolve(true)),
-        saveBufferAs: mock(() => Promise.resolve(true)),
       };
 
-      await bridge.exportToElpx({ saveAs: false });
+      const result = await bridge.exportToElpx();
 
+      expect(result).toEqual({ saved: true });
       expect(global.window.electronAPI.saveBuffer).toHaveBeenCalledWith(
         expect.any(String), // base64 data
         'test-project-123',
         'project.elpx'
       );
-      expect(global.window.electronAPI.saveBufferAs).not.toHaveBeenCalled();
 
       // Cleanup
       delete global.eXeLearning;
@@ -4470,7 +4469,7 @@ describe('YjsProjectBridge', () => {
       delete global.window.electronAPI;
     });
 
-    it('uses electronAPI.saveBufferAs() in Electron mode with saveAs: true', async () => {
+    it('returns saved false when user cancels Electron save dialog', async () => {
       const mockExporter = {
         export: mock(() => Promise.resolve({
           success: true,
@@ -4482,22 +4481,15 @@ describe('YjsProjectBridge', () => {
         createExporter: mock(() => mockExporter),
       };
 
-      // Set up Electron mode
       global.eXeLearning = { config: { isOfflineInstallation: true } };
-      global.window.__currentProjectId = 'test-project-456';
+      global.window.__currentProjectId = 'test-project-123';
       global.window.electronAPI = {
-        saveBuffer: mock(() => Promise.resolve(true)),
-        saveBufferAs: mock(() => Promise.resolve(true)),
+        saveBuffer: mock(() => Promise.resolve(false)),
       };
 
-      await bridge.exportToElpx({ saveAs: true });
+      const result = await bridge.exportToElpx();
 
-      expect(global.window.electronAPI.saveBufferAs).toHaveBeenCalledWith(
-        expect.any(String), // base64 data
-        'test-project-456',
-        'project.elpx'
-      );
-      expect(global.window.electronAPI.saveBuffer).not.toHaveBeenCalled();
+      expect(result).toEqual({ saved: false });
 
       // Cleanup
       delete global.eXeLearning;
@@ -4524,7 +4516,7 @@ describe('YjsProjectBridge', () => {
         saveBuffer: mock(() => Promise.resolve(true)),
       };
 
-      await bridge.exportToElpx({ saveAs: false });
+      await bridge.exportToElpx();
 
       expect(global.window.electronAPI.saveBuffer).toHaveBeenCalledWith(
         expect.any(String), // base64 data
@@ -4565,8 +4557,9 @@ describe('YjsProjectBridge', () => {
         removeChild: mock(() => {}),
       };
 
-      await bridge.exportToElpx({ saveAs: false });
+      const result = await bridge.exportToElpx({ saveAs: false });
 
+      expect(result).toEqual({ saved: true });
       expect(mockLink.click).toHaveBeenCalled();
       expect(mockLink.download).toBe('test.elpx');
 

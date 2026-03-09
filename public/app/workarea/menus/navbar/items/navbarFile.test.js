@@ -33,8 +33,6 @@ describe('NavbarFile', () => {
             newButton: createButton('navbar-button-new'),
             newFromTemplateButton: createButton('navbar-button-new-from-template'),
             saveButton: createButton('navbar-button-save'),
-            saveButtonAs: createButton('navbar-button-save-as'),
-            saveButtonAsOffline: createButton('navbar-button-save-as-offline'),
             settingsButton: createButton('navbar-button-settings'),
             shareButton: createButton('navbar-button-share'),
             uploadPlatformButton: createButton('navbar-button-uploadtoplatform'),
@@ -214,8 +212,6 @@ describe('NavbarFile', () => {
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-new');
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-new-from-template');
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-save');
-            expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-save-as');
-            expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-save-as-offline');
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-settings');
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-share');
             expect(mockMenu.navbar.querySelector).toHaveBeenCalledWith('#navbar-button-uploadtoplatform');
@@ -253,8 +249,6 @@ describe('NavbarFile', () => {
             expect(navbarFile.newButton).toBe(mockButtons.newButton);
             expect(navbarFile.newFromTemplateButton).toBe(mockButtons.newFromTemplateButton);
             expect(navbarFile.saveButton).toBe(mockButtons.saveButton);
-            expect(navbarFile.saveButtonAs).toBe(mockButtons.saveButtonAs);
-            expect(navbarFile.saveButtonAsOffline).toBe(mockButtons.saveButtonAsOffline);
             expect(navbarFile.settingsButton).toBe(mockButtons.settingsButton);
             expect(navbarFile.shareButton).toBe(mockButtons.shareButton);
             expect(navbarFile.uploadPlatformButton).toBe(mockButtons.uploadPlatformButton);
@@ -296,8 +290,6 @@ describe('NavbarFile', () => {
                 setNewProjectEvent: vi.spyOn(navbarFile, 'setNewProjectEvent'),
                 setNewFromTemplateEvent: vi.spyOn(navbarFile, 'setNewFromTemplateEvent'),
                 setSaveProjectEvent: vi.spyOn(navbarFile, 'setSaveProjectEvent'),
-                setSaveAsProjectEvent: vi.spyOn(navbarFile, 'setSaveAsProjectEvent'),
-                setSaveAsProjectOfflineEvent: vi.spyOn(navbarFile, 'setSaveAsProjectOfflineEvent'),
                 setUploadPlatformEvent: vi.spyOn(navbarFile, 'setUploadPlatformEvent'),
                 setOpenUserOdeFilesEvent: vi.spyOn(navbarFile, 'setOpenUserOdeFilesEvent'),
                 setOpenOfflineEvent: vi.spyOn(navbarFile, 'setOpenOfflineEvent'),
@@ -663,11 +655,6 @@ describe('NavbarFile', () => {
             expect(mockButtons.saveButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
         });
 
-        it('setSaveAsProjectEvent should add click listener', () => {
-            navbarFile.setSaveAsProjectEvent();
-            expect(mockButtons.saveButtonAs.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-        });
-
         it('setSettingsEvent should add click listener when button exists', () => {
             navbarFile.setSettingsEvent();
             expect(mockButtons.settingsButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
@@ -676,17 +663,6 @@ describe('NavbarFile', () => {
         it('setShareEvent should add click listener when button exists', () => {
             navbarFile.setShareEvent();
             expect(mockButtons.shareButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-        });
-
-        it('setSaveAsProjectOfflineEvent should add click listener when button exists', () => {
-            navbarFile.setSaveAsProjectOfflineEvent();
-            expect(mockButtons.saveButtonAsOffline.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-        });
-
-        it('setSaveAsProjectOfflineEvent should not add listener when button is null', () => {
-            navbarFile.saveButtonAsOffline = null;
-            navbarFile.setSaveAsProjectOfflineEvent();
-            expect(mockButtons.saveButtonAsOffline.addEventListener).not.toHaveBeenCalled();
         });
 
         it('setUploadPlatformEvent should add click listener when button exists', () => {
@@ -759,6 +735,14 @@ describe('NavbarFile', () => {
         it('setDownloadProjectAsEvent should add click listener when button exists', () => {
             navbarFile.setDownloadProjectAsEvent();
             expect(mockButtons.downloadProjectAsButton.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+        });
+
+        it('setDownloadProjectAsEvent click handler should call downloadProjectEvent', () => {
+            vi.spyOn(navbarFile, 'downloadProjectEvent').mockImplementation(() => {});
+            navbarFile.setDownloadProjectAsEvent();
+            const clickHandler = mockButtons.downloadProjectAsButton.addEventListener.mock.calls[0][1];
+            clickHandler();
+            expect(navbarFile.downloadProjectEvent).toHaveBeenCalled();
         });
 
         it('setSaveProjectOfflineEvent should add click listener when button exists', () => {
@@ -857,31 +841,6 @@ describe('NavbarFile', () => {
             clickHandler();
 
             expect(navbarFile.downloadProjectEvent).toHaveBeenCalled();
-        });
-
-        it('setSaveAsProjectEvent should call saveAsElpOffline in offline mode', () => {
-            eXeLearning.app.project.checkOpenIdevice = vi.fn(() => false);
-            eXeLearning.config.isOfflineInstallation = true;
-            window.electronAPI = {};
-            vi.spyOn(navbarFile, 'saveAsElpOffline');
-            navbarFile.setSaveAsProjectEvent();
-
-            const clickHandler = mockButtons.saveButtonAs.addEventListener.mock.calls[0][1];
-            clickHandler();
-
-            expect(navbarFile.saveAsElpOffline).toHaveBeenCalled();
-        });
-
-        it('setSaveAsProjectEvent should return early if idevice is open', () => {
-            eXeLearning.app.project.checkOpenIdevice = vi.fn(() => true);
-            vi.spyOn(navbarFile, 'saveAsOdeEvent');
-            navbarFile.setSaveAsProjectEvent();
-
-            const clickHandler = mockButtons.saveButtonAs.addEventListener.mock.calls[0][1];
-            clickHandler();
-
-            expect(eXeLearning.app.project.checkOpenIdevice).toHaveBeenCalled();
-            expect(navbarFile.saveAsOdeEvent).not.toHaveBeenCalled();
         });
 
         it('setDownloadProjectEvent should return false if idevice is open', () => {
@@ -1559,13 +1518,36 @@ describe('NavbarFile', () => {
             navbarFile = new NavbarFile(mockMenu);
         });
 
-        it('should export via Yjs with saveAs: false and update UI on success', async () => {
-            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockResolvedValue();
+        it('should export via Yjs and update UI on success', async () => {
+            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockResolvedValue({ saved: true });
 
             await navbarFile.downloadProjectViaYjs();
 
-            // Should pass saveAs: false for regular save (uses remembered path in Electron)
-            expect(eXeLearning.app.project.exportToElpxViaYjs).toHaveBeenCalledWith({ saveAs: false });
+            // Save always prompts — no saveAs parameter needed
+            expect(eXeLearning.app.project.exportToElpxViaYjs).toHaveBeenCalledWith();
+            expect(eXeLearning.app.interface.connectionTime.loadLasUpdatedInInterface).toHaveBeenCalled();
+        });
+
+        it('should not markClean or update UI when user cancels save dialog', async () => {
+            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockResolvedValue({ saved: false });
+            eXeLearning.app.project._yjsBridge = { documentManager: { markClean: vi.fn() } };
+            window.electronAPI = { saveBuffer: vi.fn() };
+
+            await navbarFile.downloadProjectViaYjs();
+
+            expect(eXeLearning.app.project._yjsBridge.documentManager.markClean).not.toHaveBeenCalled();
+            expect(eXeLearning.app.interface.connectionTime.loadLasUpdatedInInterface).not.toHaveBeenCalled();
+        });
+
+        it('should markClean in Electron mode on successful save', async () => {
+            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockResolvedValue({ saved: true });
+            const markClean = vi.fn();
+            eXeLearning.app.project._yjsBridge = { documentManager: { markClean } };
+            window.electronAPI = { saveBuffer: vi.fn() };
+
+            await navbarFile.downloadProjectViaYjs();
+
+            expect(markClean).toHaveBeenCalled();
             expect(eXeLearning.app.interface.connectionTime.loadLasUpdatedInInterface).toHaveBeenCalled();
         });
 
@@ -1651,6 +1633,32 @@ describe('NavbarFile', () => {
 
             expect(result).toBe(true);
             expect(eXeLearning.app.modals.alert.show).toHaveBeenCalled();
+        });
+
+        it('should use electronAPI.saveBuffer in Electron mode', async () => {
+            eXeLearning.config.isOfflineInstallation = true;
+            window.electronAPI = { saveBuffer: vi.fn().mockResolvedValue(true) };
+            window.__currentProjectId = 'proj-1';
+
+            const result = await navbarFile.exportViaYjs('HTML5', 'html5');
+
+            expect(result).toBe(true);
+            expect(window.electronAPI.saveBuffer).toHaveBeenCalledWith(
+                expect.any(String),
+                'proj-1:html5',
+                'export.zip'
+            );
+        });
+
+        it('should return true without success toast when Electron save is cancelled', async () => {
+            eXeLearning.config.isOfflineInstallation = true;
+            window.electronAPI = { saveBuffer: vi.fn().mockResolvedValue(false) };
+            window.__currentProjectId = 'proj-1';
+
+            const result = await navbarFile.exportViaYjs('HTML5', 'html5');
+
+            expect(result).toBe(true);
+            expect(window.electronAPI.saveBuffer).toHaveBeenCalled();
         });
     });
 
@@ -1947,62 +1955,6 @@ describe('NavbarFile', () => {
         });
     });
 
-    describe('saveAsElpOffline', () => {
-        beforeEach(() => {
-            navbarFile = new NavbarFile(mockMenu);
-            vi.useFakeTimers();
-        });
-
-        afterEach(() => {
-            vi.useRealTimers();
-        });
-
-        it('should use Yjs export with saveAs: true when Yjs is enabled', async () => {
-            eXeLearning.app.project._yjsEnabled = true;
-            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockResolvedValue();
-
-            await navbarFile.saveAsElpOffline();
-
-            // Should pass saveAs: true for Save As (always prompts)
-            expect(eXeLearning.app.project.exportToElpxViaYjs).toHaveBeenCalledWith({ saveAs: true });
-            expect(eXeLearning.app.interface.connectionTime.loadLasUpdatedInInterface).toHaveBeenCalled();
-        });
-
-        it('should use electron saveAs when available (legacy mode)', async () => {
-            eXeLearning.app.project._yjsEnabled = false;
-            window.electronAPI = { saveAs: vi.fn() };
-            eXeLearning.app.api.getOdeExportDownload.mockResolvedValue({
-                responseMessage: 'OK',
-                urlZipFile: 'http://file',
-                exportProjectName: 'Doc',
-            });
-
-            await navbarFile.saveAsElpOffline();
-
-            expect(window.electronAPI.saveAs).toHaveBeenCalled();
-        });
-
-        it('should show alert on export error (legacy mode)', async () => {
-            eXeLearning.app.project._yjsEnabled = false;
-            eXeLearning.app.api.getOdeExportDownload.mockResolvedValue({
-                responseMessage: 'ERR',
-            });
-
-            await navbarFile.saveAsElpOffline();
-
-            expect(eXeLearning.app.modals.alert.show).toHaveBeenCalled();
-        });
-
-        it('should show alert on Yjs export error', async () => {
-            eXeLearning.app.project._yjsEnabled = true;
-            eXeLearning.app.project.exportToElpxViaYjs = vi.fn().mockRejectedValue(new Error('Yjs error'));
-
-            await navbarFile.saveAsElpOffline();
-
-            expect(eXeLearning.app.modals.alert.show).toHaveBeenCalled();
-        });
-    });
-
     describe('cloud upload helpers', () => {
         beforeEach(() => {
             navbarFile = new NavbarFile(mockMenu);
@@ -2192,7 +2144,6 @@ describe('NavbarFile', () => {
             expect(mockButtons.newButton.addEventListener).toHaveBeenCalled();
             expect(mockButtons.newFromTemplateButton.addEventListener).toHaveBeenCalled();
             expect(mockButtons.saveButton.addEventListener).toHaveBeenCalled();
-            expect(mockButtons.saveButtonAs.addEventListener).toHaveBeenCalled();
             expect(mockButtons.downloadProjectButton.addEventListener).toHaveBeenCalled();
             expect(mockButtons.exportHTML5Button.addEventListener).toHaveBeenCalled();
             expect(mockButtons.exportSCORM12Button.addEventListener).toHaveBeenCalled();
