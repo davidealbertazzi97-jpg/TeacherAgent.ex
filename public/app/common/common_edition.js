@@ -76,10 +76,16 @@ var $exeDevicesEdition = {
             // Enable the iDevice instructions
             $(".exe-info").each(function () {
                 var e = $(this);
-                e.html('<p class="exe-block-info exe-block-dismissible">' + e.html() + ' <a href="#" class="exe-block-close" title="' + _("Hide") + '"><span class="sr-av">' + _("Hide") + ' </span>×</a></p>');
+                e.html(
+                    '<div class="alert alert-info alert-dismissible fade show mb-3" role="alert">' +
+                    e.html() +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="' +
+                    _("Hide") +
+                    '"></button></div>'
+                );
             });
 
-            // Dismissible messages
+            // Legacy dismissible messages (custom pre-Bootstrap markup still used by many iDevices)
             $(".exe-block-dismissible .exe-block-close").click(function () {
                 $(this).parent().fadeOut();
                 return false;
@@ -99,6 +105,19 @@ var $exeDevicesEdition = {
         },
         // Common
         common: {
+            getIdeviceDescription: function (text, url) {
+                if (typeof text != "string") return "";
+
+                var textHtml = _(text);
+                var linkHtml = "";
+                if (typeof url === "string" && url.length > 0) {
+                    linkHtml = ` <a href="${url}" target="_blank" hreflang="es">${_('Usage Instructions')}</a>`;
+                }
+
+                var closeBtnHtml = ` <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="${_('Hide')}"></button>`;
+
+                return `<p class="alert alert-info alert-dismissible fade show mb-3" role="alert">${textHtml}${linkHtml}${closeBtnHtml}</p>`;
+            },
             // Get the "Content after" or the "Content before" fieldset
             getTextFieldset: function (position) {
                 if (typeof (position) != "string" || (position != "after" && position != "before")) return "";
@@ -178,6 +197,62 @@ var $exeDevicesEdition = {
                     </fieldset>';
                 }
             },
+            progressBar: {
+                getContents: function (path) {
+                    return `<div class="exe-progress-report-wrapper" style="flex-basis:100%;width:100%">
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+                                    <div class="toggle-item m-0" idevice-id="eXeProgressReport">
+                                        <span class="toggle-control">
+                                            <input type="checkbox" id="eXeProgressReport" class="toggle-input" aria-label="${_('Progress report')}">
+                                            <span class="toggle-visual"></span>
+                                        </span>
+                                        <label class="toggle-label" for="eXeProgressReport">${_('Progress report')}.</label>
+                                    </div>
+                                    <div class="d-flex align-items-center flex-nowrap gap-2">
+                                        <label for="eXeProgressReportID" class="mb-0">${_('Identifier')}:</label>
+                                        <input type="text" class="form-control form-control-sm" id="eXeProgressReportID" disabled value="${eXeLearning.app.project.odeId || ''}"/>
+                                        <a href="#eXeProgressReportHelp" id="eXeProgressReportHelpLnk" title="${_('Help')}">
+                                            <img src="${path}quextIEHelp.png" width="18" height="18" alt="${_('Help')}" style="width:18px;height:18px;min-width:18px;min-height:18px;max-width:18px;max-height:18px"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="eXeProgressReportHelp" class="alert alert-info d-none">
+                                    ${_('You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.')}
+                                </div>
+                            </div>`;
+                },
+                setValues: function (data) {
+                    var evaluation = !!(data && data.evaluation);
+                    var evaluationID = data && typeof data.evaluationID !== 'undefined' ? data.evaluationID : '';
+                    $('#eXeProgressReport').prop('checked', evaluation);
+                    $('#eXeProgressReportID').val(evaluationID);
+                    $('#eXeProgressReportID').prop('disabled', !evaluation);
+                },
+                getValues: function () {
+                    var evaluation = $('#eXeProgressReport').is(':checked');
+                    var evaluationID = $.trim($('#eXeProgressReportID').val());
+                    if (evaluation && evaluationID.length < 5) {
+                        eXe.app.alert(_('The report identifier must have at least 5 characters'));
+                        return false;
+                    }
+                    return {
+                        evaluation: evaluation,
+                        evaluationID: evaluationID
+                    };
+                },
+                addEvents: function () {
+                    $('#eXeProgressReport').on('change', function () {
+                        var checked = $(this).is(':checked');
+                        $('#eXeProgressReportID').prop('disabled', !checked);
+                    });
+                    $(document)
+                        .off('click.exeProgressReportHelp', '#eXeProgressReportHelpLnk')
+                        .on('click.exeProgressReportHelp', '#eXeProgressReportHelpLnk', function (e) {
+                            e.preventDefault();
+                            $('#eXeProgressReportHelp').toggleClass('d-none');
+                        });
+                }
+            },
             itinerary: {
                 getContents: function () {
                     return `
@@ -213,7 +288,7 @@ var $exeDevicesEdition = {
                             </div>
                             <div class="d-flex gap-1 align-items-center mb-3">
                                 <label for="eXeGamePercentajeClue" id="labelPercentajeClue" class="mb-1">${_("Percentage of correct answers required to display the message")}:</label>
-                                <select id="eXeGamePercentajeClue" class="form-select" disabled style="max-width:8ch;width:8ch;">
+                                <select id="eXeGamePercentajeClue" class="form-select" disabled style="max-width:10ch;width:10ch;">
                                     <option value="10">10%</option>
                                     <option value="20">20%</option>
                                     <option value="30">30%</option>
@@ -434,7 +509,7 @@ var $exeDevicesEdition = {
                                         <form method="POST">
                                             <div class="exe-file-upload" data-exe-upload>
                                                 <label for="eXeGameImportGame" class="form-label mb-1">${_("Import")}: </label>
-                                                <input type="file" name="eXeGameImportGame" id="eXeGameImportGame" accept="${txt}" class="exe-file-input" />
+                                                <input type="file" name="eXeGameImportGame" id="eXeGameImportGame" accept="${txt}" class="exe-file-input d-none" />
                                                 <button type="button" class="btn btn-primary exe-file-btn" data-exe-file-trigger>${_("Choose")}</button>
                                                 <span class="exe-file-name" data-exe-file-name>${_("No file selected")}</span>
                                                 <span class="exe-field-instructions d-block mt-1">${_("Supported formats")}:${formtxt}</span>
@@ -443,7 +518,7 @@ var $exeDevicesEdition = {
                                     </div>
                                     <p class="exe-block-info" style="display:${displayEQ}" >${_('You can export its questions in txt format to integrate them into other compatible activities.')}</p>
                                     <p class ="d-flex align-items-center justify-content-start gap-1">
-                                        <input type="button" class="btn btn-primary ms-2"  name="eXeGameExportGame" id="eXeGameExportQuestions" value="${_("Export questions")}" style="display:${displayEQ}" />
+                                        <input type="button" class="btn btn-primary ms-2"  name="eXeGameExportQuestions" id="eXeGameExportQuestions" value="${_("Export questions")}" style="display:${displayEQ}" />
                                     </p>
                                 </div>
                             </div>`;
@@ -480,10 +555,10 @@ var $exeDevicesEdition = {
                                         ${c_('Act as a highly experienced teacher.')}
                                         ${fprompt.prompt}
                                         ${c_('Formats')}:
-                                        ${fprompt.format.join('\\n')} 
+                                        ${fprompt.format.join('\n')}
                                         ${fprompt.explanation}
                                         ${c_('Examples')}:
-                                        ${fprompt.examples.join('\\n')}
+                                        ${fprompt.examples.join('\n')}
                                         ${c_('You must return only the questions without numbering, categorization or bullet points, inside a code block, and do not include any additional HTML elements such as buttons.')}, 
                                     </textarea>
                                     <textarea id="eXeEQuestionsArea" class="form-control font-monospace fs-6" style="min-height:350px;display:none"></textarea>
@@ -1029,33 +1104,109 @@ var $exeDevicesEdition = {
                     return validLines;
                 },
 
-                exportGame: function (dataGame, idevice, name) {
+                /**
+                 * Get Electron API from current window or parent (for iframe contexts).
+                 * Returns null when not running inside Electron.
+                 */
+                getElectronAPI: function () {
+                    if (typeof window === 'undefined') return null;
+                    try {
+                        if (window.electronAPI) return window.electronAPI;
+                        if (window.parent && window.parent !== window && window.parent.electronAPI) {
+                            return window.parent.electronAPI;
+                        }
+                    } catch (_e) {
+                        // Cross-origin access blocked
+                    }
+                    return null;
+                },
 
-                    if (!dataGame) return false;
-
-                    var blob = JSON.stringify(dataGame),
-                        newBlob = new Blob([blob], {
-                            type: "text/plain"
-                        });
+                /**
+                 * Download a Blob as a file from the editor UI.
+                 *
+                 * Centralizes the "anchor + click + revoke" pattern used by
+                 * every gamification iDevice to export game data and/or
+                 * questions. When running inside Electron (see PR #1595 and
+                 * the double-dialog regression on `#eXeGameExportQuestions`),
+                 * invoking `link.click()` on an `<a download>` with a
+                 * `blob:` URL triggers Electron's `will-download` event. The
+                 * main-process handler in `app/main.js` is async and shows
+                 * a custom `promptSave()` dialog before calling
+                 * `item.setSavePath()`. Because Electron does not await the
+                 * handler's Promise, it also shows its own default Save
+                 * dialog, resulting in two dialogs appearing at the same
+                 * time. Routing the save through `window.electronAPI.saveBufferAs`
+                 * bypasses the `will-download` path entirely and keeps a
+                 * single native dialog per user action.
+                 *
+                 * @param {Blob} blob - The file contents.
+                 * @param {string} fileName - Suggested file name.
+                 * @param {string} [containerId] - DOM id used as the anchor
+                 *   parent in the browser fallback. Falls back to `document.body`.
+                 * @returns {boolean} `true` if a save was initiated.
+                 */
+                downloadBlob: function (blob, fileName, containerId) {
+                    if (!(blob instanceof Blob)) return false;
 
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                        window.navigator.msSaveOrOpenBlob(newBlob);
-                        return;
+                        window.navigator.msSaveOrOpenBlob(blob);
+                        return true;
                     }
 
-                    const data = window.URL.createObjectURL(newBlob);
+                    // Electron bypass: use the IPC channel so `will-download`
+                    // never fires and only our custom promptSave() shows up.
+                    const electronAPI =
+                        $exeDevicesEdition.iDevice.gamification.share.getElectronAPI();
+                    if (electronAPI && typeof electronAPI.saveBufferAs === 'function') {
+                        const projectKey =
+                            (typeof window !== 'undefined' && window.__currentProjectId) ||
+                            'idevice-gamification-export';
+                        Promise.resolve()
+                            .then(() => blob.arrayBuffer())
+                            .then((buf) =>
+                                electronAPI.saveBufferAs(
+                                    new Uint8Array(buf),
+                                    projectKey,
+                                    fileName
+                                )
+                            )
+                            .catch((err) => {
+                                // eslint-disable-next-line no-console
+                                console.error(
+                                    '[gamification.share.downloadBlob] Electron saveBufferAs failed:',
+                                    err
+                                );
+                            });
+                        return true;
+                    }
 
-                    var link = document.createElement('a');
+                    // Browser fallback.
+                    const data = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
                     link.href = data;
-
-                    link.download = `${_("Activity")}-${name}.json`;
-                    document.getElementById(idevice).appendChild(link);
+                    link.download = fileName;
+                    const container =
+                        (containerId && document.getElementById(containerId)) ||
+                        document.body;
+                    container.appendChild(link);
                     link.click();
-
                     setTimeout(function () {
-                        document.getElementById(idevice).removeChild(link);
+                        if (link.parentNode) link.parentNode.removeChild(link);
                         window.URL.revokeObjectURL(data);
                     }, 100);
+                    return true;
+                },
+
+                exportGame: function (dataGame, idevice, name) {
+                    if (!dataGame) return false;
+                    const blob = new Blob([JSON.stringify(dataGame)], {
+                        type: 'text/plain',
+                    });
+                    return $exeDevicesEdition.iDevice.gamification.share.downloadBlob(
+                        blob,
+                        `${_('Activity')}-${name}.json`,
+                        idevice
+                    );
                 },
                 import: {
 
@@ -1136,7 +1287,6 @@ var $exeDevicesEdition = {
                         });
                         addWords(words)
                     },
-
                     glosary: function (xmlText, addWords) {
                         const parser = new DOMParser(),
                             xmlDoc = parser.parseFromString(xmlText, "text/xml"),

@@ -173,11 +173,10 @@ var $exeDevice = {
 
         const html = `
             <div id="ri_IdeviceForm">
-                <p class="exe-block-info exe-block-dismissible position-relative">
-                    ${_('Complete the table to define a scoring guide. Define the score or value of each descriptor.')}
-                    <a href="https://youtu.be/T_QtGkH68EY?t=92" target="_blank" hreflang="es" rel="lightbox">${_('Learn how to apply a rubric')}</a>.
-                    <button type="button" class="btn-close exe-block-close" aria-label="${_('Hide')}"></button>
-                </p>
+                ${$exeDevicesEdition.iDevice.common.getIdeviceDescription(
+                    'Complete the table to define a scoring guide. Define the score or value of each descriptor.',
+                    null,
+                )}
 
                 <div class="exe-form-tab" title="${_('General settings')}">
                     ${$exeDevicesEdition.iDevice.gamification.instructions.getFieldset(c_('Complete the following rubric'))}
@@ -202,7 +201,7 @@ var $exeDevice = {
                                 <form method="POST">
                                     <div class="exe-file-upload" data-exe-upload>
                                         <label for="ri_CsvFile" class="form-label mb-1">${_('Import')}: </label>
-                                        <input type="file" id="ri_CsvFile" accept=".csv,text/csv" class="exe-file-input" />
+                                        <input type="file" id="ri_CsvFile" accept=".csv,text/csv" class="exe-file-input d-none" />
                                         <button type="button" class="btn btn-primary exe-file-btn" data-exe-file-trigger>${_('Choose')}</button>
                                         <span class="exe-file-name" data-exe-file-name>${_('No file selected')}</span>
                                         <span class="exe-field-instructions d-block mt-1">${_('Supported formats')}: csv</span>
@@ -225,12 +224,6 @@ var $exeDevice = {
         this.ideviceBody.innerHTML = html;
         $exeDevicesEdition.iDevice.tabs.init('ri_IdeviceForm');
         $exeDevicesEdition.iDevice.gamification.scorm.init();
-
-        // Dismiss info block
-        $('.exe-block-dismissible .exe-block-close').on('click', function () {
-            $(this).parent().fadeOut();
-            return false;
-        });
 
         this.renderRubricTemplateControls();
         this.loadPreviousValues();
@@ -674,14 +667,54 @@ var $exeDevice = {
         var csv = this.rubricDataToCSV(data);
 
         var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        this.downloadBlob(blob, 'rubric.csv', 'rubric-csv');
+    },
+
+    getElectronAPI: function () {
+        if (typeof window === 'undefined') return null;
+        try {
+            if (window.electronAPI) return window.electronAPI;
+            if (window.parent && window.parent !== window && window.parent.electronAPI) {
+                return window.parent.electronAPI;
+            }
+        } catch (_e) {
+            // Cross-origin access blocked.
+        }
+        return null;
+    },
+
+    downloadBlob: function (blob, fileName, projectKey) {
+        if (!(blob instanceof Blob)) return false;
+
+        var electronAPI = this.getElectronAPI();
+        if (electronAPI && typeof electronAPI.saveBufferAs === 'function') {
+            Promise.resolve()
+                .then(function () {
+                    return blob.arrayBuffer();
+                })
+                .then(function (buf) {
+                    return electronAPI.saveBufferAs(
+                        new Uint8Array(buf),
+                        projectKey || 'rubric-export',
+                        fileName
+                    );
+                })
+                .catch(function (err) {
+                    // eslint-disable-next-line no-console
+                    console.error('[rubric.downloadBlob] Electron saveBufferAs failed:', err);
+                });
+            return true;
+        }
+
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url;
-        a.download = 'rubric.csv';
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        return true;
     },
 
     tableEditorToJSON: function () {
