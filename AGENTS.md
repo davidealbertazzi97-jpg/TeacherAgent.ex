@@ -2,6 +2,16 @@
 
 Canonical instruction file for all AI coding agents working on this repository.
 
+## Local Memory Rule on This Machine
+
+This local clone lives at `/home/asus/exelearning-code`.
+
+For this machine, all reasoning, planning, audits, decisions, prompts, task handoffs and final reports about this codebase must also be saved in the dedicated Obsidian vault:
+
+- `/home/asus/exelearning/Exelearning`
+
+Do not read or modify `/home/asus/hivemind` unless the user explicitly asks for a HiveMind task. Do not read real `.env` files unless explicitly required and approved by the user.
+
 ## 1. Project Identity
 
 eXeLearning is an open-source (AGPL-3.0) educational content authoring tool. Educators create interactive learning materials and export them as SCORM 1.2/2004, HTML5, EPUB3, or IMS Content Packages. The new backend runs on **Bun + Elysia + Kysely** with **Yjs** for real-time collaboration. The frontend is **vanilla JavaScript**. Desktop builds use **Electron**.
