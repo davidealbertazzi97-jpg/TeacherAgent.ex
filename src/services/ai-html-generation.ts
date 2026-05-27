@@ -92,7 +92,8 @@ export function buildOpenAiCompatibleUrl(baseUrl: string, endpointPath = DEFAULT
 
 export function buildAnthropicUrl(baseUrl = DEFAULT_ANTHROPIC_BASE_URL, endpointPath = '/messages'): string {
     const parsedBase = new URL(baseUrl);
-    const normalizedEndpoint = endpointPath.startsWith('/') ? endpointPath : `/${endpointPath}`;
+    const effectiveEndpoint = endpointPath.trim() || '/messages';
+    const normalizedEndpoint = effectiveEndpoint.startsWith('/') ? effectiveEndpoint : `/${effectiveEndpoint}`;
     const basePath = parsedBase.pathname.replace(/\/+$/, '');
     parsedBase.pathname = basePath.endsWith(normalizedEndpoint) ? basePath : `${basePath}${normalizedEndpoint}`;
     parsedBase.search = '';
