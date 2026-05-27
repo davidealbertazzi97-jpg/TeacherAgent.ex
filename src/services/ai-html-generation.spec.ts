@@ -32,6 +32,9 @@ describe('ai-html-generation', () => {
         expect(buildAnthropicUrl('https://proxy.example.com/anthropic/v1', 'messages')).toBe(
             'https://proxy.example.com/anthropic/v1/messages',
         );
+        expect(buildAnthropicUrl('https://proxy.example.com/anthropic/v1', '')).toBe(
+            'https://proxy.example.com/anthropic/v1/messages',
+        );
         expect(buildGeminiUrl('gemini-2.5-flash')).toBe(
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
         );

@@ -402,7 +402,7 @@ jQuery(document).ready(function($) {
 			}
 			for (var i = 0; i < conversation.length; i++) {
 				var turn = conversation[i];
-				var label = turn.role == 'user' ? translate('Teacher') : translate('AI_Assistant');
+				var label = turn.role == 'user' ? translate('Teacher') : translate('AI Assistant');
 				var message = $('<div class="ai-message"></div>');
 				message.append($('<strong></strong>').text(label));
 				message.append($('<span></span>').text(turn.content));
