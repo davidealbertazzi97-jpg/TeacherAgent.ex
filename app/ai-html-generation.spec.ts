@@ -44,4 +44,34 @@ describe('Electron AI HTML generation bridge', () => {
         expect(result).toEqual({ html: '<p>Generated</p>' });
         expect((calls[0].headers as Record<string, string>).Authorization).toBe('Bearer test-key');
     });
+
+    it('can improve prompts through the desktop bridge before HTML generation', async () => {
+        const calls: RequestInit[] = [];
+        const fetchImpl = async (_url: string | URL | Request, init?: RequestInit) => {
+            calls.push(init || {});
+            return new Response(
+                JSON.stringify({ choices: [{ message: { content: 'Premium prompt for an animated activity.' } }] }),
+                {
+                    status: 200,
+                    headers: { 'Content-Type': 'application/json' },
+                },
+            );
+        };
+
+        const result = await generateHtmlWithAi(
+            {
+                task: 'improve-prompt',
+                prompt: 'Create a card',
+                provider: {
+                    apiKey: 'test-key',
+                    baseUrl: 'https://api.example.com/v1',
+                    model: 'model-a',
+                },
+            },
+            { fetchImpl },
+        );
+
+        expect(result).toEqual({ prompt: 'Premium prompt for an animated activity.' });
+        expect(String(calls[0].body)).toContain('premium visual prompt engineer');
+    });
 });

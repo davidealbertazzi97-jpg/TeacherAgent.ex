@@ -157,6 +157,7 @@ describe('codemagic AI assistant helper', () => {
 
         expect(result.missing).toEqual([]);
         expect(result.payload).toEqual({
+            task: 'generate-html',
             prompt: 'make a timeline',
             contextHtml: '<p>Existing</p>',
             conversation: [{ role: 'user', content: 'make it visual' }],
@@ -192,7 +193,21 @@ describe('codemagic AI assistant helper', () => {
             model: 'gemini-3-pro-preview',
             endpointPath: ':generateContent',
         });
+        expect(result.payload.task).toBe('generate-html');
         expect(result.payload.conversation).toEqual([]);
+    });
+
+    it('includes prompt-enhancement task requests in backend payloads', () => {
+        const helper = loadHelper();
+        const result = helper.createRequestPayload({
+            task: 'improve-prompt',
+            prompt: 'make a matching game',
+            apiKey: 'test-key',
+        });
+
+        expect(result.missing).toEqual([]);
+        expect(result.payload.task).toBe('improve-prompt');
+        expect(result.settings.task).toBe('improve-prompt');
     });
 
     it('normalizes chat turns for backend context', () => {
@@ -250,5 +265,16 @@ describe('codemagic AI assistant helper', () => {
             ['range', '<p>B</p>', { line: 3, ch: 2 }],
             ['focus'],
         ]);
+    });
+
+    it('builds a follow-up prompt from generated HTML for iterative revisions', () => {
+        const helper = loadHelper();
+        const prompt = helper.buildFollowUpPrompt('Make it more visual', ' <section>Draft</section> ');
+
+        expect(prompt).toContain('Make it more visual');
+        expect(prompt).toContain('Use this existing HTML as the base');
+        expect(prompt).toContain('```html');
+        expect(prompt).toContain('<section>Draft</section>');
+        expect(helper.buildFollowUpPrompt('Keep only this', '')).toBe('Keep only this');
     });
 });

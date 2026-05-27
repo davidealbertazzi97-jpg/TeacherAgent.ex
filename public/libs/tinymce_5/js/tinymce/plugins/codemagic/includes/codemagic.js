@@ -345,8 +345,12 @@ jQuery(document).ready(function($) {
 		var apiKeyInput = $('#ai_api_key');
 		var promptInput = $('#ai_prompt');
 		var generatedInput = $('#ai_generated_html');
+		var enhancePromptButton = $('#ai_enhance_prompt');
 		var generateButton = $('#ai_generate_html');
 		var insertButton = $('#ai_insert_html');
+		var useGeneratedPromptButton = $('#ai_use_generated_prompt');
+		var clearGeneratedButton = $('#ai_clear_generated');
+		var clearSourceButton = $('#ai_clear_source');
 		var clearChatButton = $('#ai_clear_chat');
 		var conversationElement = $('#ai_conversation');
 		var statusElement = $('#ai_status');
@@ -394,6 +398,26 @@ jQuery(document).ready(function($) {
 			statusElement.text(message || '');
 		}
 
+		function setGeneratedHtml(html) {
+			generatedInput.val(html || '');
+			var hasHtml = Boolean($.trim(html || ''));
+			insertButton.prop('disabled', !hasHtml);
+			useGeneratedPromptButton.prop('disabled', !hasHtml);
+			clearGeneratedButton.prop('disabled', !hasHtml);
+		}
+
+		function setAiBusy(isBusy) {
+			enhancePromptButton.prop('disabled', isBusy);
+			generateButton.prop('disabled', isBusy);
+			if (isBusy) {
+				insertButton.prop('disabled', true);
+				useGeneratedPromptButton.prop('disabled', true);
+				clearGeneratedButton.prop('disabled', true);
+			} else {
+				setGeneratedHtml(generatedInput.val());
+			}
+		}
+
 		function renderConversation() {
 			conversationElement.empty();
 			if (!conversation.length) {
@@ -418,6 +442,7 @@ jQuery(document).ready(function($) {
 
 		async function generateHtml() {
 			var request = aiAssistant.createRequestPayload({
+				task: 'generate-html',
 				providerPreset: providerPresetInput.val(),
 				providerType: providerTypeInput.val(),
 				prompt: promptInput.val(),
@@ -436,8 +461,7 @@ jQuery(document).ready(function($) {
 
 			aiAssistant.saveSettings(window.localStorage, window.sessionStorage, request.settings);
 
-			generateButton.prop('disabled', true);
-			insertButton.prop('disabled', true);
+			setAiBusy(true);
 			setStatus(translate('Generating HTML...'), '');
 
 			try {
@@ -445,8 +469,7 @@ jQuery(document).ready(function($) {
 				if (data.error) {
 					throw new Error(data.error || translate('AI generation failed.'));
 				}
-				generatedInput.val(data.html || '');
-				insertButton.prop('disabled', !data.html);
+				setGeneratedHtml(data.html || '');
 				conversation = aiAssistant.normalizeConversation(
 					conversation.concat([
 						{ role: 'user', content: request.settings.prompt },
@@ -458,13 +481,66 @@ jQuery(document).ready(function($) {
 			} catch (error) {
 				setStatus(error && error.message ? error.message : translate('AI generation failed.'), 'error');
 			} finally {
-				generateButton.prop('disabled', false);
+				setAiBusy(false);
+			}
+		}
+
+		async function enhancePrompt() {
+			var request = aiAssistant.createRequestPayload({
+				task: 'improve-prompt',
+				providerPreset: providerPresetInput.val(),
+				providerType: providerTypeInput.val(),
+				prompt: promptInput.val(),
+				contextHtml: aiAssistant.getContextHtml(myCodeMirror),
+				conversation: conversation,
+				baseUrl: baseUrlInput.val(),
+				model: modelInput.val(),
+				endpointPath: endpointPathInput.val(),
+				apiKey: apiKeyInput.val()
+			});
+
+			if (request.missing.length) {
+				setStatus(translate('Missing AI provider settings or prompt.'), 'error');
+				return;
+			}
+
+			aiAssistant.saveSettings(window.localStorage, window.sessionStorage, request.settings);
+
+			setAiBusy(true);
+			setStatus(translate('Enhancing prompt...'), '');
+
+			try {
+				var data = await aiAssistant.generateHtml(parent, request.payload);
+				if (data.error) {
+					throw new Error(data.error || translate('AI prompt enhancement failed.'));
+				}
+				if (!data.prompt) {
+					throw new Error(translate('AI provider returned an empty response.'));
+				}
+				promptInput.val(data.prompt);
+				conversation = aiAssistant.normalizeConversation(
+					conversation.concat([
+						{ role: 'user', content: request.settings.prompt },
+						{ role: 'assistant', content: data.prompt }
+					])
+				);
+				renderConversation();
+				setStatus(translate('Prompt enhanced.'), 'success');
+			} catch (error) {
+				setStatus(error && error.message ? error.message : translate('AI prompt enhancement failed.'), 'error');
+			} finally {
+				setAiBusy(false);
 			}
 		}
 
 		generateButton.click(function(event) {
 			event.preventDefault();
 			generateHtml();
+		});
+
+		enhancePromptButton.click(function(event) {
+			event.preventDefault();
+			enhancePrompt();
 		});
 
 		providerTypeInput.change(function() {
@@ -494,6 +570,28 @@ jQuery(document).ready(function($) {
 			if (!html) return;
 			aiAssistant.insertGeneratedHtml(myCodeMirror, html);
 			setStatus(translate('Generated HTML inserted in source.'), 'success');
+		});
+
+		useGeneratedPromptButton.click(function(event) {
+			event.preventDefault();
+			var prompt = aiAssistant.buildFollowUpPrompt(promptInput.val(), generatedInput.val());
+			if (!prompt) return;
+			promptInput.val(prompt);
+			setStatus(translate('Generated HTML added to the next prompt.'), 'success');
+		});
+
+		clearGeneratedButton.click(function(event) {
+			event.preventDefault();
+			setGeneratedHtml('');
+			setStatus(translate('Generated HTML cleared.'), 'success');
+		});
+
+		clearSourceButton.click(function(event) {
+			event.preventDefault();
+			if (!confirm(translate('Clear the source HTML editor?'))) return;
+			myCodeMirror.doc.setValue('');
+			myCodeMirror.focus();
+			setStatus(translate('Source HTML cleared.'), 'success');
 		});
 	}
 	

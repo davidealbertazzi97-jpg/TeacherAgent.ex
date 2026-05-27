@@ -187,6 +187,10 @@
 	margin: 10px 0;
 }
 
+.ai-danger {
+	color: #8A1F11;
+}
+
 .ai-conversation {
 	background: #F7F7F7;
 	border: 1px solid #DDDDDD;

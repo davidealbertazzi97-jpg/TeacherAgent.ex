@@ -6,9 +6,15 @@ const DEFAULT_ANTHROPIC_BASE_URL = 'https://api.anthropic.com/v1';
 const DEFAULT_GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
 
-const SYSTEM_PROMPT =
+const HTML_SYSTEM_PROMPT =
     'You generate accessible HTML fragments for eXeLearning learning objects. ' +
     'Return only the HTML fragment, without Markdown fences or explanations.';
+const PROMPT_ENGINEERING_SYSTEM_PROMPT =
+    'You are a senior instructional designer and premium visual prompt engineer for eXeLearning. ' +
+    'Rewrite the teacher request into a concise, production-ready prompt for an HTML learning object. ' +
+    'Always enrich it with a premium visual direction: expressive layout, atmospheric background, cohesive color palette, optional illustrative image placeholders, meaningful animations, theory blocks, dialogue or scenario moments, checks for understanding, and final questions. ' +
+    'Require accessible, responsive, self-contained HTML/CSS/JS suitable for eXeLearning, without external dependencies. ' +
+    'Return only the improved prompt text, not HTML, not Markdown fences, and no explanations.';
 
 function stripHtmlCodeFences(value) {
     const trimmed = String(value || '').trim();
@@ -65,6 +71,14 @@ function getProviderType(provider) {
     return provider.type || 'openai-compatible';
 }
 
+function getTask(request) {
+    return request.task === 'improve-prompt' ? 'improve-prompt' : 'generate-html';
+}
+
+function getSystemPrompt(request) {
+    return getTask(request) === 'improve-prompt' ? PROMPT_ENGINEERING_SYSTEM_PROMPT : HTML_SYSTEM_PROMPT;
+}
+
 function getProviderBaseUrl(provider) {
     if (provider.baseUrl && String(provider.baseUrl).trim()) return String(provider.baseUrl).trim();
     if (getProviderType(provider) === 'anthropic') return DEFAULT_ANTHROPIC_BASE_URL;
@@ -75,6 +89,9 @@ function getProviderBaseUrl(provider) {
 function buildUserPrompt(request) {
     const conversation = Array.isArray(request.conversation) ? request.conversation : [];
     return [
+        getTask(request) === 'improve-prompt'
+            ? 'Improve the teacher request before HTML generation. Preserve the educational intent, but make the prompt substantially more specific, premium, visual, interactive, and implementation-ready.'
+            : null,
         conversation.length
             ? `Recent chat, if useful:\n${conversation
                   .slice(-8)
@@ -100,7 +117,7 @@ async function generateWithOpenAiCompatible(request, fetchImpl, baseUrl) {
         body: JSON.stringify({
             model: request.provider.model,
             messages: [
-                { role: 'system', content: SYSTEM_PROMPT },
+                { role: 'system', content: getSystemPrompt(request) },
                 { role: 'user', content: buildUserPrompt(request) },
             ],
             temperature: 0.4,
@@ -122,7 +139,7 @@ async function generateWithAnthropic(request, fetchImpl, baseUrl) {
         body: JSON.stringify({
             model: request.provider.model,
             max_tokens: 4096,
-            system: SYSTEM_PROMPT,
+            system: getSystemPrompt(request),
             messages: [{ role: 'user', content: buildUserPrompt(request) }],
             temperature: 0.4,
         }),
@@ -141,7 +158,7 @@ async function generateWithGemini(request, fetchImpl, baseUrl) {
         },
         body: JSON.stringify({
             systemInstruction: {
-                parts: [{ text: SYSTEM_PROMPT }],
+                parts: [{ text: getSystemPrompt(request) }],
             },
             contents: [{ role: 'user', parts: [{ text: buildUserPrompt(request) }] }],
             generationConfig: {
@@ -173,6 +190,10 @@ async function generateHtmlWithAi(request, deps = {}) {
     }
 
     if (!content || !content.trim()) throw new Error('AI provider returned an empty response.');
+    if (getTask(request) === 'improve-prompt') {
+        return { prompt: stripHtmlCodeFences(content) };
+    }
+
     return { html: stripHtmlCodeFences(content) };
 }
 

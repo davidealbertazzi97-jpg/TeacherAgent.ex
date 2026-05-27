@@ -92,8 +92,12 @@
         <label for="ai_prompt">%Describe_the_learning_object%</label>
         <textarea id="ai_prompt" class="form-control ai-prompt" rows="4"></textarea>
         <div class="ai-actions">
+            <button id="ai_enhance_prompt" class="btn-default" type="button">%Enhance_Prompt%</button>
             <button id="ai_generate_html" class="btn-default" type="button">%Generate_HTML%</button>
             <button id="ai_insert_html" class="btn-primary" type="button" disabled>%Insert_generated_HTML%</button>
+            <button id="ai_use_generated_prompt" class="btn-default" type="button" disabled>%Use_HTML_As_Next_Prompt%</button>
+            <button id="ai_clear_generated" class="btn-default" type="button" disabled>%Clear_Generated_HTML%</button>
+            <button id="ai_clear_source" class="btn-default ai-danger" type="button">%Clear_Source_HTML%</button>
             <button id="ai_clear_chat" class="btn-default" type="button">%Clear_Chat%</button>
             <span id="ai_status" class="ai-status" role="status" aria-live="polite"></span>
         </div>

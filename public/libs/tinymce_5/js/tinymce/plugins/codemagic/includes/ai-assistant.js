@@ -184,6 +184,7 @@
         var settings = {
             providerPreset: trim(input.providerPreset) || DEFAULTS.providerPreset,
             providerType: trim(input.providerType),
+            task: trim(input.task) || 'generate-html',
             prompt: trim(input.prompt),
             baseUrl: trim(input.baseUrl),
             model: trim(input.model),
@@ -205,6 +206,7 @@
             missing: missing,
             settings: settings,
             payload: {
+                task: settings.task,
                 prompt: settings.prompt,
                 contextHtml: input.contextHtml || '',
                 conversation: normalizeConversation(input.conversation),
@@ -217,6 +219,20 @@
                 }
             }
         };
+    }
+
+    function buildFollowUpPrompt(currentPrompt, generatedHtml) {
+        var html = trim(generatedHtml);
+        if (!html) return trim(currentPrompt);
+
+        var instruction = trim(currentPrompt) || 'Improve the previous generated learning object.';
+        return [
+            instruction,
+            'Use this existing HTML as the base for the next revision. Keep what works, fix weaknesses, and modify it according to my next instruction:',
+            '```html',
+            html,
+            '```'
+        ].join('\n\n');
     }
 
     function normalizeConversation(conversation) {
@@ -252,6 +268,7 @@
         getProviderDefaults: getProviderDefaults,
         getProviderPresets: getProviderPresets,
         insertGeneratedHtml: insertGeneratedHtml,
+        buildFollowUpPrompt: buildFollowUpPrompt,
         normalizeConversation: normalizeConversation,
         readSettings: readSettings,
         saveSettings: saveSettings
