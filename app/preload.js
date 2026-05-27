@@ -45,6 +45,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   openElp: () => ipcRenderer.invoke('app:openElp'),
   readFile: (filePath) => ipcRenderer.invoke('app:readFile', { filePath }),
+  generateAiHtml: (payload) => ipcRenderer.invoke('app:generateAiHtml', payload),
   getMemoryUsage: () => ipcRenderer.invoke('app:getMemoryUsage'),
   notifyRendererReadyForOpenFile: () => ipcRenderer.send('app:renderer-ready-for-open-file'),
   onDownloadProgress: (cb) => ipcRenderer.on('download-progress', (_e, data) => cb && cb(data)),

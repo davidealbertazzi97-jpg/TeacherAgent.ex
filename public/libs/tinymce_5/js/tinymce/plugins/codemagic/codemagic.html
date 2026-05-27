@@ -28,6 +28,7 @@
 <script type="text/javascript" src="includes/codemirror/codemirror.js"></script>
 <script type="text/javascript" src="includes/batched_scripts.js"></script>
 <script type="text/javascript" src="includes/i18n.js"></script>
+<script type="text/javascript" src="includes/ai-assistant.js"></script>
 <script type="text/javascript" src="includes/codemagic.js"></script>
 
 <link rel="stylesheet" href="includes/codemagic.css" />
@@ -58,6 +59,47 @@
         <span id="replace_button"><input id="replace_code" type="submit" value="%Replace%" class="btn-default" /></span>
     </div>
     <div style="clear:both;"></div>
+
+    <details id="ai_panel" class="ai-panel">
+        <summary>%AI_Assistant%</summary>
+        <div class="ai-grid">
+            <label for="ai_provider_preset">%Provider_Preset%</label>
+            <select id="ai_provider_preset" class="form-control">
+                <option value="mistral-codestral">Mistral Codestral</option>
+                <option value="openai">OpenAI</option>
+                <option value="groq">Groq</option>
+                <option value="google-gemini">Google Gemini</option>
+                <option value="sambanova">SambaNova</option>
+                <option value="ollama">Ollama Local</option>
+                <option value="anthropic">Anthropic Compatible</option>
+                <option value="openai-compatible">OpenAI Compatible Custom</option>
+            </select>
+            <label for="ai_provider_type">%Provider%</label>
+            <select id="ai_provider_type" class="form-control">
+                <option value="openai-compatible">%OpenAI_Compatible%</option>
+                <option value="anthropic">%Anthropic%</option>
+                <option value="gemini">%Gemini%</option>
+            </select>
+            <label for="ai_base_url">%Provider_Base_URL%</label>
+            <input id="ai_base_url" class="form-control" type="url" placeholder="https://api.openai.com/v1" />
+            <label for="ai_model">%Model%</label>
+            <input id="ai_model" class="form-control" type="text" placeholder="gpt-4.1-mini" />
+            <label for="ai_endpoint_path">%Endpoint_Path%</label>
+            <input id="ai_endpoint_path" class="form-control" type="text" placeholder="/chat/completions" />
+            <label for="ai_api_key">%API_Key%</label>
+            <input id="ai_api_key" class="form-control" type="password" autocomplete="off" />
+        </div>
+        <label for="ai_prompt">%Describe_the_learning_object%</label>
+        <textarea id="ai_prompt" class="form-control ai-prompt" rows="4"></textarea>
+        <div class="ai-actions">
+            <button id="ai_generate_html" class="btn-default" type="button">%Generate_HTML%</button>
+            <button id="ai_insert_html" class="btn-primary" type="button" disabled>%Insert_generated_HTML%</button>
+            <button id="ai_clear_chat" class="btn-default" type="button">%Clear_Chat%</button>
+            <span id="ai_status" class="ai-status" role="status" aria-live="polite"></span>
+        </div>
+        <div id="ai_conversation" class="ai-conversation" aria-live="polite"></div>
+        <textarea id="ai_generated_html" class="form-control ai-generated" rows="6" readonly></textarea>
+    </details>
 
 	<textarea name="htmlSource" id="htmlSource" rows="25" cols="100" class="htmlSource"></textarea>
 	

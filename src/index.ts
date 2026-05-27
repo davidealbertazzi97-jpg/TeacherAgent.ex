@@ -24,6 +24,7 @@ import { adminThemesRoutes } from './routes/admin-themes';
 import { adminTemplatesRoutes } from './routes/admin-templates';
 import { yjsRoutes } from './routes/yjs';
 import { platformIntegrationRoutes } from './routes/platform-integration';
+import { aiRoutes } from './routes/ai';
 import { apiV1Routes } from './routes/api/v1';
 import { uploadSessionRoutes } from './routes/upload-session';
 import {
@@ -605,6 +606,7 @@ if (registerRootRoutes) {
         .use(adminRoutes)
         .use(adminThemesRoutes)
         .use(adminTemplatesRoutes)
+        .use(aiRoutes)
         .use(yjsRoutes)
         .use(apiV1Routes)
         .use(uploadSessionRoutes)
@@ -643,6 +645,7 @@ if (routePrefix) {
             .use(adminRoutes)
             .use(adminThemesRoutes)
             .use(adminTemplatesRoutes)
+            .use(aiRoutes)
             .use(yjsRoutes)
             .use(apiV1Routes)
             .use(uploadSessionRoutes)

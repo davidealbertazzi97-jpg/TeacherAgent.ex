@@ -279,6 +279,8 @@ jQuery(document).ready(function($) {
 	$('#search_code').click(function() { searchCode(); });
 	// Replace code button
 	$('#replace_code').click(function() { replaceCode(); });
+	// AI helper buttons
+	initAiAssistant();
 	
 	// Unmark all highlighted words
 	function unmark() { marked.length = 0; }   
@@ -333,6 +335,167 @@ jQuery(document).ready(function($) {
 		for (var cursor = myCodeMirror.getSearchCursor(s_text); cursor.findNext();)
 			myCodeMirror.replaceRange(replace, cursor.from(), cursor.to());
 	} 
+
+	function initAiAssistant() {
+		var providerPresetInput = $('#ai_provider_preset');
+		var providerTypeInput = $('#ai_provider_type');
+		var baseUrlInput = $('#ai_base_url');
+		var modelInput = $('#ai_model');
+		var endpointPathInput = $('#ai_endpoint_path');
+		var apiKeyInput = $('#ai_api_key');
+		var promptInput = $('#ai_prompt');
+		var generatedInput = $('#ai_generated_html');
+		var generateButton = $('#ai_generate_html');
+		var insertButton = $('#ai_insert_html');
+		var clearChatButton = $('#ai_clear_chat');
+		var conversationElement = $('#ai_conversation');
+		var statusElement = $('#ai_status');
+		var aiAssistant = window.CodeMagicAiAssistant;
+		var conversation = [];
+
+		if (!baseUrlInput.length || !aiAssistant) return;
+
+		var settings = aiAssistant.readSettings(window.localStorage, window.sessionStorage);
+		providerPresetInput.val(settings.providerPreset);
+		providerTypeInput.val(settings.providerType);
+		baseUrlInput.val(settings.baseUrl);
+		modelInput.val(settings.model);
+		endpointPathInput.val(settings.endpointPath);
+		apiKeyInput.val(settings.apiKey);
+		updateApiKeyPlaceholder();
+
+		function translate(message) {
+			if (parent && parent.tinyMCE && typeof parent.tinyMCE.translate == 'function') {
+				return parent.tinyMCE.translate(message);
+			}
+			return message;
+		}
+
+		function applyProviderDefaults(force) {
+			var defaults = aiAssistant.getProviderDefaults(providerPresetInput.val());
+			if (force || !$.trim(providerTypeInput.val())) providerTypeInput.val(defaults.providerType);
+			if (force || !$.trim(baseUrlInput.val())) baseUrlInput.val(defaults.baseUrl);
+			if (force || !$.trim(endpointPathInput.val())) endpointPathInput.val(defaults.endpointPath);
+			if (force || !$.trim(modelInput.val())) modelInput.val(defaults.model);
+			updateApiKeyPlaceholder();
+		}
+
+		function updateApiKeyPlaceholder() {
+			var defaults = aiAssistant.getProviderDefaults(providerPresetInput.val());
+			apiKeyInput.attr('placeholder', defaults.apiKeyPlaceholder || '');
+			if (providerPresetInput.val() == 'ollama' && !$.trim(apiKeyInput.val())) {
+				apiKeyInput.val('ollama');
+			}
+		}
+
+		function setStatus(message, type) {
+			statusElement.removeClass('error success');
+			if (type) statusElement.addClass(type);
+			statusElement.text(message || '');
+		}
+
+		function renderConversation() {
+			conversationElement.empty();
+			if (!conversation.length) {
+				conversationElement.hide();
+				return;
+			}
+			for (var i = 0; i < conversation.length; i++) {
+				var turn = conversation[i];
+				var label = turn.role == 'user' ? translate('Teacher') : translate('AI_Assistant');
+				var message = $('<div class="ai-message"></div>');
+				message.append($('<strong></strong>').text(label));
+				message.append($('<span></span>').text(turn.content));
+				conversationElement.append(message);
+			}
+			conversationElement.show();
+			conversationElement.scrollTop(conversationElement[0].scrollHeight);
+		}
+
+		function getAiEndpoint() {
+			return aiAssistant.getEndpoint(parent);
+		}
+
+		async function generateHtml() {
+			var request = aiAssistant.createRequestPayload({
+				providerPreset: providerPresetInput.val(),
+				providerType: providerTypeInput.val(),
+				prompt: promptInput.val(),
+				contextHtml: aiAssistant.getContextHtml(myCodeMirror),
+				conversation: conversation,
+				baseUrl: baseUrlInput.val(),
+				model: modelInput.val(),
+				endpointPath: endpointPathInput.val(),
+				apiKey: apiKeyInput.val()
+			});
+
+			if (request.missing.length) {
+				setStatus(translate('Missing AI provider settings or prompt.'), 'error');
+				return;
+			}
+
+			aiAssistant.saveSettings(window.localStorage, window.sessionStorage, request.settings);
+
+			generateButton.prop('disabled', true);
+			insertButton.prop('disabled', true);
+			setStatus(translate('Generating HTML...'), '');
+
+			try {
+				var data = await aiAssistant.generateHtml(parent, request.payload);
+				if (data.error) {
+					throw new Error(data.error || translate('AI generation failed.'));
+				}
+				generatedInput.val(data.html || '');
+				insertButton.prop('disabled', !data.html);
+				conversation = aiAssistant.normalizeConversation(
+					conversation.concat([
+						{ role: 'user', content: request.settings.prompt },
+						{ role: 'assistant', content: data.html || '' }
+					])
+				);
+				renderConversation();
+				setStatus(translate('HTML generated.'), 'success');
+			} catch (error) {
+				setStatus(error && error.message ? error.message : translate('AI generation failed.'), 'error');
+			} finally {
+				generateButton.prop('disabled', false);
+			}
+		}
+
+		generateButton.click(function(event) {
+			event.preventDefault();
+			generateHtml();
+		});
+
+		providerTypeInput.change(function() {
+			var currentPreset = providerPresetInput.val();
+			var defaults = aiAssistant.getProviderDefaults(currentPreset);
+			if (providerTypeInput.val() != defaults.providerType) {
+				providerPresetInput.val('openai-compatible');
+			}
+			updateApiKeyPlaceholder();
+		});
+
+		providerPresetInput.change(function() {
+			apiKeyInput.val('');
+			applyProviderDefaults(true);
+		});
+
+		clearChatButton.click(function(event) {
+			event.preventDefault();
+			conversation = [];
+			renderConversation();
+			setStatus(translate('Chat cleared.'), 'success');
+		});
+
+		insertButton.click(function(event) {
+			event.preventDefault();
+			var html = generatedInput.val();
+			if (!html) return;
+			aiAssistant.insertGeneratedHtml(myCodeMirror, html);
+			setStatus(translate('Generated HTML inserted in source.'), 'success');
+		});
+	}
 	
 	
 	
