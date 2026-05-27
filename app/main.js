@@ -10,6 +10,7 @@ const https = require('https');
 
 const { initAutoUpdater } = require('./update-manager');
 const contextMenu = require('electron-context-menu').default;
+const { generateHtmlWithAi } = require('./ai-html-generation');
 
 // Register custom protocol BEFORE app.whenReady()
 // CRITICAL: This must be called before any window is created
@@ -45,6 +46,12 @@ function getStaticPath() {
     }
     // Fallback to app/dist/static if copied there
     return path.join(__dirname, 'dist', 'static');
+}
+
+function getAppIconPath() {
+    const staticIcon = path.join(getStaticPath(), 'exelearning.png');
+    if (fs.existsSync(staticIcon)) return staticIcon;
+    return path.join(__dirname, '..', 'public', 'exelearning.png');
 }
 
 /**
@@ -788,6 +795,7 @@ async function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1250,
         height: 800,
+        icon: getAppIconPath(),
         autoHideMenuBar: !isDev, // Windows / Linux
         webPreferences: {
             nodeIntegration: false,
@@ -1363,6 +1371,7 @@ app.on('new-window-for-tab', () => {
         y,
         width,
         height,
+        icon: getAppIconPath(),
         autoHideMenuBar: !isDev,
         webPreferences: {
             nodeIntegration: false,
@@ -1515,6 +1524,18 @@ ipcMain.handle('app:readFile', async (_e, { filePath }) => {
         return { ok: true, base64: data.toString('base64'), mtimeMs: stat.mtimeMs };
     } catch (err) {
         return { ok: false, error: err.message };
+    }
+});
+
+ipcMain.handle('app:generateAiHtml', async (_e, payload) => {
+    try {
+        return await generateHtmlWithAi(payload, {
+            allowLocalProviderUrls: true,
+        });
+    } catch (error) {
+        return {
+            error: error instanceof Error ? error.message : 'AI HTML generation failed.',
+        };
     }
 });
 
@@ -1688,6 +1709,7 @@ function createNewProjectWindow(filePath) {
         y,
         width,
         height,
+        icon: getAppIconPath(),
         autoHideMenuBar: !isDev,
         webPreferences: {
             nodeIntegration: false,
