@@ -2,6 +2,7 @@ import { Elysia, t } from 'elysia';
 import { generateHtmlWithAi, type AiHtmlGenerationRequest } from '../services/ai-html-generation';
 
 const aiHtmlBody = t.Object({
+    task: t.Optional(t.Union([t.Literal('generate-html'), t.Literal('improve-prompt')])),
     prompt: t.String({ minLength: 1, maxLength: 8000 }),
     contextHtml: t.Optional(t.String({ maxLength: 20000 })),
     conversation: t.Optional(

@@ -83,6 +83,37 @@ describe('ai-html-generation', () => {
         expect(String(calls[0].body)).toContain('Recent chat, if useful');
     });
 
+    it('uses the same provider to improve prompts before HTML generation', async () => {
+        const calls: RequestInit[] = [];
+        const fetchImpl = async (_url: string | URL | Request, init?: RequestInit) => {
+            calls.push(init || {});
+            return new Response(
+                JSON.stringify({
+                    choices: [{ message: { content: 'Premium prompt with animated theory cards and questions.' } }],
+                }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } },
+            );
+        };
+
+        const result = await generateHtmlWithAi(
+            {
+                task: 'improve-prompt',
+                prompt: 'Create a lesson about volcanoes',
+                provider: {
+                    apiKey: 'test-key',
+                    baseUrl: 'https://api.example.com/v1',
+                    model: 'model-a',
+                },
+            },
+            { fetchImpl: fetchImpl as typeof fetch },
+        );
+
+        const requestBody = JSON.parse(String(calls[0].body));
+        expect(result.prompt).toBe('Premium prompt with animated theory cards and questions.');
+        expect(requestBody.messages[0].content).toContain('premium visual prompt engineer');
+        expect(requestBody.messages[1].content).toContain('Improve the teacher request');
+    });
+
     it('calls Anthropic Messages API and returns generated html', async () => {
         const calls: Array<{ url: string | URL | Request; init: RequestInit }> = [];
         const fetchImpl = async (url: string | URL | Request, init?: RequestInit) => {
