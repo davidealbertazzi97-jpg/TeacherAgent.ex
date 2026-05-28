@@ -71,6 +71,7 @@ const DEFAULT_ENDPOINT_PATH = '/chat/completions';
 const DEFAULT_OPENAI_COMPATIBLE_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_ANTHROPIC_BASE_URL = 'https://api.anthropic.com/v1';
 const DEFAULT_GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
+const DEFAULT_MAX_OUTPUT_TOKENS = 8192;
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
 
 const HTML_SYSTEM_PROMPT =
@@ -166,6 +167,10 @@ function getSystemPrompt(request: AiHtmlGenerationRequest): string {
     return getTask(request) === 'improve-prompt' ? PROMPT_ENGINEERING_SYSTEM_PROMPT : HTML_SYSTEM_PROMPT;
 }
 
+function getTemperature(request: AiHtmlGenerationRequest): number {
+    return getTask(request) === 'improve-prompt' ? 0.5 : 0.72;
+}
+
 function getProviderBaseUrl(provider: AiProviderConfig): string {
     if (provider.baseUrl?.trim()) return provider.baseUrl.trim();
     if (getProviderType(provider) === 'anthropic') return DEFAULT_ANTHROPIC_BASE_URL;
@@ -216,7 +221,8 @@ async function generateWithOpenAiCompatible(
                     content: buildUserPrompt(request),
                 },
             ],
-            temperature: 0.4,
+            temperature: getTemperature(request),
+            max_tokens: DEFAULT_MAX_OUTPUT_TOKENS,
         }),
     });
 
@@ -243,7 +249,7 @@ async function generateWithAnthropic(
         },
         body: JSON.stringify({
             model: request.provider.model,
-            max_tokens: 4096,
+            max_tokens: DEFAULT_MAX_OUTPUT_TOKENS,
             system: getSystemPrompt(request),
             messages: [
                 {
@@ -251,7 +257,7 @@ async function generateWithAnthropic(
                     content: buildUserPrompt(request),
                 },
             ],
-            temperature: 0.4,
+            temperature: getTemperature(request),
         }),
     });
 
@@ -286,7 +292,8 @@ async function generateWithGemini(
                 },
             ],
             generationConfig: {
-                temperature: 0.4,
+                temperature: getTemperature(request),
+                maxOutputTokens: DEFAULT_MAX_OUTPUT_TOKENS,
             },
         }),
     });

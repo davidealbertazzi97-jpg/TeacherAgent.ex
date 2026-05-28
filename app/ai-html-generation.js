@@ -4,6 +4,7 @@ const DEFAULT_ENDPOINT_PATH = '/chat/completions';
 const DEFAULT_OPENAI_COMPATIBLE_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_ANTHROPIC_BASE_URL = 'https://api.anthropic.com/v1';
 const DEFAULT_GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
+const DEFAULT_MAX_OUTPUT_TOKENS = 8192;
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
 
 const HTML_SYSTEM_PROMPT =
@@ -84,6 +85,10 @@ function getSystemPrompt(request) {
     return getTask(request) === 'improve-prompt' ? PROMPT_ENGINEERING_SYSTEM_PROMPT : HTML_SYSTEM_PROMPT;
 }
 
+function getTemperature(request) {
+    return getTask(request) === 'improve-prompt' ? 0.5 : 0.72;
+}
+
 function getProviderBaseUrl(provider) {
     if (provider.baseUrl && String(provider.baseUrl).trim()) return String(provider.baseUrl).trim();
     if (getProviderType(provider) === 'anthropic') return DEFAULT_ANTHROPIC_BASE_URL;
@@ -125,7 +130,8 @@ async function generateWithOpenAiCompatible(request, fetchImpl, baseUrl) {
                 { role: 'system', content: getSystemPrompt(request) },
                 { role: 'user', content: buildUserPrompt(request) },
             ],
-            temperature: 0.4,
+            temperature: getTemperature(request),
+            max_tokens: DEFAULT_MAX_OUTPUT_TOKENS,
         }),
     });
     const data = await response.json().catch(() => ({}));
@@ -143,10 +149,10 @@ async function generateWithAnthropic(request, fetchImpl, baseUrl) {
         },
         body: JSON.stringify({
             model: request.provider.model,
-            max_tokens: 4096,
+            max_tokens: DEFAULT_MAX_OUTPUT_TOKENS,
             system: getSystemPrompt(request),
             messages: [{ role: 'user', content: buildUserPrompt(request) }],
-            temperature: 0.4,
+            temperature: getTemperature(request),
         }),
     });
     const data = await response.json().catch(() => ({}));
@@ -167,7 +173,8 @@ async function generateWithGemini(request, fetchImpl, baseUrl) {
             },
             contents: [{ role: 'user', parts: [{ text: buildUserPrompt(request) }] }],
             generationConfig: {
-                temperature: 0.4,
+                temperature: getTemperature(request),
+                maxOutputTokens: DEFAULT_MAX_OUTPUT_TOKENS,
             },
         }),
     });

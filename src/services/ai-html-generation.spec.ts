@@ -80,6 +80,9 @@ describe('ai-html-generation', () => {
         expect(result.html).toBe('<p>Generated</p>');
         expect(calls[0].method).toBe('POST');
         expect((calls[0].headers as Record<string, string>).Authorization).toBe('Bearer test-key');
+        const requestBody = JSON.parse(String(calls[0].body));
+        expect(requestBody.max_tokens).toBe(8192);
+        expect(requestBody.temperature).toBe(0.72);
         expect(String(calls[0].body)).toContain('Recent chat, if useful');
         expect(String(calls[0].body)).toContain('interactive educational HTML mini-games');
         expect(String(calls[0].body)).toContain('game state, scoring or progress');
@@ -112,6 +115,8 @@ describe('ai-html-generation', () => {
 
         const requestBody = JSON.parse(String(calls[0].body));
         expect(result.prompt).toBe('Premium prompt with animated theory cards and questions.');
+        expect(requestBody.max_tokens).toBe(8192);
+        expect(requestBody.temperature).toBe(0.5);
         expect(requestBody.messages[0].content).toContain('premium visual prompt engineer');
         expect(requestBody.messages[0].content).toContain('premium HTML educational mini-game');
         expect(requestBody.messages[1].content).toContain('Improve the teacher request');
@@ -142,6 +147,7 @@ describe('ai-html-generation', () => {
         );
 
         expect(result.html).toBe('<section>Claude</section>');
+        expect(JSON.parse(String(calls[0].init.body)).max_tokens).toBe(8192);
         expect(String(calls[0].url)).toBe('https://api.anthropic.com/v1/messages');
         expect((calls[0].init.headers as Record<string, string>)['x-api-key']).toBe('test-key');
     });
@@ -171,6 +177,7 @@ describe('ai-html-generation', () => {
         );
 
         expect(result.html).toBe('<aside>Gemini</aside>');
+        expect(JSON.parse(String(calls[0].init.body)).generationConfig.maxOutputTokens).toBe(8192);
         expect(String(calls[0].url)).toBe(
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-test:generateContent',
         );

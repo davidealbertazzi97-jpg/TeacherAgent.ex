@@ -43,6 +43,8 @@ describe('Electron AI HTML generation bridge', () => {
 
         expect(result).toEqual({ html: '<p>Generated</p>' });
         expect((calls[0].headers as Record<string, string>).Authorization).toBe('Bearer test-key');
+        expect(JSON.parse(String(calls[0].body)).max_tokens).toBe(8192);
+        expect(JSON.parse(String(calls[0].body)).temperature).toBe(0.72);
         expect(String(calls[0].body)).toContain('interactive educational HTML mini-games');
     });
 
@@ -73,6 +75,8 @@ describe('Electron AI HTML generation bridge', () => {
         );
 
         expect(result).toEqual({ prompt: 'Premium prompt for an animated activity.' });
+        expect(JSON.parse(String(calls[0].body)).max_tokens).toBe(8192);
+        expect(JSON.parse(String(calls[0].body)).temperature).toBe(0.5);
         expect(String(calls[0].body)).toContain('premium visual prompt engineer');
         expect(String(calls[0].body)).toContain('premium HTML educational mini-game');
     });
