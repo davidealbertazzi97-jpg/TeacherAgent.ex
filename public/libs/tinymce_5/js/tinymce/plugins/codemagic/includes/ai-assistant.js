@@ -85,9 +85,17 @@
         model: PROVIDER_PRESETS['mistral-codestral'].model,
         apiKey: ''
     };
+    var MAX_CONVERSATION_CONTENT_LENGTH = 4000;
+    var MAX_CONTEXT_HTML_LENGTH = 60000;
 
     function trim(value) {
         return String(value || '').replace(/^\s+|\s+$/g, '');
+    }
+
+    function truncate(value, maxLength) {
+        var text = trim(value);
+        if (text.length <= maxLength) return text;
+        return text.slice(0, maxLength) + '\n[truncated]';
     }
 
     function getStorageValue(storage, key, fallback) {
@@ -208,7 +216,7 @@
             payload: {
                 task: settings.task,
                 prompt: settings.prompt,
-                contextHtml: input.contextHtml || '',
+                contextHtml: truncate(input.contextHtml, MAX_CONTEXT_HTML_LENGTH),
                 conversation: normalizeConversation(input.conversation),
                 provider: {
                     type: settings.providerType,
@@ -228,10 +236,7 @@
         var instruction = trim(currentPrompt) || 'Improve the previous generated learning object.';
         return [
             instruction,
-            'Use this existing HTML as the base for the next revision. Keep what works, fix weaknesses, and modify it according to my next instruction:',
-            '```html',
-            html,
-            '```'
+            'Use the generated HTML currently attached as revision context for the next request. Keep what works, fix weaknesses, and modify it according to my next instruction.'
         ].join('\n\n');
     }
 
@@ -245,7 +250,7 @@
             .map(function(turn) {
                 return {
                     role: turn.role,
-                    content: trim(turn.content)
+                    content: truncate(turn.content, MAX_CONVERSATION_CONTENT_LENGTH)
                 };
             });
     }
