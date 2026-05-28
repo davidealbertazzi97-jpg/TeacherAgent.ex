@@ -1,0 +1,334 @@
+/* 
+ * AgentSidebar.css
+ * Modern glassmorphic co-authoring interface styling.
+ */
+
+:root {
+  --agent-primary: hsl(255, 65%, 62%);
+  --agent-primary-glow: hsla(255, 65%, 62%, 0.4);
+  --agent-bg: rgba(26, 27, 38, 0.85);
+  --agent-glass-border: rgba(255, 255, 255, 0.08);
+  --agent-text-main: hsl(220, 20%, 95%);
+  --agent-text-muted: hsl(220, 10%, 70%);
+  --agent-chat-user: hsl(255, 55%, 45%);
+  --agent-chat-assistant: rgba(255, 255, 255, 0.06);
+  --agent-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --agent-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Sidebar Container */
+.agent-sidebar-container {
+  position: fixed;
+  top: 60px;
+  right: -420px; /* Hidden by default */
+  width: 400px;
+  height: calc(100vh - 60px);
+  background: var(--agent-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-left: 1px solid var(--agent-glass-border);
+  box-shadow: var(--agent-shadow);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  color: var(--agent-text-main);
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  transition: var(--agent-transition);
+}
+
+.agent-sidebar-container.active {
+  right: 0;
+}
+
+/* Toggle Floating Button */
+.agent-sidebar-toggle-btn {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--agent-primary), hsl(280, 75%, 60%));
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px var(--agent-primary-glow);
+  z-index: 1100;
+  color: white;
+  transition: var(--agent-transition);
+}
+
+.agent-sidebar-toggle-btn:hover {
+  transform: scale(1.08) rotate(15deg);
+  box-shadow: 0 6px 20px var(--agent-primary-glow);
+}
+
+.agent-sidebar-toggle-btn icon {
+  font-size: 18px;
+  font-family: 'auto-icon', sans-serif;
+}
+
+/* Sidebar Header */
+.agent-sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--agent-glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agent-sidebar-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.agent-sidebar-avatar-glow {
+  width: 32px;
+  height: 32px;
+  background: var(--agent-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--agent-primary);
+  animation: pulse-glow 2s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agent-sidebar-avatar-glow icon {
+  color: white;
+  font-size: 16px;
+}
+
+.agent-sidebar-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.agent-sidebar-close-btn {
+  background: none;
+  border: none;
+  color: var(--agent-text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  transition: var(--agent-transition);
+}
+
+.agent-sidebar-close-btn:hover {
+  color: var(--agent-text-main);
+  transform: rotate(90deg);
+}
+
+/* Mode Selection */
+.agent-sidebar-mode-selector {
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--agent-glass-border);
+  display: flex;
+  gap: 10px;
+}
+
+.agent-mode-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--agent-glass-border);
+  border-radius: 8px;
+  padding: 8px;
+  color: var(--agent-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--agent-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.agent-mode-btn.active {
+  background: var(--agent-primary);
+  border-color: var(--agent-primary);
+  color: white;
+  box-shadow: 0 4px 12px var(--agent-primary-glow);
+}
+
+/* Chat Messages */
+.agent-sidebar-chat {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.agent-message {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  position: relative;
+  animation: fade-in-slide 0.3s ease-out;
+}
+
+.agent-message.user {
+  background: var(--agent-chat-user);
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+  box-shadow: 0 4px 15px rgba(110, 68, 255, 0.2);
+}
+
+.agent-message.assistant {
+  background: var(--agent-chat-assistant);
+  border: 1px solid var(--agent-glass-border);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+/* Plan Preview Card inside Chat */
+.agent-plan-card {
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--agent-glass-border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.agent-plan-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--agent-primary);
+}
+
+.agent-plan-step {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  color: var(--agent-text-muted);
+}
+
+.agent-plan-step.completed {
+  color: hsl(140, 70%, 70%);
+}
+
+.agent-plan-step.active {
+  color: var(--agent-primary);
+  font-weight: 600;
+}
+
+.agent-plan-step icon {
+  font-size: 14px;
+}
+
+/* Chat Input Form */
+.agent-sidebar-input-form {
+  padding: 20px;
+  border-top: 1px solid var(--agent-glass-border);
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.agent-input-container {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--agent-glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--agent-transition);
+}
+
+.agent-input-container:focus-within {
+  border-color: var(--agent-primary);
+  box-shadow: 0 0 10px var(--agent-primary-glow);
+}
+
+.agent-textarea {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 14px;
+  color: var(--agent-text-main);
+  font-size: 13px;
+  resize: none;
+  height: 60px;
+  outline: none;
+}
+
+.agent-send-btn {
+  background: none;
+  border: none;
+  color: var(--agent-primary);
+  padding: 0 16px;
+  cursor: pointer;
+  transition: var(--agent-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agent-send-btn:hover {
+  color: white;
+  background: var(--agent-primary);
+  transform: scale(1.02);
+}
+
+/* Logs and actions output */
+.agent-log-container {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #a9b1d6;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid var(--agent-glass-border);
+}
+
+.agent-log-line {
+  margin: 4px 0;
+}
+
+.agent-log-line.tool {
+  color: #7aa2f7;
+}
+
+.agent-log-line.success {
+  color: #9ece6a;
+}
+
+.agent-log-line.error {
+  color: #f7768e;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px var(--agent-primary);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--agent-primary-glow);
+  }
+}
+
+@keyframes fade-in-slide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

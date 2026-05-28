@@ -184,6 +184,25 @@ export default class App {
 
         // Execute the custom JavaScript code after the app is fully ready
         await this.runCustomJavaScriptCode();
+
+        this.loadAgentSidebar();
+    }
+
+    /**
+     * Load the optional AI Co-Author sidebar only after the project document is ready.
+     */
+    async loadAgentSidebar() {
+        try {
+            if (window.eXeLearning?.documentReady?.then) {
+                await window.eXeLearning.documentReady;
+            }
+            const { AgentSidebar } = await import('./ai-agent/AgentSidebar.js');
+            this.aiSidebar = new AgentSidebar(this);
+            this.aiSidebar.init();
+            (window.AppLogger || console).log('[App] AgentSidebar successfully mounted.');
+        } catch (e) {
+            console.error('[App] Failed to load AgentSidebar:', e);
+        }
     }
 
     /**
