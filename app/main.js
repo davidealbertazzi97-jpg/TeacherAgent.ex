@@ -12,6 +12,29 @@ const { initAutoUpdater } = require('./update-manager');
 const contextMenu = require('electron-context-menu').default;
 const { generateHtmlWithAi } = require('./ai-html-generation');
 
+// Linux GPU drivers can crash Electron during startup/shutdown on older Intel
+// stacks. Keep the desktop path stable by default and allow opt-in override.
+if (process.platform === 'linux' && process.env.EXELEARNING_ENABLE_GPU !== '1') {
+    app.disableHardwareAcceleration();
+    app.commandLine.appendSwitch('disable-gpu');
+    app.commandLine.appendSwitch('disable-gpu-compositing');
+    app.commandLine.appendSwitch('disable-features', 'VaapiVideoDecoder,VaapiVideoEncoder');
+}
+if (process.platform === 'linux' && process.env.EXELEARNING_ENABLE_SANDBOX !== '1') {
+    app.commandLine.appendSwitch('no-sandbox');
+}
+
+function requestGracefulShutdown() {
+    if (app.isReady()) {
+        app.quit();
+        return;
+    }
+    app.exit(0);
+}
+
+process.once('SIGTERM', requestGracefulShutdown);
+process.once('SIGINT', requestGracefulShutdown);
+
 // Register custom protocol BEFORE app.whenReady()
 // CRITICAL: This must be called before any window is created
 // Enables Service Workers with custom protocols (supported in Electron 10.x+)

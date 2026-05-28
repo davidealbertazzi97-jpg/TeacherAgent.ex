@@ -42,7 +42,7 @@
     "test:frontend:ui": "vitest --ui --config vitest.config.mts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "electron": "electron ./app",
+    "electron": "electron --no-sandbox ./app",
     "electron:dev": "bun scripts/run-electron-dev.js",
     "start:app-backend": "cross-env APP_ONLINE_MODE=0 APP_PORT=3001 PORT=3001 FILES_DIR=data/ DB_PATH=data/exelearning.db bun run start:dev",
     "electron:dev:wait": "wait-on http://localhost:3001/healthcheck && bun run electron:dev",
