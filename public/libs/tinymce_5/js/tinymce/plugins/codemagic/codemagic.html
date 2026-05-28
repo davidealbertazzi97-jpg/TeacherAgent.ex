@@ -86,6 +86,16 @@
             <input id="ai_model" class="form-control" type="text" placeholder="gpt-4.1-mini" />
             <label for="ai_endpoint_path">%Endpoint_Path%</label>
             <input id="ai_endpoint_path" class="form-control" type="text" placeholder="/chat/completions" />
+            <label for="ai_language">%Language%</label>
+            <select id="ai_language" class="form-control">
+                <option value="auto">%Auto_detect_teacher_language%</option>
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="pt">Português</option>
+            </select>
             <label for="ai_api_key">%API_Key%</label>
             <input id="ai_api_key" class="form-control" type="password" autocomplete="off" />
         </div>

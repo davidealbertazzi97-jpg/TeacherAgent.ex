@@ -120,6 +120,36 @@ describe('ai-html-generation', () => {
         expect(requestBody.messages[0].content).toContain('premium visual prompt engineer');
         expect(requestBody.messages[0].content).toContain('premium HTML educational mini-game');
         expect(requestBody.messages[1].content).toContain('Improve the teacher request');
+        expect(requestBody.messages[1].content).toContain('preserve the teacher language');
+    });
+
+    it('adds explicit language requirements to provider prompts', async () => {
+        const calls: RequestInit[] = [];
+        const fetchImpl = async (_url: string | URL | Request, init?: RequestInit) => {
+            calls.push(init || {});
+            return new Response(
+                JSON.stringify({
+                    choices: [{ message: { content: '<section>Actividad</section>' } }],
+                }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } },
+            );
+        };
+
+        await generateHtmlWithAi(
+            {
+                prompt: 'Crea una actividad',
+                language: 'es',
+                provider: {
+                    apiKey: 'test-key',
+                    baseUrl: 'https://api.example.com/v1',
+                    model: 'model-a',
+                },
+            },
+            { fetchImpl: fetchImpl as typeof fetch },
+        );
+
+        const requestBody = JSON.parse(String(calls[0].body));
+        expect(requestBody.messages[1].content).toContain('language code "es"');
     });
 
     it('calls Anthropic Messages API and returns generated html', async () => {

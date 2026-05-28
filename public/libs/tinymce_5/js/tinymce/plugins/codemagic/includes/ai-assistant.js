@@ -7,6 +7,7 @@
         baseUrl: 'exe-ai-base-url',
         model: 'exe-ai-model',
         endpointPath: 'exe-ai-endpoint-path',
+        language: 'exe-ai-language',
         apiKey: 'exe-ai-api-key'
     };
 
@@ -83,6 +84,7 @@
         baseUrl: PROVIDER_PRESETS['mistral-codestral'].baseUrl,
         endpointPath: PROVIDER_PRESETS['mistral-codestral'].endpointPath,
         model: PROVIDER_PRESETS['mistral-codestral'].model,
+        language: 'auto',
         apiKey: ''
     };
     var MAX_CONVERSATION_CONTENT_LENGTH = 4000;
@@ -122,6 +124,7 @@
             baseUrl: getStorageValue(localStorageRef, STORAGE_KEYS.baseUrl, defaults.baseUrl),
             model: getStorageValue(localStorageRef, STORAGE_KEYS.model, defaults.model),
             endpointPath: getStorageValue(localStorageRef, STORAGE_KEYS.endpointPath, defaults.endpointPath),
+            language: getStorageValue(localStorageRef, STORAGE_KEYS.language, DEFAULTS.language),
             apiKey: getStorageValue(sessionStorageRef, STORAGE_KEYS.apiKey, DEFAULTS.apiKey)
         };
     }
@@ -132,6 +135,7 @@
         setStorageValue(localStorageRef, STORAGE_KEYS.baseUrl, settings.baseUrl);
         setStorageValue(localStorageRef, STORAGE_KEYS.model, settings.model);
         setStorageValue(localStorageRef, STORAGE_KEYS.endpointPath, settings.endpointPath);
+        setStorageValue(localStorageRef, STORAGE_KEYS.language, settings.language || DEFAULTS.language);
         setStorageValue(sessionStorageRef, STORAGE_KEYS.apiKey, settings.apiKey);
     }
 
@@ -197,6 +201,7 @@
             baseUrl: trim(input.baseUrl),
             model: trim(input.model),
             endpointPath: trim(input.endpointPath),
+            language: trim(input.language) || DEFAULTS.language,
             apiKey: trim(input.apiKey)
         };
         var defaults = getProviderDefaults(settings.providerPreset);
@@ -216,6 +221,7 @@
             payload: {
                 task: settings.task,
                 prompt: settings.prompt,
+                language: settings.language,
                 contextHtml: truncate(input.contextHtml, MAX_CONTEXT_HTML_LENGTH),
                 conversation: normalizeConversation(input.conversation),
                 provider: {

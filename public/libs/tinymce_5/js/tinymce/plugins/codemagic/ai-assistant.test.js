@@ -34,6 +34,7 @@ describe('codemagic AI assistant helper', () => {
             baseUrl: 'https://api.mistral.ai/v1',
             endpointPath: '/chat/completions',
             model: 'codestral-latest',
+            language: 'auto',
             apiKey: '',
         });
 
@@ -43,6 +44,7 @@ describe('codemagic AI assistant helper', () => {
             baseUrl: 'https://api.mistral.ai/v1',
             model: 'codestral-latest',
             endpointPath: '/chat/completions',
+            language: 'it',
             apiKey: 'secret-for-test',
         });
 
@@ -51,6 +53,7 @@ describe('codemagic AI assistant helper', () => {
         expect(localStorage.data['exe-ai-base-url']).toBe('https://api.mistral.ai/v1');
         expect(localStorage.data['exe-ai-model']).toBe('codestral-latest');
         expect(localStorage.data['exe-ai-endpoint-path']).toBe('/chat/completions');
+        expect(localStorage.data['exe-ai-language']).toBe('it');
         expect(sessionStorage.data['exe-ai-api-key']).toBe('secret-for-test');
     });
 
@@ -152,6 +155,7 @@ describe('codemagic AI assistant helper', () => {
             baseUrl: ' https://api.openai.com/v1 ',
             model: ' gpt-4.1-mini ',
             endpointPath: ' /chat/completions ',
+            language: ' it ',
             apiKey: ' test-key ',
         });
 
@@ -159,6 +163,7 @@ describe('codemagic AI assistant helper', () => {
         expect(result.payload).toEqual({
             task: 'generate-html',
             prompt: 'make a timeline',
+            language: 'it',
             contextHtml: '<p>Existing</p>',
             conversation: [{ role: 'user', content: 'make it visual' }],
             provider: {
@@ -194,6 +199,7 @@ describe('codemagic AI assistant helper', () => {
             providerPreset: 'google-gemini',
             prompt: 'make a card sort',
             conversation: [{ role: 'bad', content: 'ignored' }],
+            language: 'es',
             apiKey: 'test-key',
         });
 
@@ -206,6 +212,7 @@ describe('codemagic AI assistant helper', () => {
             endpointPath: ':generateContent',
         });
         expect(result.payload.task).toBe('generate-html');
+        expect(result.payload.language).toBe('es');
         expect(result.payload.conversation).toEqual([]);
     });
 
