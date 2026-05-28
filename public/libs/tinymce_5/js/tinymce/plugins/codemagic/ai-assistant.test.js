@@ -176,6 +176,18 @@ describe('codemagic AI assistant helper', () => {
         ]);
     });
 
+    it('truncates oversized context HTML before sending backend payloads', () => {
+        const helper = loadHelper();
+        const result = helper.createRequestPayload({
+            prompt: 'revise it',
+            contextHtml: '<section>' + 'x'.repeat(70000) + '</section>',
+            apiKey: 'test-key',
+        });
+
+        expect(result.payload.contextHtml.length).toBeLessThan(60150);
+        expect(result.payload.contextHtml).toContain('[truncated]');
+    });
+
     it('fills missing provider URL and endpoint from the selected provider defaults', () => {
         const helper = loadHelper();
         const result = helper.createRequestPayload({
@@ -226,6 +238,15 @@ describe('codemagic AI assistant helper', () => {
         ]);
     });
 
+    it('truncates oversized chat turns before sending backend context', () => {
+        const helper = loadHelper();
+        const turns = helper.normalizeConversation([{ role: 'assistant', content: 'x'.repeat(5000) }]);
+
+        expect(turns).toHaveLength(1);
+        expect(turns[0].content.length).toBeLessThan(4050);
+        expect(turns[0].content).toContain('[truncated]');
+    });
+
     it('uses the current selection as context before falling back to source HTML', () => {
         const helper = loadHelper();
         const selected = {
@@ -267,14 +288,14 @@ describe('codemagic AI assistant helper', () => {
         ]);
     });
 
-    it('builds a follow-up prompt from generated HTML for iterative revisions', () => {
+    it('builds a compact follow-up prompt while keeping HTML out of the prompt text', () => {
         const helper = loadHelper();
         const prompt = helper.buildFollowUpPrompt('Make it more visual', ' <section>Draft</section> ');
 
         expect(prompt).toContain('Make it more visual');
-        expect(prompt).toContain('Use this existing HTML as the base');
-        expect(prompt).toContain('```html');
-        expect(prompt).toContain('<section>Draft</section>');
+        expect(prompt).toContain('generated HTML currently attached as revision context');
+        expect(prompt).not.toContain('```html');
+        expect(prompt).not.toContain('<section>Draft</section>');
         expect(helper.buildFollowUpPrompt('Keep only this', '')).toBe('Keep only this');
     });
 });

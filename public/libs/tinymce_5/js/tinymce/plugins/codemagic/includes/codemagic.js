@@ -346,6 +346,7 @@ jQuery(document).ready(function($) {
 		var promptInput = $('#ai_prompt');
 		var generatedInput = $('#ai_generated_html');
 		var enhancePromptButton = $('#ai_enhance_prompt');
+		var undoPromptButton = $('#ai_undo_prompt');
 		var generateButton = $('#ai_generate_html');
 		var insertButton = $('#ai_insert_html');
 		var useGeneratedPromptButton = $('#ai_use_generated_prompt');
@@ -356,6 +357,8 @@ jQuery(document).ready(function($) {
 		var statusElement = $('#ai_status');
 		var aiAssistant = window.CodeMagicAiAssistant;
 		var conversation = [];
+		var previousPromptBeforeEnhance = '';
+		var revisionContextHtml = '';
 
 		if (!baseUrlInput.length || !aiAssistant) return;
 
@@ -406,15 +409,21 @@ jQuery(document).ready(function($) {
 			clearGeneratedButton.prop('disabled', !hasHtml);
 		}
 
+		function setUndoPromptEnabled(isEnabled) {
+			undoPromptButton.prop('disabled', !isEnabled);
+		}
+
 		function setAiBusy(isBusy) {
 			enhancePromptButton.prop('disabled', isBusy);
 			generateButton.prop('disabled', isBusy);
+			undoPromptButton.prop('disabled', isBusy || !previousPromptBeforeEnhance);
 			if (isBusy) {
 				insertButton.prop('disabled', true);
 				useGeneratedPromptButton.prop('disabled', true);
 				clearGeneratedButton.prop('disabled', true);
 			} else {
 				setGeneratedHtml(generatedInput.val());
+				setUndoPromptEnabled(Boolean(previousPromptBeforeEnhance));
 			}
 		}
 
@@ -446,7 +455,7 @@ jQuery(document).ready(function($) {
 				providerPreset: providerPresetInput.val(),
 				providerType: providerTypeInput.val(),
 				prompt: promptInput.val(),
-				contextHtml: aiAssistant.getContextHtml(myCodeMirror),
+				contextHtml: revisionContextHtml || aiAssistant.getContextHtml(myCodeMirror),
 				conversation: conversation,
 				baseUrl: baseUrlInput.val(),
 				model: modelInput.val(),
@@ -470,10 +479,11 @@ jQuery(document).ready(function($) {
 					throw new Error(data.error || translate('AI generation failed.'));
 				}
 				setGeneratedHtml(data.html || '');
+				revisionContextHtml = '';
 				conversation = aiAssistant.normalizeConversation(
 					conversation.concat([
 						{ role: 'user', content: request.settings.prompt },
-						{ role: 'assistant', content: data.html || '' }
+						{ role: 'assistant', content: data.html ? 'Generated HTML is available in the Generated HTML field.' : '' }
 					])
 				);
 				renderConversation();
@@ -506,6 +516,8 @@ jQuery(document).ready(function($) {
 
 			aiAssistant.saveSettings(window.localStorage, window.sessionStorage, request.settings);
 
+			previousPromptBeforeEnhance = request.settings.prompt;
+			setUndoPromptEnabled(true);
 			setAiBusy(true);
 			setStatus(translate('Enhancing prompt...'), '');
 
@@ -543,6 +555,15 @@ jQuery(document).ready(function($) {
 			enhancePrompt();
 		});
 
+		undoPromptButton.click(function(event) {
+			event.preventDefault();
+			if (!previousPromptBeforeEnhance) return;
+			promptInput.val(previousPromptBeforeEnhance);
+			previousPromptBeforeEnhance = '';
+			setUndoPromptEnabled(false);
+			setStatus(translate('Prompt restored.'), 'success');
+		});
+
 		providerTypeInput.change(function() {
 			var currentPreset = providerPresetInput.val();
 			var defaults = aiAssistant.getProviderDefaults(currentPreset);
@@ -576,13 +597,15 @@ jQuery(document).ready(function($) {
 			event.preventDefault();
 			var prompt = aiAssistant.buildFollowUpPrompt(promptInput.val(), generatedInput.val());
 			if (!prompt) return;
+			revisionContextHtml = generatedInput.val();
 			promptInput.val(prompt);
-			setStatus(translate('Generated HTML added to the next prompt.'), 'success');
+			setStatus(translate('Generated HTML attached as revision context.'), 'success');
 		});
 
 		clearGeneratedButton.click(function(event) {
 			event.preventDefault();
 			setGeneratedHtml('');
+			revisionContextHtml = '';
 			setStatus(translate('Generated HTML cleared.'), 'success');
 		});
 

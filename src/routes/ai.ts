@@ -3,8 +3,8 @@ import { generateHtmlWithAi, type AiHtmlGenerationRequest } from '../services/ai
 
 const aiHtmlBody = t.Object({
     task: t.Optional(t.Union([t.Literal('generate-html'), t.Literal('improve-prompt')])),
-    prompt: t.String({ minLength: 1, maxLength: 8000 }),
-    contextHtml: t.Optional(t.String({ maxLength: 20000 })),
+    prompt: t.String({ minLength: 1, maxLength: 64000 }),
+    contextHtml: t.Optional(t.String({ maxLength: 64000 })),
     conversation: t.Optional(
         t.Array(
             t.Object({
