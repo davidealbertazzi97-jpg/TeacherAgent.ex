@@ -359,6 +359,8 @@ jQuery(document).ready(function($) {
 		var conversation = [];
 		var previousPromptBeforeEnhance = '';
 		var revisionContextHtml = '';
+		var lastGeneratedHtml = '';
+		var lastSourceHtmlBeforeChange = '';
 
 		if (!baseUrlInput.length || !aiAssistant) return;
 
@@ -404,9 +406,35 @@ jQuery(document).ready(function($) {
 		function setGeneratedHtml(html) {
 			generatedInput.val(html || '');
 			var hasHtml = Boolean($.trim(html || ''));
+			if (hasHtml) lastGeneratedHtml = html;
 			insertButton.prop('disabled', !hasHtml);
 			useGeneratedPromptButton.prop('disabled', !hasHtml);
 			clearGeneratedButton.prop('disabled', !hasHtml);
+		}
+
+		function getSourceHtml() {
+			if (myCodeMirror && myCodeMirror.doc && typeof myCodeMirror.doc.getValue == 'function') {
+				return myCodeMirror.doc.getValue();
+			}
+			return $('#htmlSource').val() || '';
+		}
+
+		lastSourceHtmlBeforeChange = getSourceHtml();
+
+		function setSourceHtml(html) {
+			if (myCodeMirror && myCodeMirror.doc && typeof myCodeMirror.doc.setValue == 'function') {
+				myCodeMirror.doc.setValue(html || '');
+			} else {
+				$('#htmlSource').val(html || '');
+			}
+		}
+
+		function focusSourceEditor() {
+			if (myCodeMirror && typeof myCodeMirror.focus == 'function') {
+				myCodeMirror.focus();
+			} else {
+				$('#htmlSource').trigger('focus');
+			}
 		}
 
 		function setUndoPromptEnabled(isEnabled) {
@@ -449,13 +477,20 @@ jQuery(document).ready(function($) {
 			return aiAssistant.getEndpoint(parent);
 		}
 
+		function getContextHtml() {
+			if (myCodeMirror && typeof myCodeMirror.getSelection == 'function') {
+				return aiAssistant.getContextHtml(myCodeMirror);
+			}
+			return getSourceHtml();
+		}
+
 		async function generateHtml() {
 			var request = aiAssistant.createRequestPayload({
 				task: 'generate-html',
 				providerPreset: providerPresetInput.val(),
 				providerType: providerTypeInput.val(),
 				prompt: promptInput.val(),
-				contextHtml: revisionContextHtml || aiAssistant.getContextHtml(myCodeMirror),
+				contextHtml: revisionContextHtml || getContextHtml(),
 				conversation: conversation,
 				baseUrl: baseUrlInput.val(),
 				model: modelInput.val(),
@@ -479,7 +514,6 @@ jQuery(document).ready(function($) {
 					throw new Error(data.error || translate('AI generation failed.'));
 				}
 				setGeneratedHtml(data.html || '');
-				revisionContextHtml = '';
 				conversation = aiAssistant.normalizeConversation(
 					conversation.concat([
 						{ role: 'user', content: request.settings.prompt },
@@ -501,7 +535,7 @@ jQuery(document).ready(function($) {
 				providerPreset: providerPresetInput.val(),
 				providerType: providerTypeInput.val(),
 				prompt: promptInput.val(),
-				contextHtml: aiAssistant.getContextHtml(myCodeMirror),
+				contextHtml: getContextHtml(),
 				conversation: conversation,
 				baseUrl: baseUrlInput.val(),
 				model: modelInput.val(),
@@ -589,15 +623,18 @@ jQuery(document).ready(function($) {
 			event.preventDefault();
 			var html = generatedInput.val();
 			if (!html) return;
+			lastSourceHtmlBeforeChange = getSourceHtml();
 			aiAssistant.insertGeneratedHtml(myCodeMirror, html);
+			lastGeneratedHtml = html;
 			setStatus(translate('Generated HTML inserted in source.'), 'success');
 		});
 
 		useGeneratedPromptButton.click(function(event) {
 			event.preventDefault();
-			var prompt = aiAssistant.buildFollowUpPrompt(promptInput.val(), generatedInput.val());
+			var html = revisionContextHtml || lastSourceHtmlBeforeChange || generatedInput.val() || lastGeneratedHtml || getSourceHtml();
+			var prompt = aiAssistant.buildFollowUpPrompt(promptInput.val(), html);
 			if (!prompt) return;
-			revisionContextHtml = generatedInput.val();
+			revisionContextHtml = html;
 			promptInput.val(prompt);
 			setStatus(translate('Generated HTML attached as revision context.'), 'success');
 		});
@@ -612,10 +649,18 @@ jQuery(document).ready(function($) {
 		clearSourceButton.click(function(event) {
 			event.preventDefault();
 			if (!confirm(translate('Clear the source HTML editor?'))) return;
-			myCodeMirror.doc.setValue('');
-			myCodeMirror.focus();
+			lastSourceHtmlBeforeChange = getSourceHtml();
+			setSourceHtml('');
+			focusSourceEditor();
 			setStatus(translate('Source HTML cleared.'), 'success');
 		});
+
+		if (window.location.hash == '#ai') {
+			$('#ai_panel').prop('open', true);
+			setTimeout(function() {
+				promptInput.trigger('focus');
+			}, 100);
+		}
 	}
 	
 	

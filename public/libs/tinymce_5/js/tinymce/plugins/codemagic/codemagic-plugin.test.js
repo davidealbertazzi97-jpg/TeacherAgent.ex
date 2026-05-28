@@ -12,18 +12,22 @@ describe('codemagic plugin - Path Handling', () => {
         // BASE_PATH is prepended (issue #1802). Static mode still wins when its
         // flags are set. Reading basePath directly from config is gone — composeUrl
         // is the single source of truth, identical to the rest of the client.
-        function getCodemagicUrl(config, capabilities, staticModeGlobal, app) {
+        function getCodemagicUrl(config, capabilities, staticModeGlobal, app, openAiPanel = false) {
             let isStaticMode = config?.isStaticMode || config?.isOfflineInstallation;
             if (!isStaticMode) {
                 isStaticMode = capabilities ? !capabilities.storage.remote : staticModeGlobal;
             }
 
+            let url;
             if (isStaticMode) {
-                return './libs/tinymce_5/js/tinymce/plugins/codemagic/codemagic.html';
+                url = './libs/tinymce_5/js/tinymce/plugins/codemagic/codemagic.html';
+            } else {
+                url =
+                    app && typeof app.composeUrl === 'function'
+                        ? app.composeUrl('/api/codemagic-editor/codemagic.html')
+                        : '/api/codemagic-editor/codemagic.html';
             }
-            return app && typeof app.composeUrl === 'function'
-                ? app.composeUrl('/api/codemagic-editor/codemagic.html')
-                : '/api/codemagic-editor/codemagic.html';
+            return openAiPanel ? `${url}#ai` : url;
         }
 
         // Mirror window.eXeLearning.app.composeUrl from public/app/app.js:849-858
@@ -71,6 +75,13 @@ describe('codemagic plugin - Path Handling', () => {
                 const app = makeApp('/aplicaciones/medusa/exelearning');
                 expect(getCodemagicUrl({ basePath: '/ignored' }, null, false, app)).toBe(
                     '/aplicaciones/medusa/exelearning/api/codemagic-editor/codemagic.html',
+                );
+            });
+
+            it('adds the AI hash when opening from the AI menu', () => {
+                const app = makeApp('/aplicaciones/medusa/exelearning');
+                expect(getCodemagicUrl({}, null, false, app, true)).toBe(
+                    '/aplicaciones/medusa/exelearning/api/codemagic-editor/codemagic.html#ai',
                 );
             });
         });
