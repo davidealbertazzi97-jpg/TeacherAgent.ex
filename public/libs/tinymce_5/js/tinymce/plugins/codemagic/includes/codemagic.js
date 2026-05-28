@@ -342,6 +342,7 @@ jQuery(document).ready(function($) {
 		var baseUrlInput = $('#ai_base_url');
 		var modelInput = $('#ai_model');
 		var endpointPathInput = $('#ai_endpoint_path');
+		var languageInput = $('#ai_language');
 		var apiKeyInput = $('#ai_api_key');
 		var promptInput = $('#ai_prompt');
 		var generatedInput = $('#ai_generated_html');
@@ -360,7 +361,9 @@ jQuery(document).ready(function($) {
 		var previousPromptBeforeEnhance = '';
 		var revisionContextHtml = '';
 		var lastGeneratedHtml = '';
+		var lastInsertedHtml = '';
 		var lastSourceHtmlBeforeChange = '';
+		var sourceHtmlAtOpen = '';
 
 		if (!baseUrlInput.length || !aiAssistant) return;
 
@@ -370,6 +373,7 @@ jQuery(document).ready(function($) {
 		baseUrlInput.val(settings.baseUrl);
 		modelInput.val(settings.model);
 		endpointPathInput.val(settings.endpointPath);
+		languageInput.val(settings.language || 'auto');
 		apiKeyInput.val(settings.apiKey);
 		updateApiKeyPlaceholder();
 
@@ -407,9 +411,14 @@ jQuery(document).ready(function($) {
 			generatedInput.val(html || '');
 			var hasHtml = Boolean($.trim(html || ''));
 			if (hasHtml) lastGeneratedHtml = html;
-			insertButton.prop('disabled', !hasHtml);
-			useGeneratedPromptButton.prop('disabled', !hasHtml);
+			insertButton.prop('disabled', !hasHtml || html == lastInsertedHtml);
+			updateUseHtmlAsPromptButton();
 			clearGeneratedButton.prop('disabled', !hasHtml);
+		}
+
+		function updateUseHtmlAsPromptButton() {
+			var hasReusableHtml = Boolean($.trim(revisionContextHtml || lastSourceHtmlBeforeChange || generatedInput.val() || lastGeneratedHtml || getSourceHtml()));
+			useGeneratedPromptButton.prop('disabled', !hasReusableHtml);
 		}
 
 		function getSourceHtml() {
@@ -419,7 +428,10 @@ jQuery(document).ready(function($) {
 			return $('#htmlSource').val() || '';
 		}
 
-		lastSourceHtmlBeforeChange = getSourceHtml();
+		sourceHtmlAtOpen = getSourceHtml();
+		lastSourceHtmlBeforeChange = sourceHtmlAtOpen;
+		revisionContextHtml = sourceHtmlAtOpen;
+		updateUseHtmlAsPromptButton();
 
 		function setSourceHtml(html) {
 			if (myCodeMirror && myCodeMirror.doc && typeof myCodeMirror.doc.setValue == 'function') {
@@ -495,6 +507,7 @@ jQuery(document).ready(function($) {
 				baseUrl: baseUrlInput.val(),
 				model: modelInput.val(),
 				endpointPath: endpointPathInput.val(),
+				language: languageInput.val(),
 				apiKey: apiKeyInput.val()
 			});
 
@@ -540,6 +553,7 @@ jQuery(document).ready(function($) {
 				baseUrl: baseUrlInput.val(),
 				model: modelInput.val(),
 				endpointPath: endpointPathInput.val(),
+				language: languageInput.val(),
 				apiKey: apiKeyInput.val()
 			});
 
@@ -623,9 +637,18 @@ jQuery(document).ready(function($) {
 			event.preventDefault();
 			var html = generatedInput.val();
 			if (!html) return;
+			if (html == lastInsertedHtml) {
+				insertButton.prop('disabled', true);
+				setStatus(translate('Generated HTML was already inserted.'), 'success');
+				return;
+			}
 			lastSourceHtmlBeforeChange = getSourceHtml();
+			revisionContextHtml = lastSourceHtmlBeforeChange;
 			aiAssistant.insertGeneratedHtml(myCodeMirror, html);
 			lastGeneratedHtml = html;
+			lastInsertedHtml = html;
+			insertButton.prop('disabled', true);
+			updateUseHtmlAsPromptButton();
 			setStatus(translate('Generated HTML inserted in source.'), 'success');
 		});
 
@@ -636,13 +659,17 @@ jQuery(document).ready(function($) {
 			if (!prompt) return;
 			revisionContextHtml = html;
 			promptInput.val(prompt);
-			setStatus(translate('Generated HTML attached as revision context.'), 'success');
+			updateUseHtmlAsPromptButton();
+			setStatus(translate('HTML attached as revision context.'), 'success');
 		});
 
 		clearGeneratedButton.click(function(event) {
 			event.preventDefault();
 			setGeneratedHtml('');
-			revisionContextHtml = '';
+			lastGeneratedHtml = '';
+			lastInsertedHtml = '';
+			revisionContextHtml = lastSourceHtmlBeforeChange || sourceHtmlAtOpen || getSourceHtml();
+			updateUseHtmlAsPromptButton();
 			setStatus(translate('Generated HTML cleared.'), 'success');
 		});
 
@@ -650,8 +677,10 @@ jQuery(document).ready(function($) {
 			event.preventDefault();
 			if (!confirm(translate('Clear the source HTML editor?'))) return;
 			lastSourceHtmlBeforeChange = getSourceHtml();
+			revisionContextHtml = lastSourceHtmlBeforeChange;
 			setSourceHtml('');
 			focusSourceEditor();
+			updateUseHtmlAsPromptButton();
 			setStatus(translate('Source HTML cleared.'), 'success');
 		});
 

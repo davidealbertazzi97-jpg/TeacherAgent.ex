@@ -17,6 +17,7 @@ export interface AiConversationTurn {
 export interface AiHtmlGenerationRequest {
     task?: AiGenerationTask;
     prompt: string;
+    language?: string;
     contextHtml?: string;
     conversation?: AiConversationTurn[];
     provider: AiProviderConfig;
@@ -180,7 +181,11 @@ function getProviderBaseUrl(provider: AiProviderConfig): string {
 
 function buildUserPrompt(request: AiHtmlGenerationRequest): string {
     const task = getTask(request);
+    const language = request.language?.trim();
     return [
+        language && language !== 'auto'
+            ? `Language requirement: write the improved prompt, all learner-facing text, labels, feedback, dialogues, theory blocks, and questions in language code "${language}".`
+            : 'Language requirement: preserve the teacher language detected from the request and existing HTML. Do not switch language unless the teacher asks.',
         task === 'improve-prompt'
             ? 'Improve the teacher request before HTML generation. Preserve the educational intent, but make the prompt substantially more specific, premium, visual, interactive, and implementation-ready.'
             : null,

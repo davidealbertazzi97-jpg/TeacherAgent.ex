@@ -79,5 +79,33 @@ describe('Electron AI HTML generation bridge', () => {
         expect(JSON.parse(String(calls[0].body)).temperature).toBe(0.5);
         expect(String(calls[0].body)).toContain('premium visual prompt engineer');
         expect(String(calls[0].body)).toContain('premium HTML educational mini-game');
+        expect(String(calls[0].body)).toContain('preserve the teacher language');
+    });
+
+    it('passes explicit language requirements through the desktop bridge', async () => {
+        const calls: RequestInit[] = [];
+        const fetchImpl = async (_url: string | URL | Request, init?: RequestInit) => {
+            calls.push(init || {});
+            return new Response(JSON.stringify({ choices: [{ message: { content: '<p>Ciao</p>' } }] }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        };
+
+        await generateHtmlWithAi(
+            {
+                prompt: 'Crea un gioco',
+                language: 'it',
+                provider: {
+                    apiKey: 'test-key',
+                    baseUrl: 'https://api.example.com/v1',
+                    model: 'desktop-model',
+                },
+            },
+            { fetchImpl },
+        );
+
+        const requestBody = JSON.parse(String(calls[0].body));
+        expect(requestBody.messages[1].content).toContain('language code "it"');
     });
 });

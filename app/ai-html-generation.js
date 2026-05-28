@@ -98,7 +98,11 @@ function getProviderBaseUrl(provider) {
 
 function buildUserPrompt(request) {
     const conversation = Array.isArray(request.conversation) ? request.conversation : [];
+    const language = request.language && String(request.language).trim();
     return [
+        language && language !== 'auto'
+            ? `Language requirement: write the improved prompt, all learner-facing text, labels, feedback, dialogues, theory blocks, and questions in language code "${language}".`
+            : 'Language requirement: preserve the teacher language detected from the request and existing HTML. Do not switch language unless the teacher asks.',
         getTask(request) === 'improve-prompt'
             ? 'Improve the teacher request before HTML generation. Preserve the educational intent, but make the prompt substantially more specific, premium, visual, interactive, and implementation-ready.'
             : null,
