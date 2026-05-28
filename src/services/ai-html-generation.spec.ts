@@ -81,6 +81,8 @@ describe('ai-html-generation', () => {
         expect(calls[0].method).toBe('POST');
         expect((calls[0].headers as Record<string, string>).Authorization).toBe('Bearer test-key');
         expect(String(calls[0].body)).toContain('Recent chat, if useful');
+        expect(String(calls[0].body)).toContain('interactive educational HTML mini-games');
+        expect(String(calls[0].body)).toContain('game state, scoring or progress');
     });
 
     it('uses the same provider to improve prompts before HTML generation', async () => {
@@ -111,6 +113,7 @@ describe('ai-html-generation', () => {
         const requestBody = JSON.parse(String(calls[0].body));
         expect(result.prompt).toBe('Premium prompt with animated theory cards and questions.');
         expect(requestBody.messages[0].content).toContain('premium visual prompt engineer');
+        expect(requestBody.messages[0].content).toContain('premium HTML educational mini-game');
         expect(requestBody.messages[1].content).toContain('Improve the teacher request');
     });
 
