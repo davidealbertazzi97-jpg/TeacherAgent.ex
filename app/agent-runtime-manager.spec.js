@@ -20,10 +20,11 @@ describe('Desktop Agent Runtime Manager', () => {
 
     it('lists available agent runtimes correctly', () => {
         const runtimes = listAgentRuntimes();
-        expect(runtimes).toHaveLength(1);
+        expect(runtimes).toHaveLength(4);
         expect(runtimes[0].id).toBe('opencode');
         expect(runtimes[0].name).toBe('OpenCode CLI');
-        expect(runtimes[0].path).toBe('/home/asus/.opencode/bin/opencode');
+        expect(runtimes[1].id).toBe('codex');
+        expect(runtimes[2].id).toBe('claude');
     });
 
     it('validates only opencode as runtime in this milestone', () => {
@@ -50,7 +51,7 @@ describe('Desktop Agent Runtime Manager', () => {
             };
         };
 
-        // Seed dirty environment with keys that must be scrubbed
+        // Seed dirty environment with keys
         process.env.OPENAI_API_KEY = 'secret-api-key-xyz';
         process.env.AWS_SECRET_ACCESS_KEY = 'secret-aws-key-123';
 
@@ -67,8 +68,8 @@ describe('Desktop Agent Runtime Manager', () => {
         expect(capturedOptions).not.toBeNull();
         const capturedEnv = capturedOptions.env;
 
-        // Verify secret keys are fully scrubbed and missing
-        expect(capturedEnv.OPENAI_API_KEY).toBeUndefined();
+        // Verify sensitive keys are fully scrubbed and missing, while AI keys are allowed
+        expect(capturedEnv.OPENAI_API_KEY).toBe('secret-api-key-xyz');
         expect(capturedEnv.AWS_SECRET_ACCESS_KEY).toBeUndefined();
 
         // Verify agent secure credentials are fully populated

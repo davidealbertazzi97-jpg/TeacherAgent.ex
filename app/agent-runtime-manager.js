@@ -8,7 +8,10 @@ let activeProcess = null;
 // Command allowlist constraint
 const COMMAND_ALLOWLIST = [
     'opencode',
-    '/home/asus/.opencode/bin/opencode'
+    '/home/asus/.opencode/bin/opencode',
+    'codex',
+    'claude',
+    'custom'
 ];
 
 /**
@@ -37,11 +40,35 @@ function listAgentRuntimes() {
             name: 'OpenCode CLI',
             path: '/home/asus/.opencode/bin/opencode',
             available: false
+        },
+        {
+            id: 'codex',
+            name: 'Codex CLI',
+            path: 'codex',
+            available: false
+        },
+        {
+            id: 'claude',
+            name: 'Claude Code',
+            path: 'claude',
+            available: false
+        },
+        {
+            id: 'custom',
+            name: 'Custom Command',
+            path: 'custom',
+            available: true
         }
     ];
 
     if (isCommandAvailable('/home/asus/.opencode/bin/opencode') || isCommandAvailable('opencode')) {
         runtimes[0].available = true;
+    }
+    if (isCommandAvailable('codex')) {
+        runtimes[1].available = true;
+    }
+    if (isCommandAvailable('claude')) {
+        runtimes[2].available = true;
     }
 
     return runtimes;
@@ -50,23 +77,40 @@ function listAgentRuntimes() {
 /**
  * Spawn the coding agent process securely.
  */
-function startAgentRuntime({ runtime, projectId, prompt }, onOutput, onClose) {
-    if (runtime !== 'opencode') {
-        throw new Error(`Agent runtime "${runtime}" is not allowed or supported in this milestone.`);
+function startAgentRuntime({ runtime, projectId, prompt, customCommand }, onOutput, onClose) {
+    const allowedRuntimes = ['opencode', 'codex', 'claude', 'custom'];
+    if (!allowedRuntimes.includes(runtime)) {
+        throw new Error(`Agent runtime "${runtime}" is not allowed or supported.`);
     }
 
     if (activeProcess) {
         throw new Error('An active agent runtime is already running. Stop it first.');
     }
 
-    // Enforce allowed binary search paths
-    let binary = 'opencode';
-    if (isCommandAvailable('/home/asus/.opencode/bin/opencode')) {
-        binary = '/home/asus/.opencode/bin/opencode';
-    } else if (isCommandAvailable('opencode')) {
-        binary = 'opencode';
-    } else {
-        throw new Error('OpenCode CLI binary not found on the host system.');
+    // Determine binary based on selected agent runtime
+    let binary = '';
+    if (runtime === 'opencode') {
+        if (isCommandAvailable('/home/asus/.opencode/bin/opencode')) {
+            binary = '/home/asus/.opencode/bin/opencode';
+        } else if (isCommandAvailable('opencode')) {
+            binary = 'opencode';
+        } else {
+            throw new Error('OpenCode CLI binary not found on the host system.');
+        }
+    } else if (runtime === 'codex') {
+        if (isCommandAvailable('codex')) {
+            binary = 'codex';
+        } else {
+            throw new Error('Codex CLI binary not found on the host system.');
+        }
+    } else if (runtime === 'claude') {
+        if (isCommandAvailable('claude')) {
+            binary = 'claude';
+        } else {
+            throw new Error('Claude Code binary not found on the host system.');
+        }
+    } else if (runtime === 'custom') {
+        binary = customCommand || 'node';
     }
 
     // Retrieve dynamic websocket bridge loopback configurations
@@ -77,9 +121,13 @@ function startAgentRuntime({ runtime, projectId, prompt }, onOutput, onClose) {
 
     const { wsUrl, token } = config;
 
-    // Environmental variables scrubbing
+    // Environmental variables scrubbing (retaining essential AI API keys for agent execution)
     const scrubbedEnv = {};
-    const allowedEnvKeys = ['PATH', 'HOME', 'USER', 'SHELL', 'LANG', 'LC_ALL'];
+    const allowedEnvKeys = [
+        'PATH', 'HOME', 'USER', 'SHELL', 'LANG', 'LC_ALL',
+        'MISTRAL_API_KEY', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GEMINI_API_KEY',
+        'OLLAMA_HOST', 'OLLAMA_PORT'
+    ];
     for (const key of allowedEnvKeys) {
         if (process.env[key]) {
             scrubbedEnv[key] = process.env[key];
@@ -90,12 +138,13 @@ function startAgentRuntime({ runtime, projectId, prompt }, onOutput, onClose) {
     scrubbedEnv['EXE_AGENT_PROJECT_ID'] = projectId;
     scrubbedEnv['EXE_AGENT_PROMPT'] = prompt;
     scrubbedEnv['EXE_AGENT_OPENCODE_BIN'] = binary;
+    scrubbedEnv['EXE_AGENT_RUNTIME'] = runtime;
     scrubbedEnv['EXE_AGENT_WORKDIR'] = '/home/asus/exelearning-code';
     scrubbedEnv['ELECTRON_RUN_AS_NODE'] = '1';
 
     const adapterPath = path.join(__dirname, 'opencode-ws-adapter.js');
 
-    console.log(`[RuntimeManager] Spawning OpenCode WebSocket adapter for projectId: ${projectId}`);
+    console.log(`[RuntimeManager] Spawning AI Agent adapter [${runtime}] for projectId: ${projectId}`);
 
     activeProcess = child_process.spawn(process.execPath, [adapterPath], {
         cwd: '/home/asus/exelearning-code',
