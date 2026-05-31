@@ -163,7 +163,7 @@ async function main() {
     const wsUrl = process.env.EXE_AGENT_WS_URL;
     const token = process.env.EXE_AGENT_TOKEN;
     const projectId = process.env.EXE_AGENT_PROJECT_ID || 'default-project';
-    const userPrompt = process.env.EXE_AGENT_PROMPT || 'Create an eXeLearning project.';
+    const userPrompt = process.env.EXE_AGENT_PROMPT || '';
     const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
     const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
     const senderName = `${capitalizedRuntime} Adapter`;
