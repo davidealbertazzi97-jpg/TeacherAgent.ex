@@ -10,29 +10,21 @@ export class AgentSidebar {
     this.toolBus = new AgentToolBus(this.projectManager);
     this.registry = new IdeviceRegistry(this.toolBus);
 
-    // Core WS Bridges
     this.wsBridge = new AgentWebSocketBridge(this);
     this.activeFakeAgent = null;
     this.token = '';
 
     this.active = false;
-    this.mode = 'power-user'; // 'safe', 'assisted', 'autonomous', 'power-user'
-    this.selectedAgent = 'fake'; // 'opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom', 'fake'
+    this.mode = 'power-user'; // Hardcode mode to bypass restrictions
+    this.selectedAgent = null;
 
     this.container = null;
     this.toggleBtn = null;
-    this.chatBody = null;
     this.textarea = null;
     this.logBody = null;
-    this.connectionIndicator = null;
-    this.startFakeBtn = null;
-    this.agentSelector = null;
-    this.modeSelector = null;
+    this.agentListContainer = null;
   }
 
-  /**
-   * Initialise the sidebar UI components and styles.
-   */
   init() {
     this.injectStyles();
     this.createToggleButton();
@@ -43,9 +35,6 @@ export class AgentSidebar {
     this.logSystem('AI Control Center Sidebar loaded.', 'success');
   }
 
-  /**
-   * Inject the CSS stylesheet utilizing composeUrl when available.
-   */
   injectStyles() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -59,21 +48,16 @@ export class AgentSidebar {
     document.head.appendChild(link);
   }
 
-  /**
-   * Create the floating toggle button.
-   */
   createToggleButton() {
+    // Replaced circular floating bubble with a clean vertical tab on the right edge
     const btn = document.createElement('button');
     btn.className = 'agent-sidebar-toggle-btn';
     btn.setAttribute('title', 'AI Power Agent Control Panel');
-    btn.innerHTML = '<icon>psychology</icon>';
+    btn.innerHTML = '<span>AI AGENT</span>';
     document.body.appendChild(btn);
     this.toggleBtn = btn;
   }
 
-  /**
-   * Create the sidebar panel HTML markup.
-   */
   createSidebarMarkup() {
     const sidebar = document.createElement('div');
     sidebar.className = 'agent-sidebar-container';
@@ -81,106 +65,41 @@ export class AgentSidebar {
       <div class="agent-sidebar-header">
         <div class="agent-sidebar-title-wrapper">
           <icon class="agent-header-icon">psychology</icon>
-          <div>
-            <div class="agent-sidebar-title">AI Control Center</div>
-            <div class="agent-conn-status" id="agentConnStatus">
-              <span class="status-dot disconnected"></span> Offline
-            </div>
-          </div>
+          <div class="agent-sidebar-title">AI Control Center</div>
         </div>
         <button class="agent-sidebar-close-btn" title="Close Panel">&times;</button>
       </div>
 
-      <!-- Agent Profile & Connection Panel -->
-      <div class="agent-settings-panel">
-        <div class="agent-dropdown-row">
-          <select class="agent-dropdown">
-            <option value="fake">Fake Agent (Simulation)</option>
-            <option value="opencode">OpenCode CLI</option>
-            <option value="codex">Codex CLI</option>
-            <option value="claude">Claude Code</option>
-            <option value="qwen">Qwen Coder CLI</option>
-            <option value="antigravity">Antigravity CLI</option>
-            <option value="custom">Custom Command</option>
-          </select>
-          <button class="agent-connect-btn">Connect</button>
-        </div>
+      <div class="agent-instructions-panel">
+        <label class="agent-label">Instructions / Goal for the AI Agent:</label>
+        <textarea class="agent-textarea" placeholder="Describe what the AI should build (e.g. 'Crea una pagina sulle stelle con un quiz')..."></textarea>
+      </div>
 
-        <div class="agent-actions-row">
-          <button class="agent-action-btn" id="startFakeBtn">
-            <icon>play_arrow</icon> Start Fake Job
-          </button>
-          <button class="agent-action-btn" id="stopAgentBtn">
-            <icon>stop</icon> Stop
-          </button>
-        </div>
-
-        <!-- Collapsible Credentials & Settings Subpanel -->
-        <div class="agent-credentials-wrapper">
-          <details class="agent-credentials-details">
-            <summary>🔑 AI Credentials & Model Settings</summary>
-            <div class="agent-credentials-subpanel">
-              <div class="agent-input-field">
-                <label>Provider:</label>
-                <select class="agent-provider-select">
-                  <option value="openai">OpenAI</option>
-                  <option value="anthropic">Anthropic</option>
-                  <option value="gemini">Gemini</option>
-                  <option value="mistral">Mistral</option>
-                  <option value="ollama">Ollama (Local)</option>
-                </select>
-              </div>
-              <div class="agent-input-field">
-                <label class="agent-key-label">API Key:</label>
-                <input type="password" class="agent-key-input" placeholder="Enter API Key..." />
-              </div>
-            </div>
-          </details>
+      <div class="agent-list-panel">
+        <div class="agent-list-title">Detected Agents & Connection:</div>
+        <div class="agent-list-items" id="agentListItems">
+          <!-- Dynamically populated rows -->
         </div>
       </div>
 
-      <!-- Mode Selector -->
-      <div class="agent-sidebar-mode-selector">
-        <button class="agent-mode-btn" data-mode="safe">Safe</button>
-        <button class="agent-mode-btn" data-mode="assisted">Assisted</button>
-        <button class="agent-mode-btn" data-mode="autonomous">Auto</button>
-        <button class="agent-mode-btn active" data-mode="power-user">PowerUser</button>
-      </div>
-
-      <!-- Chat panel -->
-      <div class="agent-sidebar-chat" id="agentChatBody">
-        <div class="agent-message assistant">
-          Welcome to the eXeLearning AI Control Center. Click <strong>Connect</strong> to link an agent, then send your instructions directly from this chat panel!
+      <div class="agent-sidebar-logs-panel">
+        <div class="agent-log-header">
+          <span>Execution logs:</span>
+          <button class="agent-clear-logs-btn" title="Clear Logs">Clear</button>
         </div>
-      </div>
-
-      <!-- Log console & input -->
-      <div class="agent-sidebar-input-form">
         <div class="agent-log-container" id="agentLogBody">
-          <div class="agent-log-line success">System: Ready.</div>
-        </div>
-        <div class="agent-input-container">
-          <textarea class="agent-textarea" placeholder="Type a message to the AI agent..."></textarea>
-          <button class="agent-send-btn" id="agentSendBtn" title="Send Message">
-            <icon>send</icon>
-          </button>
+          <div class="agent-log-line success">System: Ready. Enter instructions above and connect an agent to begin!</div>
         </div>
       </div>
     `;
 
     document.body.appendChild(sidebar);
     this.container = sidebar;
-    this.chatBody = sidebar.querySelector('#agentChatBody');
     this.textarea = sidebar.querySelector('.agent-textarea');
     this.logBody = sidebar.querySelector('#agentLogBody');
-    this.connectionIndicator = sidebar.querySelector('#agentConnStatus');
-    this.agentSelector = sidebar.querySelector('.agent-dropdown');
-    this.startFakeBtn = sidebar.querySelector('#startFakeBtn');
+    this.agentListContainer = sidebar.querySelector('#agentListItems');
   }
 
-  /**
-   * Register Electron main process stdout/stderr stream listeners if available.
-   */
   registerDesktopEventListeners() {
     if (window.electronAPI && typeof window.electronAPI.onAgentRuntimeOutput === 'function') {
       window.electronAPI.onAgentRuntimeOutput(({ data, type }) => {
@@ -200,235 +119,41 @@ export class AgentSidebar {
           this.logSystem(`Agent CLI closed with exit code: ${code}`, 'warn');
         }
         this.wsBridge.disconnect();
-        const connBtn = this.container.querySelector('.agent-connect-btn');
-        if (connBtn) connBtn.innerText = 'Connect';
+        this.selectedAgent = null;
+        this.renderAgentList();
       });
     }
   }
 
-  /**
-   * Bind DOM interactivity.
-   */
   bindDOMEvents() {
-    // Credentials UI Setup
-    const providerSelect = this.container.querySelector('.agent-provider-select');
-    const keyInput = this.container.querySelector('.agent-key-input');
-    const keyLabel = this.container.querySelector('.agent-key-label');
-
-    const savedProvider = localStorage.getItem('exe_agent_provider') || 'openai';
-    providerSelect.value = savedProvider;
-
-    const updateKeyInputPlaceholder = (provider) => {
-      if (provider === 'ollama') {
-        keyLabel.innerText = 'Ollama Host:';
-        keyInput.setAttribute('placeholder', 'e.g., http://127.0.0.1:11434');
-      } else {
-        keyLabel.innerText = 'API Key:';
-        keyInput.setAttribute('placeholder', 'Enter API Key...');
-      }
-      const savedKey = localStorage.getItem('exe_agent_key_' + provider) || '';
-      keyInput.value = savedKey;
-    };
-
-    updateKeyInputPlaceholder(savedProvider);
-
-    providerSelect.addEventListener('change', (e) => {
-      const prov = e.target.value;
-      localStorage.setItem('exe_agent_provider', prov);
-      updateKeyInputPlaceholder(prov);
-      this.logSystem(`Provider switched to: ${prov}`);
-    });
-
-    keyInput.addEventListener('input', (e) => {
-      const prov = providerSelect.value;
-      localStorage.setItem('exe_agent_key_' + prov, e.target.value.trim());
-    });
-
-    // Open/Close toggle
     this.toggleBtn.addEventListener('click', () => this.toggle());
     this.container.querySelector('.agent-sidebar-close-btn').addEventListener('click', () => this.hide());
 
-    // Agent dropdown select
-    this.agentSelector.addEventListener('change', (e) => {
-      this.selectedAgent = e.target.value;
-      this.logSystem(`Selected agent: ${this.selectedAgent}`);
-
-      // Toggle Fake button visibility
-      if (this.selectedAgent === 'fake') {
-        this.startFakeBtn.style.display = 'flex';
-      } else {
-        this.startFakeBtn.style.display = 'none';
-        this.logSystem(`${this.selectedAgent.charAt(0).toUpperCase() + this.selectedAgent.slice(1)} selected. Click Connect to link.`, 'info');
-      }
+    this.container.querySelector('.agent-clear-logs-btn').addEventListener('click', () => {
+      this.logBody.innerHTML = '';
+      this.logSystem('System: Logs cleared.', 'info');
     });
 
-    // Connection button
-    const connBtn = this.container.querySelector('.agent-connect-btn');
-    connBtn.addEventListener('click', async () => {
-      if (this.wsBridge.connected) {
-        if (this.activeFakeAgent) {
-          this.activeFakeAgent.stop();
-          this.activeFakeAgent = null;
-        }
-        // Also stop real process runtime if running
-        if (window.electronAPI && typeof window.electronAPI.stopAgentRuntime === 'function') {
-          await window.electronAPI.stopAgentRuntime();
-        }
-        this.wsBridge.disconnect();
-        connBtn.innerText = 'Connect';
-      } else {
-        const pId = window.eXeLearning?.projectId || 'default-project';
-        await this.wsBridge.connect(pId);
-        if (this.wsBridge.connected) {
-          connBtn.innerText = 'Disconnect';
-
-          // Spawn real AI Agent runtime in desktop Electron mode
-          const realAgents = ['opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom'];
-          if (realAgents.includes(this.selectedAgent)) {
-            if (window.electronAPI && typeof window.electronAPI.startAgentRuntime === 'function') {
-              const promptGoal = this.textarea.value.trim();
-              if (promptGoal) {
-                this.textarea.value = '';
-                this.appendLocalBubble('Teacher', 'user', promptGoal);
-              }
-              this.logSystem(`Launching real ${this.selectedAgent} Agent process...`);
-
-              const payload = {
-                runtime: this.selectedAgent,
-                projectId: pId,
-                prompt: promptGoal,
-                provider: providerSelect.value,
-                apiKey: keyInput.value.trim()
-              };
-              if (this.selectedAgent === 'custom') {
-                payload.customCommand = prompt('Insert custom agent command:', 'node');
-              }
-
-              const res = await window.electronAPI.startAgentRuntime(payload);
-              if (res && res.error) {
-                this.logSystem(`Failed to launch ${this.selectedAgent}: ${res.error}`, 'error');
-                this.wsBridge.disconnect();
-                connBtn.innerText = 'Connect';
-              } else {
-                this.logSystem(`${this.selectedAgent} Agent spawned securely from main process.`, 'success');
-              }
-            } else {
-              this.logSystem(`Real agent execution is only supported in Desktop Electron mode.`, 'error');
-              this.wsBridge.disconnect();
-              connBtn.innerText = 'Connect';
-            }
-          }
-        }
-      }
-    });
-
-    // Start Fake Job
-    this.startFakeBtn.addEventListener('click', () => {
-      if (!this.wsBridge.connected) {
-        this.logSystem('Please connect the tool bridge before starting a job.', 'error');
-        return;
-      }
-      if (this.activeFakeAgent) {
-        this.logSystem('A simulated agent is already active. Stop it first.', 'warn');
-        return;
-      }
-      this.logSystem('Starting simulated Fake Agent...');
-      const pId = window.eXeLearning?.projectId || 'default-project';
-
-      // Spawns a separate WebSocket connection representing the external agent passing the session token
-      const fakeBrokerUrl = this.agentBridgeConfig?.wsUrl || this.wsBridge.wsUrl;
-      this.activeFakeAgent = new FakeAgent(pId, this.token, (logMsg) => {
-        this.logSystem(logMsg, 'info');
-      }, fakeBrokerUrl);
-      this.activeFakeAgent.start();
-    });
-
-    // Stop button
-    this.container.querySelector('#stopAgentBtn').addEventListener('click', async () => {
-      this.logSystem('Stop command issued. Disconnecting active broker connection.', 'warn');
-      if (this.activeFakeAgent) {
-        this.activeFakeAgent.stop();
-        this.activeFakeAgent = null;
-      }
-      if (window.electronAPI && typeof window.electronAPI.stopAgentRuntime === 'function') {
-        await window.electronAPI.stopAgentRuntime();
-      }
-      this.wsBridge.disconnect();
-      connBtn.innerText = 'Connect';
-    });
-
-    // Mode switching
-    const modeBtns = this.container.querySelectorAll('.agent-mode-btn');
-    modeBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        modeBtns.forEach(b => b.classList.remove('active'));
-        const targetBtn = e.currentTarget;
-        targetBtn.classList.add('active');
-        this.mode = targetBtn.dataset.mode;
-        this.logSystem(`Workspace permissions set to: ${this.mode.toUpperCase()}`);
-      });
-    });
-
-    // Chat send button
-    this.container.querySelector('#agentSendBtn').addEventListener('click', () => this.handleSendMessage());
-
-    // Send on Enter (without Shift)
+    // Send prompt on Enter inside the textarea
     this.textarea.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        this.handleSendMessage();
+        if (this.wsBridge.connected) {
+          this.handleSendMessage();
+        } else {
+          this.logSystem('Please connect an agent to send instructions.', 'warn');
+        }
       }
     });
   }
 
-  /**
-   * Toggles the sidebar visibility.
-   */
-  toggle() {
-    if (this.active) this.hide();
-    else this.show();
-  }
-
-  /**
-   * Show sidebar.
-   */
-  show() {
-    this.active = true;
-    this.container.classList.add('active');
-  }
-
-  /**
-   * Hide sidebar.
-   */
-  hide() {
-    this.active = false;
-    this.container.classList.remove('active');
-  }
-
-  /**
-   * Updates the visual connection dot in the header.
-   */
-  updateConnectionStatus(isConnected) {
-    if (isConnected) {
-      this.connectionIndicator.innerHTML = '<span class="status-dot connected"></span> Active Relay';
-      this.connectionIndicator.className = 'agent-conn-status active';
-    } else {
-      this.connectionIndicator.innerHTML = '<span class="status-dot disconnected"></span> Offline';
-      this.connectionIndicator.className = 'agent-conn-status';
-    }
-  }
-
-  /**
-   * Chat message submit
-   */
   async handleSendMessage() {
     const text = this.textarea.value.trim();
     if (!text) return;
 
     this.textarea.value = '';
-    this.appendLocalBubble('Teacher', 'user', text);
+    this.logSystem(`[Istruzione inviata] ${text}`, 'success');
 
-    // Relays message over WS to the connected external agent
     if (this.wsBridge.connected) {
       this.wsBridge.sendResponse({
         type: 'agent.chat',
@@ -437,40 +162,186 @@ export class AgentSidebar {
         content: text,
         timestamp: Date.now()
       });
-    } else {
-      setTimeout(() => {
-        this.appendLocalBubble('System', 'assistant', 'Offline mode. Connect to relay to stream inputs to external agent.');
-      }, 500);
     }
   }
 
-  /**
-   * Append bubble to DOM.
-   */
-  appendLocalBubble(sender, role, content) {
-    const bubble = document.createElement('div');
-    bubble.className = `agent-message ${role}`;
-
-    const senderHeader = document.createElement('strong');
-    senderHeader.style.display = 'block';
-    senderHeader.style.fontSize = '11px';
-    senderHeader.style.marginBottom = '4px';
-    senderHeader.style.opacity = '0.7';
-    senderHeader.innerText = sender;
-
-    const bodyContent = document.createElement('span');
-    bodyContent.innerText = content;
-
-    bubble.appendChild(senderHeader);
-    bubble.appendChild(bodyContent);
-
-    this.chatBody.appendChild(bubble);
-    this.chatBody.scrollTop = this.chatBody.scrollHeight;
+  toggle() {
+    if (this.active) this.hide();
+    else this.show();
   }
 
-  /**
-   * Log formatted streams to console.
-   */
+  show() {
+    this.active = true;
+    this.container.classList.add('active');
+    this.renderAgentList();
+  }
+
+  hide() {
+    this.active = false;
+    this.container.classList.remove('active');
+  }
+
+  updateConnectionStatus(isConnected) {
+    // Kept for backward compatibility with AgentWebSocketBridge.js
+  }
+
+  async renderAgentList() {
+    const container = this.agentListContainer;
+    if (!container) return;
+    container.innerHTML = '<div style="padding: 10px; text-align: center; color: var(--agent-text-muted); font-size: 11px;">Scanning host runtimes...</div>';
+
+    let runtimes = [];
+    if (window.electronAPI && typeof window.electronAPI.listAgentRuntimes === 'function') {
+      try {
+        runtimes = await window.electronAPI.listAgentRuntimes();
+      } catch (err) {
+        this.logSystem(`Failed to scan host runtimes: ${err.message}`, 'error');
+      }
+    }
+
+    // Append simulated Fake Agent
+    runtimes.unshift({
+      id: 'fake',
+      name: 'Fake Agent (Simulation)',
+      available: true
+    });
+
+    container.innerHTML = '';
+
+    runtimes.forEach(agent => {
+      const row = document.createElement('div');
+      row.className = 'agent-list-item';
+
+      const info = document.createElement('div');
+      info.className = 'agent-info';
+
+      const dot = document.createElement('span');
+      
+      let dotClass = 'unavailable';
+      let statusTitle = 'Not Installed';
+
+      if (this.wsBridge.connected && this.selectedAgent === agent.id) {
+        dotClass = 'connected';
+        statusTitle = 'Connected';
+      } else if (agent.available) {
+        dotClass = 'available'; // Represents "Blue dot" styled as available
+        statusTitle = 'Available';
+      }
+
+      dot.className = `status-dot ${dotClass}`;
+      dot.setAttribute('title', statusTitle);
+
+      const name = document.createElement('span');
+      name.className = 'agent-name';
+      name.innerText = agent.name;
+
+      info.appendChild(dot);
+      info.appendChild(name);
+
+      const actionBtn = document.createElement('button');
+      actionBtn.className = 'agent-item-connect-btn';
+      
+      if (this.wsBridge.connected && this.selectedAgent === agent.id) {
+        actionBtn.innerText = 'Disconnect';
+        actionBtn.classList.add('disconnect');
+      } else {
+        actionBtn.innerText = 'Connect';
+        if (!agent.available) {
+          actionBtn.disabled = true;
+          actionBtn.style.opacity = '0.5';
+          actionBtn.style.cursor = 'not-allowed';
+        }
+      }
+
+      actionBtn.addEventListener('click', () => this.handleAgentConnection(agent));
+
+      row.appendChild(info);
+      row.appendChild(actionBtn);
+      container.appendChild(row);
+    });
+  }
+
+  async handleAgentConnection(agent) {
+    if (this.wsBridge.connected && this.selectedAgent === agent.id) {
+      this.logSystem(`Disconnecting from ${agent.name}...`, 'warn');
+      if (this.activeFakeAgent) {
+        this.activeFakeAgent.stop();
+        this.activeFakeAgent = null;
+      }
+      if (window.electronAPI && typeof window.electronAPI.stopAgentRuntime === 'function') {
+        await window.electronAPI.stopAgentRuntime();
+      }
+      this.wsBridge.disconnect();
+      this.selectedAgent = null;
+      this.renderAgentList();
+    } else {
+      if (this.wsBridge.connected) {
+        this.logSystem('Disconnecting active agent session first...', 'warn');
+        if (this.activeFakeAgent) {
+          this.activeFakeAgent.stop();
+          this.activeFakeAgent = null;
+        }
+        if (window.electronAPI && typeof window.electronAPI.stopAgentRuntime === 'function') {
+          await window.electronAPI.stopAgentRuntime();
+        }
+        this.wsBridge.disconnect();
+      }
+
+      this.selectedAgent = agent.id;
+      const pId = window.eXeLearning?.projectId || 'default-project';
+      
+      this.logSystem(`Connecting tool bridge for ${agent.name}...`);
+      await this.wsBridge.connect(pId);
+
+      if (this.wsBridge.connected) {
+        this.logSystem(`Tool bridge established. Waking up clean session of ${agent.name}...`, 'success');
+        
+        const promptGoal = this.textarea.value.trim();
+        if (promptGoal) {
+          this.textarea.value = '';
+          this.logSystem(`[CLI Prompt Payload] ${promptGoal}`, 'success');
+        }
+
+        if (agent.id === 'fake') {
+          const fakeBrokerUrl = this.agentBridgeConfig?.wsUrl || this.wsBridge.wsUrl;
+          this.activeFakeAgent = new FakeAgent(pId, this.token, (logMsg) => {
+            this.logSystem(logMsg, 'info');
+          }, fakeBrokerUrl);
+          this.activeFakeAgent.start();
+        } else {
+          if (window.electronAPI && typeof window.electronAPI.startAgentRuntime === 'function') {
+            const payload = {
+              runtime: agent.id,
+              projectId: pId,
+              prompt: promptGoal
+            };
+            if (agent.id === 'custom') {
+              payload.customCommand = prompt('Insert custom agent command:', 'node');
+            }
+            
+            const res = await window.electronAPI.startAgentRuntime(payload);
+            if (res && res.error) {
+              this.logSystem(`Failed to launch ${agent.name}: ${res.error}`, 'error');
+              this.wsBridge.disconnect();
+              this.selectedAgent = null;
+            } else {
+              this.logSystem(`${agent.name} session awakened cleanly and active.`, 'success');
+            }
+          } else {
+            this.logSystem('Real agent CLI execution is only supported in Desktop Electron mode.', 'error');
+            this.wsBridge.disconnect();
+            this.selectedAgent = null;
+          }
+        }
+        this.renderAgentList();
+      }
+    }
+  }
+
+  appendLocalBubble(sender, role, content) {
+    this.logSystem(`[${sender}] ${content}`, role === 'user' ? 'success' : 'info');
+  }
+
   logSystem(text, type = 'info') {
     const line = document.createElement('div');
     line.className = `agent-log-line ${type}`;
