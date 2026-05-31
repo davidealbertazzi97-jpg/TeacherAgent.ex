@@ -76,6 +76,11 @@ function runAgent(message) {
         const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
 
         let args = ['run', message];
+        if (runtimeName === 'opencode') {
+            args = ['run', '--dangerously-skip-permissions', message];
+        } else if (runtimeName === 'goose') {
+            args = ['run', '--no-profile', '-t', message];
+        }
 
         childProcess.execFile(
             binary,

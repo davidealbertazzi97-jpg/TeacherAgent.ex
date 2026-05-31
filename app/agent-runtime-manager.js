@@ -11,6 +11,8 @@ const COMMAND_ALLOWLIST = [
     '/home/asus/.opencode/bin/opencode',
     'codex',
     'claude',
+    'goose',
+    '/home/asus/.local/bin/goose',
     'qwen',
     'antigravity',
     'custom'
@@ -56,6 +58,12 @@ function listAgentRuntimes() {
             available: false
         },
         {
+            id: 'goose',
+            name: 'Goose CLI (Esterno)',
+            path: 'goose',
+            available: false
+        },
+        {
             id: 'qwen',
             name: 'Qwen Coder CLI',
             path: 'qwen',
@@ -84,11 +92,14 @@ function listAgentRuntimes() {
     if (isCommandAvailable('claude')) {
         runtimes[2].available = true;
     }
-    if (isCommandAvailable('qwen')) {
+    if (isCommandAvailable('/home/asus/.local/bin/goose') || isCommandAvailable('goose')) {
         runtimes[3].available = true;
     }
-    if (isCommandAvailable('antigravity')) {
+    if (isCommandAvailable('qwen')) {
         runtimes[4].available = true;
+    }
+    if (isCommandAvailable('antigravity')) {
+        runtimes[5].available = true;
     }
 
     return runtimes;
@@ -98,7 +109,7 @@ function listAgentRuntimes() {
  * Spawn the coding agent process securely.
  */
 function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider, apiKey }, onOutput, onClose) {
-    const allowedRuntimes = ['opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom'];
+    const allowedRuntimes = ['opencode', 'codex', 'claude', 'goose', 'qwen', 'antigravity', 'custom'];
     if (!allowedRuntimes.includes(runtime)) {
         throw new Error(`Agent runtime "${runtime}" is not allowed or supported.`);
     }
@@ -128,6 +139,14 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
             binary = 'claude';
         } else {
             throw new Error('Claude Code binary not found on the host system.');
+        }
+    } else if (runtime === 'goose') {
+        if (isCommandAvailable('/home/asus/.local/bin/goose')) {
+            binary = '/home/asus/.local/bin/goose';
+        } else if (isCommandAvailable('goose')) {
+            binary = 'goose';
+        } else {
+            throw new Error('Goose AI Agent CLI binary not found on the host system.');
         }
     } else if (runtime === 'qwen') {
         if (isCommandAvailable('qwen')) {

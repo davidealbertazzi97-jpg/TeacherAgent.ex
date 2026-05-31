@@ -325,7 +325,34 @@ Domain-specific guidance lives in `.agents/skills/*/SKILL.md`.
 | [i18n](.agents/skills/i18n/SKILL.md) | Adding/modifying translations |
 | [api-v1](.agents/skills/api-v1/SKILL.md) | External REST API v1 endpoints |
 
-## 12. Deep-Dive Documentation
+## 12. External Agent Control via CLI (Out-of-Box Control)
+
+If you are an external coding agent (like OpenCode, Claude Code, Goose CLI, or another process) running inside this repository in a separate terminal:
+You can seamlessly control the running instance of eXeLearning by invoking our dedicated CLI controller script. This allows you to inspect and modify eXeLearning directly without implementing complex WebSocket protocol logic!
+
+### Discovery & Control
+The Electron main process automatically maintains the active local WebSocket port and token in `app/bridge-config.json` inside the repository.
+The CLI script discovers this file automatically and communicates with the active eXeLearning instance.
+
+**Example usage:**
+```bash
+# 1. Read the complete page structure of the open project
+node scripts/exelearning-cli.js read_project_structure
+
+# 2. Create a new page under the root node
+node scripts/exelearning-cli.js create_page '{"title": "Marmotte Alpine", "parentId": null}'
+
+# 3. List all registered iDevices on the system
+node scripts/exelearning-cli.js read_available_idevices
+
+# 4. Insert an interactive HTML iDevice with custom markup inside a block
+node scripts/exelearning-cli.js create_html_idevice '{"pageId": "page-uuid", "blockId": "block-uuid", "title": "Marmot Quiz", "html": "<h1>Interactive Quiz</h1>...", "ideviceType": "FreeTextIdevice"}'
+```
+
+Every command prints the response in standard stringified JSON format to stdout and exits. If the command fails, it outputs the error to stderr and exits with code 1.
+Use this to fully automate eXeLearning directly from your terminal session!
+
+## 13. Deep-Dive Documentation
 
 | Topic | File |
 |-------|------|
