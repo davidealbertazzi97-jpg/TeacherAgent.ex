@@ -27,6 +27,7 @@ import { platformIntegrationRoutes } from './routes/platform-integration';
 import { aiRoutes } from './routes/ai';
 import { apiV1Routes } from './routes/api/v1';
 import { uploadSessionRoutes } from './routes/upload-session';
+import { agentBridgeRoutes } from './websocket/agent-bridge';
 import {
     createWebSocketRoutes,
     initialize as initWebSocket,
@@ -610,6 +611,7 @@ if (registerRootRoutes) {
         .use(yjsRoutes)
         .use(apiV1Routes)
         .use(uploadSessionRoutes)
+        .use(agentBridgeRoutes)
         .use(createWebSocketRoutes())
         .get('/api', () => ({
             name: 'eXeLearning API',

@@ -150,6 +150,9 @@
     "disableDefaultIgnoredFiles": true,
     "files": [
       "main.js",
+      "agent-broker.js",
+      "agent-runtime-manager.js",
+      "opencode-ws-adapter.js",
       "preload.js",
       "save-utils.js",
       "update-manager.js",

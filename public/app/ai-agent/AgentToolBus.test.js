@@ -6,11 +6,18 @@ describe('AgentToolBus', () => {
   let toolBus;
 
   beforeEach(() => {
+    // Mock global Yjs functions
+    window.Y = {
+      encodeStateAsUpdate: vi.fn().mockReturnValue('mock-binary-update'),
+      applyUpdate: vi.fn()
+    };
+
     // Standard mock structure for Yjs-based ProjectManager
     mockProjectManager = {
       isYjsEnabled: vi.fn().mockReturnValue(true),
       getYjsBridge: vi.fn().mockReturnValue({
         getDocumentManager: vi.fn().mockReturnValue({
+          yDoc: {},
           getNavigation: vi.fn().mockReturnValue({
             length: 2,
             get: vi.fn().mockImplementation((index) => {

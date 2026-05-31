@@ -6,6 +6,7 @@ export class AgentToolBus {
    */
   constructor(projectManager) {
     this.projectManager = projectManager || window.eXeLearning?.app?.project;
+    this.localSnapshot = null;
   }
 
   /**
