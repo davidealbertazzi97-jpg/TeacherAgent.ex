@@ -33,6 +33,12 @@ export class AgentSidebar {
     this.registerDesktopEventListeners();
 
     this.logSystem('AI Control Center Sidebar loaded.', 'success');
+
+    // Automatically connect the WebSocket tool bridge to enable out-of-the-box external agent control
+    const pId = window.eXeLearning?.projectId || 'default-project';
+    this.wsBridge.connect(pId).catch(err => {
+      console.warn('[AgentSidebar] Auto-connect bridge failed:', err);
+    });
   }
 
   injectStyles() {
