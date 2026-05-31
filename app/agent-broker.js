@@ -1,6 +1,8 @@
 const ws = require('ws');
 const http = require('http');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 let wss = null;
 let server = null;
@@ -8,6 +10,29 @@ let agentSessionToken = null;
 let activePort = null;
 
 const rooms = new Map(); // projectId -> { client, agents: Set }
+
+/**
+ * Automatically update the bridge-config.json discovery file inside the workspace.
+ */
+function updateBridgeConfig() {
+    if (!activePort || !agentSessionToken) {
+        return;
+    }
+    try {
+        const configPath = path.join(__dirname, 'bridge-config.json');
+        const activeProjects = Array.from(rooms.keys()).filter(id => rooms.get(id).client !== null);
+        const configData = {
+            wsUrl: `ws://127.0.0.1:${activePort}/agent-bridge`,
+            token: agentSessionToken,
+            projectId: activeProjects[0] || 'default-project',
+            activeProjects: activeProjects
+        };
+        fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
+        console.log(`[AgentBroker] Updated bridge config at ${configPath} (active projects: ${activeProjects.join(', ')})`);
+    } catch (e) {
+        console.error(`[AgentBroker] Failed to update bridge config: ${e.message}`);
+    }
+}
 
 /**
  * Start local WebSocket broker for the desktop app.
@@ -70,6 +95,7 @@ function startAgentBroker() {
             
             if (role === 'client') {
                 room.client = wsConn;
+                updateBridgeConfig();
             } else if (role === 'agent') {
                 room.agents.add(wsConn);
             }
@@ -121,6 +147,7 @@ function startAgentBroker() {
                 if (role === 'client') {
                     if (roomData.client === wsConn) {
                         roomData.client = null;
+                        updateBridgeConfig();
                     }
                 } else if (role === 'agent') {
                     roomData.agents.delete(wsConn);
@@ -138,6 +165,7 @@ function startAgentBroker() {
         server.listen(0, '127.0.0.1', () => {
             activePort = server.address().port;
             console.log(`[AgentBroker] Local desktop agent broker active on 127.0.0.1:${activePort}`);
+            updateBridgeConfig();
             resolve();
         });
     });
@@ -172,6 +200,16 @@ function stopAgentBroker() {
     activePort = null;
     agentSessionToken = null;
     rooms.clear();
+
+    try {
+        const configPath = path.join(__dirname, 'bridge-config.json');
+        if (fs.existsSync(configPath)) {
+            fs.unlinkSync(configPath);
+            console.log(`[AgentBroker] Cleaned up bridge config at ${configPath}`);
+        }
+    } catch (e) {
+        console.error(`[AgentBroker] Failed to remove bridge config during shutdown: ${e.message}`);
+    }
 }
 
 module.exports = {

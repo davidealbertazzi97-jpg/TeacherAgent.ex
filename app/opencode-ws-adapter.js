@@ -33,14 +33,17 @@ function extractJson(text) {
     const fenced = text.match(/```json\s*([\s\S]*?)```/i);
     const raw = fenced ? fenced[1] : text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
     if (!raw || raw.trim() === '') {
-        throw new Error('OpenCode did not return a JSON object');
+        throw new Error('Agent did not return a JSON object');
     }
     return JSON.parse(raw);
 }
 
-function runOpenCode(message) {
+function runAgent(message) {
     return new Promise((resolve, reject) => {
         const binary = process.env.EXE_AGENT_OPENCODE_BIN || 'opencode';
+        const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
+        const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
+
         childProcess.execFile(
             binary,
             ['run', message],
@@ -62,10 +65,18 @@ function runOpenCode(message) {
     });
 }
 
-function buildOpenCodePrompt({ userPrompt, structure, idevices, history }) {
-    return `You are controlling eXeLearning through a WebSocket tool adapter.
+function buildAgentPrompt({ userPrompt, structure, idevices, history }) {
+    const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
+    const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
 
-You do NOT edit files directly. You create the course by returning JSON tool calls.
+    return `You are ${capitalizedRuntime}, a powerful AI agent controlling eXeLearning through a WebSocket tool adapter.
+
+As a high-capability agent running on the host system, you have access to external resources. You are expected and encouraged to:
+1. Search the internet using your local capabilities/APIs to find accurate, high-quality, up-to-date scientific or educational information.
+2. Find public image URLs or assets on the internet (e.g., Unsplash, Wikimedia Commons, open educational resources) to visually illustrate the course content.
+3. Embed these images using standard HTML <img> tags with public absolute URLs or Base64 data strings directly in the HTML code of the iDevices.
+
+You do NOT edit files directly. You build and organize the entire eXeLearning course interactively by returning JSON tool calls.
 
 Available tools:
 - read_project_structure {}
@@ -107,7 +118,7 @@ ${JSON.stringify(idevices, null, 2)}
 Previous tool results:
 ${JSON.stringify(history.slice(-20), null, 2)}
 
-Generate rich educational content. For HTML iDevices, produce complete premium interactive HTML/CSS/JS when useful.`;
+Generate rich, modern, and beautiful educational content. For HTML iDevices, produce complete premium interactive HTML/CSS/JS with vibrant design styles and relevant media assets.`;
 }
 
 async function main() {
@@ -115,6 +126,9 @@ async function main() {
     const token = process.env.EXE_AGENT_TOKEN;
     const projectId = process.env.EXE_AGENT_PROJECT_ID || 'default-project';
     const userPrompt = process.env.EXE_AGENT_PROMPT || 'Create an eXeLearning project.';
+    const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
+    const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
+    const senderName = `${capitalizedRuntime} Adapter`;
 
     if (!wsUrl || !token) {
         throw new Error('Missing EXE_AGENT_WS_URL or EXE_AGENT_TOKEN');
@@ -129,9 +143,9 @@ async function main() {
 
     send(socket, {
         type: 'agent.chat',
-        sender: 'OpenCode Adapter',
+        sender: senderName,
         role: 'assistant',
-        content: 'OpenCode adapter connected. Starting autonomous project build.',
+        content: `${senderName} connected. Starting autonomous project build.`,
         timestamp: Date.now()
     });
 
@@ -143,18 +157,18 @@ async function main() {
         send(socket, {
             type: 'agent.log',
             level: 'info',
-            message: `OpenCode planning iteration ${iteration + 1}/${MAX_ITERATIONS}`,
+            message: `${capitalizedRuntime} planning iteration ${iteration + 1}/${MAX_ITERATIONS}`,
             timestamp: Date.now()
         });
 
-        const prompt = buildOpenCodePrompt({ userPrompt, structure, idevices, history });
-        const output = await runOpenCode(prompt);
+        const prompt = buildAgentPrompt({ userPrompt, structure, idevices, history });
+        const output = await runAgent(prompt);
         const decision = extractJson(output);
 
         if (decision.final_report) {
             send(socket, {
                 type: 'agent.chat',
-                sender: 'OpenCode Adapter',
+                sender: senderName,
                 role: 'assistant',
                 content: decision.final_report,
                 timestamp: Date.now()
@@ -167,9 +181,9 @@ async function main() {
         if (calls.length === 0) {
             send(socket, {
                 type: 'agent.chat',
-                sender: 'OpenCode Adapter',
+                sender: senderName,
                 role: 'assistant',
-                content: 'FINAL REPORT: OpenCode returned no tool calls. No further actions were taken.',
+                content: `FINAL REPORT: ${capitalizedRuntime} returned no tool calls. No further actions were taken.`,
                 timestamp: Date.now()
             });
             socket.close();
@@ -192,7 +206,7 @@ async function main() {
     const validation = await callTool(socket, 'validate_project');
     send(socket, {
         type: 'agent.chat',
-        sender: 'OpenCode Adapter',
+        sender: senderName,
         role: 'assistant',
         content: `FINAL REPORT: Iteration limit reached. Validation: ${JSON.stringify(validation.result || validation.error)}`,
         timestamp: Date.now()
@@ -201,6 +215,8 @@ async function main() {
 }
 
 main().catch((error) => {
-    console.error(`[OpenCodeAdapter] ${error.stack || error.message}`);
+    const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
+    const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
+    console.error(`[${capitalizedRuntime}Adapter] ${error.stack || error.message}`);
     process.exit(1);
 });

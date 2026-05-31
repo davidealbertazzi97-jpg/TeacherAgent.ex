@@ -99,9 +99,9 @@ export class AgentSidebar {
           <select class="agent-dropdown">
             <option value="fake">Fake Agent (Simulation)</option>
             <option value="opencode">OpenCode CLI</option>
-            <option value="codex">Codex CLI (Stub)</option>
-            <option value="claude">Claude Code (Stub)</option>
-            <option value="custom">Custom JSON-RPC</option>
+            <option value="codex">Codex CLI</option>
+            <option value="claude">Claude Code</option>
+            <option value="custom">Custom Command</option>
           </select>
           <button class="agent-connect-btn">Connect</button>
         </div>
@@ -229,33 +229,40 @@ export class AgentSidebar {
         if (this.wsBridge.connected) {
           connBtn.innerText = 'Disconnect';
 
-          // Spawn real OpenCode runtime in desktop Electron mode
-          if (this.selectedAgent === 'opencode') {
+          // Spawn real AI Agent runtime in desktop Electron mode
+          const realAgents = ['opencode', 'codex', 'claude', 'custom'];
+          if (realAgents.includes(this.selectedAgent)) {
             if (window.electronAPI && typeof window.electronAPI.startAgentRuntime === 'function') {
               const promptGoal = this.textarea.value.trim();
               if (!promptGoal) {
-                this.logSystem('Type the OpenCode task in the chat box before connecting.', 'error');
+                this.logSystem(`Type the AI Agent task in the chat box before connecting.`, 'error');
                 this.wsBridge.disconnect();
                 connBtn.innerText = 'Connect';
                 return;
               }
               this.textarea.value = '';
               this.appendLocalBubble('Teacher', 'user', promptGoal);
-              this.logSystem('Launching real OpenCode Agent child process...');
-              const res = await window.electronAPI.startAgentRuntime({
-                runtime: 'opencode',
+              this.logSystem(`Launching real ${this.selectedAgent} Agent process...`);
+
+              const payload = {
+                runtime: this.selectedAgent,
                 projectId: pId,
                 prompt: promptGoal
-              });
+              };
+              if (this.selectedAgent === 'custom') {
+                payload.customCommand = prompt('Inserisci il comando personalizzato dell\'agente:', 'node');
+              }
+
+              const res = await window.electronAPI.startAgentRuntime(payload);
               if (res && res.error) {
-                this.logSystem(`Failed to launch OpenCode: ${res.error}`, 'error');
+                this.logSystem(`Failed to launch ${this.selectedAgent}: ${res.error}`, 'error');
                 this.wsBridge.disconnect();
                 connBtn.innerText = 'Connect';
               } else {
-                this.logSystem('OpenCode Agent spawned securely from main process.', 'success');
+                this.logSystem(`${this.selectedAgent} Agent spawned securely from main process.`, 'success');
               }
             } else {
-              this.logSystem('Real OpenCode execution is only supported in Desktop Electron mode.', 'error');
+              this.logSystem(`Real agent execution is only supported in Desktop Electron mode.`, 'error');
               this.wsBridge.disconnect();
               connBtn.innerText = 'Connect';
             }
