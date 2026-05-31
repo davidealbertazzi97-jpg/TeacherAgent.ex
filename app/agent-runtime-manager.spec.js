@@ -20,13 +20,16 @@ describe('Desktop Agent Runtime Manager', () => {
 
     it('lists available agent runtimes correctly', () => {
         const runtimes = listAgentRuntimes();
-        expect(runtimes).toHaveLength(6);
+        expect(runtimes).toHaveLength(7);
         expect(runtimes[0].id).toBe('opencode');
         expect(runtimes[0].name).toBe('OpenCode CLI');
         expect(runtimes[1].id).toBe('codex');
         expect(runtimes[2].id).toBe('claude');
-        expect(runtimes[3].id).toBe('qwen');
-        expect(runtimes[4].id).toBe('antigravity');
+        expect(runtimes[3].id).toBe('goose');
+        expect(runtimes[3].name).toBe('Goose CLI (Esterno)');
+        expect(runtimes[4].id).toBe('qwen');
+        expect(runtimes[5].id).toBe('antigravity');
+        expect(runtimes[6].id).toBe('custom');
     });
 
     it('validates only opencode as runtime in this milestone', () => {
