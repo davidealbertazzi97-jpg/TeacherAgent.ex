@@ -30,12 +30,43 @@ function callTool(socket, tool, args = {}) {
 }
 
 function extractJson(text) {
+    // 1. Try to extract JSON from markdown fences first
     const fenced = text.match(/```json\s*([\s\S]*?)```/i);
-    const raw = fenced ? fenced[1] : text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
-    if (!raw || raw.trim() === '') {
-        throw new Error('Agent did not return a JSON object');
+    if (fenced && fenced[1].trim()) {
+        try {
+            return JSON.parse(fenced[1].trim());
+        } catch (_) {}
     }
-    return JSON.parse(raw);
+
+    // 2. Look for the outermost matching curly braces {} in the text
+    const start = text.indexOf('{');
+    const end = text.lastIndexOf('}');
+    if (start !== -1 && end !== -1 && end > start) {
+        const candidate = text.slice(start, end + 1);
+        try {
+            return JSON.parse(candidate);
+        } catch (_) {
+            // Try matching nested brace pairs sequentially
+            let bracketCount = 0;
+            let firstBrace = -1;
+            for (let i = 0; i < text.length; i++) {
+                if (text[i] === '{') {
+                    if (bracketCount === 0) firstBrace = i;
+                    bracketCount++;
+                } else if (text[i] === '}') {
+                    bracketCount--;
+                    if (bracketCount === 0 && firstBrace !== -1) {
+                        try {
+                            const subCandidate = text.slice(firstBrace, i + 1);
+                            return JSON.parse(subCandidate);
+                        } catch (_) {}
+                    }
+                }
+            }
+        }
+    }
+
+    throw new Error('Agent did not return a valid JSON object');
 }
 
 function runAgent(message) {
@@ -44,9 +75,11 @@ function runAgent(message) {
         const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
         const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
 
+        let args = ['run', message];
+
         childProcess.execFile(
             binary,
-            ['run', message],
+            args,
             {
                 cwd: process.env.EXE_AGENT_WORKDIR || '/home/asus/exelearning-code',
                 env: process.env,
@@ -65,9 +98,13 @@ function runAgent(message) {
     });
 }
 
-function buildAgentPrompt({ userPrompt, structure, idevices, history }) {
+function buildAgentPrompt({ userPrompt, structure, idevices, history, chatHistory }) {
     const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
     const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
+
+    const formattedDialogue = chatHistory && chatHistory.length > 0
+        ? `\nActive dialogue with the Teacher (newest instructions override previous goals):\n${chatHistory.map(c => `[Teacher]: ${c.content}`).join('\n')}\n`
+        : '';
 
     return `You are ${capitalizedRuntime}, a powerful AI agent controlling eXeLearning through a WebSocket tool adapter.
 
@@ -109,7 +146,7 @@ When the project is complete, return:
 
 User goal:
 ${userPrompt}
-
+${formattedDialogue}
 Current project structure:
 ${JSON.stringify(structure, null, 2)}
 
@@ -142,6 +179,23 @@ async function main() {
         socket.once('error', reject);
     });
 
+    const chatHistory = [];
+
+    // Global real-time chat dialogue listener to intercept teacher responses
+    socket.on('message', (data) => {
+        try {
+            const message = JSON.parse(data.toString());
+            if (message && message.type === 'agent.chat' && message.role === 'user') {
+                console.log(`[WSAdapter] Captured teacher chat input: "${message.content}"`);
+                chatHistory.push({
+                    role: 'user',
+                    content: message.content,
+                    timestamp: message.timestamp || Date.now()
+                });
+            }
+        } catch (_) {}
+    });
+
     send(socket, {
         type: 'agent.chat',
         sender: senderName,
@@ -154,7 +208,23 @@ async function main() {
     let structure = (await callTool(socket, 'read_project_structure')).result;
     const idevices = (await callTool(socket, 'read_available_idevices')).result;
 
+    // Wait until there is a user prompt (from Electron payload) OR a chat message arrives from the teacher
+    if (!userPrompt && chatHistory.length === 0) {
+        send(socket, {
+            type: 'agent.log',
+            level: 'info',
+            message: 'Waiting for your instructions in the chat to begin...',
+            timestamp: Date.now()
+        });
+        while (!userPrompt && chatHistory.length === 0) {
+            await new Promise(res => setTimeout(res, 1000));
+        }
+    }
+
     for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+        // Sleep briefly to yield execution and let teacher type inputs in real-time
+        await new Promise(res => setTimeout(res, 2000));
+
         send(socket, {
             type: 'agent.log',
             level: 'info',
@@ -162,8 +232,9 @@ async function main() {
             timestamp: Date.now()
         });
 
-        const prompt = buildAgentPrompt({ userPrompt, structure, idevices, history });
+        const prompt = buildAgentPrompt({ userPrompt, structure, idevices, history, chatHistory });
         const output = await runAgent(prompt);
+        console.log(`[WSAdapter] Raw Agent Output:\n${output}\n`);
         const decision = extractJson(output);
 
         if (decision.final_report) {

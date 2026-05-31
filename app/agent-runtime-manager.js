@@ -11,6 +11,8 @@ const COMMAND_ALLOWLIST = [
     '/home/asus/.opencode/bin/opencode',
     'codex',
     'claude',
+    'qwen',
+    'antigravity',
     'custom'
 ];
 
@@ -54,6 +56,18 @@ function listAgentRuntimes() {
             available: false
         },
         {
+            id: 'qwen',
+            name: 'Qwen Coder CLI',
+            path: 'qwen',
+            available: false
+        },
+        {
+            id: 'antigravity',
+            name: 'Antigravity CLI',
+            path: 'antigravity',
+            available: false
+        },
+        {
             id: 'custom',
             name: 'Custom Command',
             path: 'custom',
@@ -70,6 +84,12 @@ function listAgentRuntimes() {
     if (isCommandAvailable('claude')) {
         runtimes[2].available = true;
     }
+    if (isCommandAvailable('qwen')) {
+        runtimes[3].available = true;
+    }
+    if (isCommandAvailable('antigravity')) {
+        runtimes[4].available = true;
+    }
 
     return runtimes;
 }
@@ -77,8 +97,8 @@ function listAgentRuntimes() {
 /**
  * Spawn the coding agent process securely.
  */
-function startAgentRuntime({ runtime, projectId, prompt, customCommand }, onOutput, onClose) {
-    const allowedRuntimes = ['opencode', 'codex', 'claude', 'custom'];
+function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider, apiKey }, onOutput, onClose) {
+    const allowedRuntimes = ['opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom'];
     if (!allowedRuntimes.includes(runtime)) {
         throw new Error(`Agent runtime "${runtime}" is not allowed or supported.`);
     }
@@ -109,6 +129,18 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand }, onOutp
         } else {
             throw new Error('Claude Code binary not found on the host system.');
         }
+    } else if (runtime === 'qwen') {
+        if (isCommandAvailable('qwen')) {
+            binary = 'qwen';
+        } else {
+            throw new Error('Qwen Coder CLI binary not found on the host system.');
+        }
+    } else if (runtime === 'antigravity') {
+        if (isCommandAvailable('antigravity')) {
+            binary = 'antigravity';
+        } else {
+            throw new Error('Antigravity CLI binary not found on the host system.');
+        }
     } else if (runtime === 'custom') {
         binary = customCommand || 'node';
     }
@@ -133,6 +165,22 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand }, onOutp
             scrubbedEnv[key] = process.env[key];
         }
     }
+
+    // Dynamically override API keys based on user inputs in eXeLearning UI Configuration panel
+    if (provider && apiKey) {
+        if (provider === 'openai') {
+            scrubbedEnv['OPENAI_API_KEY'] = apiKey;
+        } else if (provider === 'anthropic') {
+            scrubbedEnv['ANTHROPIC_API_KEY'] = apiKey;
+        } else if (provider === 'gemini') {
+            scrubbedEnv['GEMINI_API_KEY'] = apiKey;
+        } else if (provider === 'mistral') {
+            scrubbedEnv['MISTRAL_API_KEY'] = apiKey;
+        } else if (provider === 'ollama') {
+            scrubbedEnv['OLLAMA_HOST'] = apiKey || 'http://127.0.0.1:11434';
+        }
+    }
+
     scrubbedEnv['EXE_AGENT_WS_URL'] = wsUrl;
     scrubbedEnv['EXE_AGENT_TOKEN'] = token;
     scrubbedEnv['EXE_AGENT_PROJECT_ID'] = projectId;

@@ -17,7 +17,7 @@ export class AgentSidebar {
 
     this.active = false;
     this.mode = 'power-user'; // 'safe', 'assisted', 'autonomous', 'power-user'
-    this.selectedAgent = 'fake'; // 'opencode', 'codex', 'claude', 'custom', 'fake'
+    this.selectedAgent = 'fake'; // 'opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom', 'fake'
 
     this.container = null;
     this.toggleBtn = null;
@@ -40,7 +40,7 @@ export class AgentSidebar {
     this.bindDOMEvents();
     this.registerDesktopEventListeners();
 
-    this.logSystem('eXeLearning Power Agent Sidebar loaded.', 'success');
+    this.logSystem('AI Control Center Sidebar loaded.', 'success');
   }
 
   /**
@@ -65,8 +65,8 @@ export class AgentSidebar {
   createToggleButton() {
     const btn = document.createElement('button');
     btn.className = 'agent-sidebar-toggle-btn';
-    btn.setAttribute('title', 'AI Power Agent Panel');
-    btn.innerHTML = '<icon>terminal</icon>';
+    btn.setAttribute('title', 'AI Power Agent Control Panel');
+    btn.innerHTML = '<icon>psychology</icon>';
     document.body.appendChild(btn);
     this.toggleBtn = btn;
   }
@@ -80,39 +80,62 @@ export class AgentSidebar {
     sidebar.innerHTML = `
       <div class="agent-sidebar-header">
         <div class="agent-sidebar-title-wrapper">
-          <div class="agent-sidebar-avatar-glow">
-            <icon>psychology</icon>
-          </div>
+          <icon class="agent-header-icon">psychology</icon>
           <div>
-            <div class="agent-sidebar-title">eXe Power Agent</div>
+            <div class="agent-sidebar-title">AI Control Center</div>
             <div class="agent-conn-status" id="agentConnStatus">
               <span class="status-dot disconnected"></span> Offline
             </div>
           </div>
         </div>
-        <button class="agent-sidebar-close-btn">&times;</button>
+        <button class="agent-sidebar-close-btn" title="Close Panel">&times;</button>
       </div>
 
       <!-- Agent Profile & Connection Panel -->
-      <div class="agent-settings-panel" style="padding: 12px 20px; border-bottom: 1px solid var(--agent-glass-border); display: flex; flex-direction: column; gap: 8px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+      <div class="agent-settings-panel">
+        <div class="agent-dropdown-row">
           <select class="agent-dropdown">
             <option value="fake">Fake Agent (Simulation)</option>
             <option value="opencode">OpenCode CLI</option>
             <option value="codex">Codex CLI</option>
             <option value="claude">Claude Code</option>
+            <option value="qwen">Qwen Coder CLI</option>
+            <option value="antigravity">Antigravity CLI</option>
             <option value="custom">Custom Command</option>
           </select>
           <button class="agent-connect-btn">Connect</button>
         </div>
 
-        <div style="display: flex; gap: 8px;">
+        <div class="agent-actions-row">
           <button class="agent-action-btn" id="startFakeBtn">
-            <icon style="font-size: 13px;">play_arrow</icon> Start Fake Job
+            <icon>play_arrow</icon> Start Fake Job
           </button>
           <button class="agent-action-btn" id="stopAgentBtn">
-            <icon style="font-size: 13px;">stop</icon> Stop
+            <icon>stop</icon> Stop
           </button>
+        </div>
+
+        <!-- Collapsible Credentials & Settings Subpanel -->
+        <div class="agent-credentials-wrapper">
+          <details class="agent-credentials-details">
+            <summary>🔑 AI Credentials & Model Settings</summary>
+            <div class="agent-credentials-subpanel">
+              <div class="agent-input-field">
+                <label>Provider:</label>
+                <select class="agent-provider-select">
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                  <option value="gemini">Gemini</option>
+                  <option value="mistral">Mistral</option>
+                  <option value="ollama">Ollama (Local)</option>
+                </select>
+              </div>
+              <div class="agent-input-field">
+                <label class="agent-key-label">API Key:</label>
+                <input type="password" class="agent-key-input" placeholder="Enter API Key..." />
+              </div>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -127,7 +150,7 @@ export class AgentSidebar {
       <!-- Chat panel -->
       <div class="agent-sidebar-chat" id="agentChatBody">
         <div class="agent-message assistant">
-          Welcome to eXeLearning Power Agent Workspace. Select "Fake Agent", click "Connect", and press "Start Fake Job" to test the JSON-RPC tool bridge simulation!
+          Welcome to the eXeLearning AI Control Center. Click <strong>Connect</strong> to link an agent, then send your instructions directly from this chat panel!
         </div>
       </div>
 
@@ -137,8 +160,8 @@ export class AgentSidebar {
           <div class="agent-log-line success">System: Ready.</div>
         </div>
         <div class="agent-input-container">
-          <textarea class="agent-textarea" placeholder="Type a chat message to the external agent..."></textarea>
-          <button class="agent-send-btn" id="agentSendBtn">
+          <textarea class="agent-textarea" placeholder="Type a message to the AI agent..."></textarea>
+          <button class="agent-send-btn" id="agentSendBtn" title="Send Message">
             <icon>send</icon>
           </button>
         </div>
@@ -187,6 +210,40 @@ export class AgentSidebar {
    * Bind DOM interactivity.
    */
   bindDOMEvents() {
+    // Credentials UI Setup
+    const providerSelect = this.container.querySelector('.agent-provider-select');
+    const keyInput = this.container.querySelector('.agent-key-input');
+    const keyLabel = this.container.querySelector('.agent-key-label');
+
+    const savedProvider = localStorage.getItem('exe_agent_provider') || 'openai';
+    providerSelect.value = savedProvider;
+
+    const updateKeyInputPlaceholder = (provider) => {
+      if (provider === 'ollama') {
+        keyLabel.innerText = 'Ollama Host:';
+        keyInput.setAttribute('placeholder', 'e.g., http://127.0.0.1:11434');
+      } else {
+        keyLabel.innerText = 'API Key:';
+        keyInput.setAttribute('placeholder', 'Enter API Key...');
+      }
+      const savedKey = localStorage.getItem('exe_agent_key_' + provider) || '';
+      keyInput.value = savedKey;
+    };
+
+    updateKeyInputPlaceholder(savedProvider);
+
+    providerSelect.addEventListener('change', (e) => {
+      const prov = e.target.value;
+      localStorage.setItem('exe_agent_provider', prov);
+      updateKeyInputPlaceholder(prov);
+      this.logSystem(`Provider switched to: ${prov}`);
+    });
+
+    keyInput.addEventListener('input', (e) => {
+      const prov = providerSelect.value;
+      localStorage.setItem('exe_agent_key_' + prov, e.target.value.trim());
+    });
+
     // Open/Close toggle
     this.toggleBtn.addEventListener('click', () => this.toggle());
     this.container.querySelector('.agent-sidebar-close-btn').addEventListener('click', () => this.hide());
@@ -201,11 +258,7 @@ export class AgentSidebar {
         this.startFakeBtn.style.display = 'flex';
       } else {
         this.startFakeBtn.style.display = 'none';
-        if (this.selectedAgent === 'opencode') {
-          this.logSystem('OpenCode selected. Clicking Connect will spawn the real external process.', 'info');
-        } else {
-          this.logSystem(`Note: ${this.selectedAgent} is a stub in this milestone. Connect via local WS bridge.`, 'info');
-        }
+        this.logSystem(`${this.selectedAgent.charAt(0).toUpperCase() + this.selectedAgent.slice(1)} selected. Click Connect to link.`, 'info');
       }
     });
 
@@ -230,27 +283,25 @@ export class AgentSidebar {
           connBtn.innerText = 'Disconnect';
 
           // Spawn real AI Agent runtime in desktop Electron mode
-          const realAgents = ['opencode', 'codex', 'claude', 'custom'];
+          const realAgents = ['opencode', 'codex', 'claude', 'qwen', 'antigravity', 'custom'];
           if (realAgents.includes(this.selectedAgent)) {
             if (window.electronAPI && typeof window.electronAPI.startAgentRuntime === 'function') {
               const promptGoal = this.textarea.value.trim();
-              if (!promptGoal) {
-                this.logSystem(`Type the AI Agent task in the chat box before connecting.`, 'error');
-                this.wsBridge.disconnect();
-                connBtn.innerText = 'Connect';
-                return;
+              if (promptGoal) {
+                this.textarea.value = '';
+                this.appendLocalBubble('Teacher', 'user', promptGoal);
               }
-              this.textarea.value = '';
-              this.appendLocalBubble('Teacher', 'user', promptGoal);
               this.logSystem(`Launching real ${this.selectedAgent} Agent process...`);
 
               const payload = {
                 runtime: this.selectedAgent,
                 projectId: pId,
-                prompt: promptGoal
+                prompt: promptGoal,
+                provider: providerSelect.value,
+                apiKey: keyInput.value.trim()
               };
               if (this.selectedAgent === 'custom') {
-                payload.customCommand = prompt('Inserisci il comando personalizzato dell\'agente:', 'node');
+                payload.customCommand = prompt('Insert custom agent command:', 'node');
               }
 
               const res = await window.electronAPI.startAgentRuntime(payload);
