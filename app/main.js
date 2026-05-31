@@ -11,6 +11,8 @@ const https = require('https');
 const { initAutoUpdater } = require('./update-manager');
 const contextMenu = require('electron-context-menu').default;
 const { generateHtmlWithAi } = require('./ai-html-generation');
+const { startAgentBroker, getAgentBridgeConfig, stopAgentBroker } = require('./agent-broker');
+const { listAgentRuntimes, startAgentRuntime, stopAgentRuntime } = require('./agent-runtime-manager');
 
 // Linux GPU drivers can crash Electron during startup/shutdown on older Intel
 // stacks. Keep the desktop path stable by default and allow opt-in override.
@@ -25,6 +27,7 @@ if (process.platform === 'linux' && process.env.EXELEARNING_ENABLE_SANDBOX !== '
 }
 
 function requestGracefulShutdown() {
+    stopAgentBroker();
     if (app.isReady()) {
         app.quit();
         return;
@@ -1414,7 +1417,10 @@ app.on('new-window-for-tab', () => {
     console.log('New tab window created');
 });
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+    // Start local WebSocket broker for AI Power User Agent
+    await startAgentBroker();
+
     // A fresh process has no file "currently associated" with the window
     // yet — clear the on-disk slot so a leftover filename from a previous
     // run does not shadow the title-derived suggestedName on first Save.
@@ -1449,6 +1455,7 @@ function handleAppExit() {
     const cleanup = () => {
         if (isShuttingDown) return;
         isShuttingDown = true;
+        stopAgentBroker();
 
         setTimeout(() => {
             if (BrowserWindow.getAllWindows().length === 0) {
@@ -1560,6 +1567,39 @@ ipcMain.handle('app:generateAiHtml', async (_e, payload) => {
             error: error instanceof Error ? error.message : 'AI HTML generation failed.',
         };
     }
+});
+
+ipcMain.handle('app:getAgentBridgeConfig', async (_e, { projectId }) => {
+    return getAgentBridgeConfig(projectId);
+});
+
+ipcMain.handle('app:listAgentRuntimes', async () => {
+    return listAgentRuntimes();
+});
+
+ipcMain.handle('app:startAgentRuntime', async (e, { runtime, projectId, prompt }) => {
+    try {
+        const sender = e.sender;
+        return startAgentRuntime(
+            { runtime, projectId, prompt },
+            (data, type) => {
+                if (!sender.isDestroyed()) {
+                    sender.send('app:agent-runtime-output', { data, type });
+                }
+            },
+            (code, error) => {
+                if (!sender.isDestroyed()) {
+                    sender.send('app:agent-runtime-closed', { code, error });
+                }
+            }
+        );
+    } catch (err) {
+        return { error: err.message };
+    }
+});
+
+ipcMain.handle('app:stopAgentRuntime', async () => {
+    return stopAgentRuntime();
 });
 
 ipcMain.handle('app:getMemoryUsage', async (e) => {

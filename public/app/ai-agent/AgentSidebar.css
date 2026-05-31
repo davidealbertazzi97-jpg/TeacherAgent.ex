@@ -332,3 +332,136 @@
     transform: translateY(0);
   }
 }
+
+/* Connection Status Dot */
+.agent-conn-status {
+  font-size: 11px;
+  color: var(--agent-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  transition: var(--agent-transition);
+}
+
+.agent-conn-status.active {
+  color: hsl(140, 75%, 70%);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: var(--agent-transition);
+}
+
+.status-dot.disconnected {
+  background-color: hsl(0, 75%, 60%);
+  box-shadow: 0 0 8px hsla(0, 75%, 60%, 0.6);
+}
+
+.status-dot.connected {
+  background-color: hsl(140, 75%, 55%);
+  box-shadow: 0 0 10px hsla(140, 75%, 55%, 0.8);
+  animation: pulse-green 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px hsla(140, 75%, 55%, 0.8);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 12px hsla(140, 75%, 55%, 1);
+  }
+}
+
+/* Agent Selector Dropdown */
+.agent-dropdown {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid var(--agent-glass-border) !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  color: white !important;
+  font-size: 12px !important;
+  outline: none !important;
+  cursor: pointer;
+  transition: var(--agent-transition);
+}
+
+.agent-dropdown:hover, .agent-dropdown:focus {
+  border-color: var(--agent-primary) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 0 8px var(--agent-primary-glow) !important;
+}
+
+.agent-dropdown option {
+  background: hsl(220, 25%, 12%);
+  color: white;
+}
+
+/* Action & Connect Buttons */
+.agent-connect-btn {
+  background: var(--agent-primary) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 6px 14px !important;
+  color: white !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: var(--agent-transition);
+}
+
+.agent-connect-btn:hover {
+  background: hsl(255, 75%, 68%) !important;
+  box-shadow: 0 4px 12px var(--agent-primary-glow) !important;
+  transform: translateY(-1px);
+}
+
+.agent-connect-btn:active {
+  transform: translateY(0);
+}
+
+.agent-action-btn {
+  flex: 1;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  color: white !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: var(--agent-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+#startFakeBtn {
+  background: hsl(140, 60%, 40%) !important;
+}
+
+#startFakeBtn:hover {
+  background: hsl(140, 65%, 45%) !important;
+  box-shadow: 0 4px 12px hsla(140, 60%, 40%, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+#stopAgentBtn {
+  background: hsl(0, 65%, 45%) !important;
+}
+
+#stopAgentBtn:hover {
+  background: hsl(0, 70%, 50%) !important;
+  box-shadow: 0 4px 12px hsla(0, 65%, 45%, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.agent-action-btn:active {
+  transform: translateY(0);
+}
