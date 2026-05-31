@@ -167,6 +167,7 @@ export class AgentWebSocketBridge {
       'create_block',
       'create_html_idevice',
       'update_idevice_html',
+      'update_idevice_properties',
       'delete_page',
       'delete_idevice',
       'validate_project',
@@ -244,6 +245,9 @@ export class AgentWebSocketBridge {
           break;
         case 'export_project_elpx':
           result = await this.toolBus.export_project_elpx();
+          break;
+        case 'update_idevice_properties':
+          result = await this.toolBus.update_idevice_properties(args);
           break;
       }
 

@@ -340,4 +340,22 @@ export class AgentToolBus {
       return this.response(false, null, e.message);
     }
   }
+
+  /**
+   * Update generic properties of an existing iDevice component.
+   */
+  async update_idevice_properties(args) {
+    const schemaErr = AgentToolSchemas.update_idevice_properties(args);
+    if (schemaErr) return this.response(false, null, schemaErr);
+
+    const err = this.checkYjs();
+    if (err) return this.response(false, null, err);
+
+    try {
+      this.projectManager.updateComponentViaYjs(args.componentId, args.properties);
+      return this.response(true, { componentId: args.componentId });
+    } catch (e) {
+      return this.response(false, null, e.message);
+    }
+  }
 }

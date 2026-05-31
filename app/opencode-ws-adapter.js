@@ -87,6 +87,7 @@ Available tools:
 - create_block {"pageId": string, "title": string}
 - create_html_idevice {"pageId": string, "blockId": string, "title": string, "html": string, "ideviceType": string}
 - update_idevice_html {"pageId": string, "blockId": string, "componentId": string, "html": string}
+- update_idevice_properties {"componentId": string, "properties": object}
 - delete_page {"pageId": string}
 - delete_idevice {"componentId": string}
 - validate_project {}

@@ -76,6 +76,7 @@ describe('AgentToolBus', () => {
       addBlockViaYjs: vi.fn().mockReturnValue('new-block-id'),
       addComponentViaYjs: vi.fn().mockReturnValue('new-comp-id'),
       updateComponentHtmlViaYjs: vi.fn(),
+      updateComponentViaYjs: vi.fn(),
       deletePageViaYjs: vi.fn().mockReturnValue(true),
       deleteComponentViaYjs: vi.fn().mockReturnValue(true),
       exportToElpxViaYjs: vi.fn().mockResolvedValue({ saved: true, filePath: '/path/test.elpx' })
@@ -204,6 +205,15 @@ describe('AgentToolBus', () => {
       });
       expect(res.ok).toBe(true);
       expect(mockProjectManager.updateComponentHtmlViaYjs).toHaveBeenCalledWith('page-0', 'block-0', 'comp-1', '<h2>Aggiornato</h2>');
+    });
+
+    it('should update generic iDevice properties successfully', async () => {
+      const res = await toolBus.update_idevice_properties({
+        componentId: 'comp-1',
+        properties: { customProp: 'custom-value' }
+      });
+      expect(res.ok).toBe(true);
+      expect(mockProjectManager.updateComponentViaYjs).toHaveBeenCalledWith('comp-1', { customProp: 'custom-value' });
     });
 
     it('should delete page successfully', async () => {

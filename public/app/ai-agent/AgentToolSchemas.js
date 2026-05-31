@@ -70,5 +70,12 @@ export const AgentToolSchemas = {
     if (!args || typeof args !== 'object') return 'Arguments must be an object';
     if (typeof args.componentId !== 'string' || args.componentId.trim() === '') return 'componentId must be a non-empty string';
     return null;
+  },
+
+  update_idevice_properties(args) {
+    if (!args || typeof args !== 'object') return 'Arguments must be an object';
+    if (typeof args.componentId !== 'string' || args.componentId.trim() === '') return 'componentId must be a non-empty string';
+    if (!args.properties || typeof args.properties !== 'object') return 'properties must be an object';
+    return null;
   }
 };
