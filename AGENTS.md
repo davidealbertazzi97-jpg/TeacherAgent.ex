@@ -367,3 +367,14 @@ Use this to fully automate eXeLearning directly from your terminal session!
 | Styles/Themes | [doc/development/styles.md](doc/development/styles.md) |
 | Conventions | [doc/conventions.md](doc/conventions.md) |
 | Architecture | [doc/architecture.md](doc/architecture.md) |
+
+## 14. Games and Puzzle iDevices Constraint (CRITICAL)
+
+Native eXeLearning games iDevices (like `puzzle`, `crossword`, `padlock`, `trivial`, `word-search`, `discover`, `challenge`) are complex, encrypted, non-HTML components that cannot be edited or initialized via raw HTML tools. Adding them via native Yjs tools will fail to load or crash because they rely on structured properties and encrypted JSON structures in the Yjs map.
+
+**Rule for all agents:**
+If a user/teacher requests a **puzzle**, **crossword**, **padlock**, **trivial**, or any **game** containing images or visual assets:
+- **DO NOT** attempt to create the native game iDevice (like `puzzle` or `crossword`).
+- **DO** build it as a premium, fully interactive HTML5/CSS/JS game widget directly inside a standard HTML/Text iDevice (specifically `FreeTextIdevice` or `text`).
+- Ensure the puzzle/game is entirely responsive, handles state, renders visual assets using public internet absolute URLs or Base64 data strings, and has vibrant micro-animations and feedback.
+- This ensures 100% successful loading, bulletproof operation, and a premium visual and interactive experience.
