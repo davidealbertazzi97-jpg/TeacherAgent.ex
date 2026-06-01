@@ -358,4 +358,43 @@ export class AgentToolBus {
       return this.response(false, null, e.message);
     }
   }
+
+  /**
+   * Generic tool to create ANY installed eXeLearning iDevice (e.g. puzzle, crossword, checklist, etc.)
+   */
+  async create_idevice(args) {
+    const schemaErr = AgentToolSchemas.create_idevice(args);
+    if (schemaErr) return this.response(false, null, schemaErr);
+
+    const err = this.checkYjs();
+    if (err) return this.response(false, null, err);
+
+    try {
+      const componentType = args.ideviceType;
+      const initialData = {};
+
+      if (args.title) {
+        initialData.title = args.title;
+      }
+
+      if (args.properties) {
+        initialData.properties = args.properties;
+      }
+
+      if (args.html) {
+        initialData.htmlView = args.html;
+        initialData.htmlContent = args.html;
+        initialData.content = args.html;
+      }
+
+      const componentId = this.projectManager.addComponentViaYjs(args.pageId, args.blockId, componentType, initialData);
+      if (!componentId) {
+        return this.response(false, null, `Failed to create iDevice component of type ${componentType}`);
+      }
+
+      return this.response(true, { componentId, blockId: args.blockId, type: componentType });
+    } catch (e) {
+      return this.response(false, null, e.message);
+    }
+  }
 }

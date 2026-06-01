@@ -171,7 +171,8 @@ export class AgentWebSocketBridge {
       'delete_page',
       'delete_idevice',
       'validate_project',
-      'export_project_elpx'
+      'export_project_elpx',
+      'create_idevice'
     ];
 
     if (!supportedTools.includes(tool)) {
@@ -248,6 +249,9 @@ export class AgentWebSocketBridge {
           break;
         case 'update_idevice_properties':
           result = await this.toolBus.update_idevice_properties(args);
+          break;
+        case 'create_idevice':
+          result = await this.toolBus.create_idevice(args);
           break;
       }
 

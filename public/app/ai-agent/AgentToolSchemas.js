@@ -77,5 +77,18 @@ export const AgentToolSchemas = {
     if (typeof args.componentId !== 'string' || args.componentId.trim() === '') return 'componentId must be a non-empty string';
     if (!args.properties || typeof args.properties !== 'object') return 'properties must be an object';
     return null;
+  },
+
+  create_idevice(args) {
+    if (!args || typeof args !== 'object') return 'Arguments must be an object';
+    if (typeof args.pageId !== 'string' || args.pageId.trim() === '') return 'pageId must be a non-empty string';
+    if (typeof args.blockId !== 'string' || args.blockId.trim() === '') return 'blockId must be a non-empty string';
+    if (typeof args.ideviceType !== 'string' || args.ideviceType.trim() === '') return 'ideviceType must be a non-empty string';
+    if (args.title !== undefined && typeof args.title !== 'string') return 'title must be a string';
+    if (args.properties !== undefined && args.properties !== null && typeof args.properties !== 'object') {
+      return 'properties must be an object';
+    }
+    if (args.html !== undefined && typeof args.html !== 'string') return 'html must be a string';
+    return null;
   }
 };

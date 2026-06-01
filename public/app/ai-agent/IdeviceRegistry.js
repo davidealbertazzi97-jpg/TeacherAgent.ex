@@ -40,9 +40,6 @@ export class IdeviceRegistry {
     };
   }
 
-  /**
-   * Enriches and classifies all installed iDevices using current system configurations.
-   */
   async getRegisteredIdevices() {
     const listRes = await this.toolBus.read_available_idevices();
     if (!listRes.ok) {
@@ -50,7 +47,8 @@ export class IdeviceRegistry {
     }
 
     return listRes.result.map(idevice => {
-      const config = this.compatibilityMap[idevice.name] || { support: 'manual-only', createTool: null };
+      // By default, any iDevice not explicitly classified falls back to 'schema-supported' via the generic 'create_idevice' tool
+      const config = this.compatibilityMap[idevice.name] || { support: 'schema-supported', createTool: 'create_idevice' };
       return {
         ...idevice,
         agentSupport: config.support,

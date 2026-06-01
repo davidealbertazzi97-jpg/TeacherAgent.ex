@@ -204,6 +204,7 @@ async function main() {
     });
 
     const chatHistory = [];
+    let currentTaskPrompt = userPrompt;
 
     // Global real-time chat dialogue listener to intercept teacher responses
     socket.on('message', (data) => {
@@ -216,6 +217,7 @@ async function main() {
                     content: message.content,
                     timestamp: message.timestamp || Date.now()
                 });
+                currentTaskPrompt = message.content;
             }
         } catch (_) {}
     });
@@ -224,108 +226,126 @@ async function main() {
         type: 'agent.chat',
         sender: senderName,
         role: 'assistant',
-        content: `${senderName} connected. Starting autonomous project build.`,
+        content: `${senderName} connected. Standing by and waiting for your instructions...`,
         timestamp: Date.now()
     });
 
-    const history = [];
-    let structure = (await callTool(socket, 'read_project_structure')).result;
-    const idevices = (await callTool(socket, 'read_available_idevices')).result;
-
-    // Wait until there is a user prompt (from Electron payload) OR a chat message arrives from the teacher
-    if (!userPrompt && chatHistory.length === 0) {
-        send(socket, {
-            type: 'agent.log',
-            level: 'info',
-            message: 'Waiting for your instructions in the chat to begin...',
-            timestamp: Date.now()
-        });
-        while (!userPrompt && chatHistory.length === 0) {
-            await new Promise(res => setTimeout(res, 1000));
+    // Stay-Alive loop: runs as long as the socket is open
+    while (socket.readyState === WebSocket.OPEN) {
+        if (!currentTaskPrompt) {
+            await new Promise(res => setTimeout(res, 500));
+            continue;
         }
-    }
 
-    for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-        // Sleep briefly to yield execution and let teacher type inputs in real-time
-        await new Promise(res => setTimeout(res, 2000));
+        const taskPrompt = currentTaskPrompt;
+        currentTaskPrompt = null; // Clear to avoid reprocessing
 
         send(socket, {
             type: 'agent.log',
             level: 'info',
-            message: `${capitalizedRuntime} planning iteration ${iteration + 1}/${MAX_ITERATIONS}`,
+            message: `Waking up to execute new instruction: "${taskPrompt}"`,
             timestamp: Date.now()
         });
 
-        const prompt = buildAgentPrompt({ userPrompt, structure, idevices, history, chatHistory });
-        const output = await runAgent(prompt);
-        console.log(`[WSAdapter] Raw Agent Output:\n${output}\n`);
-        let decision;
-        try {
-            decision = extractJson(output);
-        } catch (e) {
-            console.log(`[WSAdapter] Failed to parse JSON from agent output. Treating raw output as final report fallback.`);
-            
-            // Clean up output from any raw markdown fences if present
-            let cleanProse = output.replace(/```json\s*/i, '').replace(/```/g, '').trim();
-            
-            send(socket, {
-                type: 'agent.chat',
-                sender: senderName,
-                role: 'assistant',
-                content: cleanProse || `FINAL REPORT: ${capitalizedRuntime} completed all operations successfully.`,
-                timestamp: Date.now()
-            });
-            socket.close();
-            return;
-        }
+        const history = [];
+        let structure = (await callTool(socket, 'read_project_structure')).result;
+        const idevices = (await callTool(socket, 'read_available_idevices')).result;
 
-        if (decision.final_report) {
-            send(socket, {
-                type: 'agent.chat',
-                sender: senderName,
-                role: 'assistant',
-                content: decision.final_report,
-                timestamp: Date.now()
-            });
-            socket.close();
-            return;
-        }
+        let completed = false;
+        // Run up to 12 planning iterations per user goal
+        for (let iteration = 0; iteration < 12; iteration++) {
+            // Check if another instruction arrived while we were planning
+            if (currentTaskPrompt) {
+                console.log(`[WSAdapter] Aborting current task to process new instruction: "${currentTaskPrompt}"`);
+                break;
+            }
 
-        const calls = Array.isArray(decision.tool_calls) ? decision.tool_calls : [];
-        if (calls.length === 0) {
-            send(socket, {
-                type: 'agent.chat',
-                sender: senderName,
-                role: 'assistant',
-                content: `FINAL REPORT: ${capitalizedRuntime} returned no tool calls. No further actions were taken.`,
-                timestamp: Date.now()
-            });
-            socket.close();
-            return;
-        }
+            await new Promise(res => setTimeout(res, 2000));
 
-        for (const call of calls) {
-            const result = await callTool(socket, call.tool, call.args || {});
-            history.push({ call, result });
             send(socket, {
                 type: 'agent.log',
-                level: result.ok ? 'info' : 'error',
-                message: `${call.tool}: ${result.ok ? 'ok' : result.error}`,
+                level: 'info',
+                message: `${capitalizedRuntime} planning iteration ${iteration + 1}/12`,
+                timestamp: Date.now()
+            });
+
+            const prompt = buildAgentPrompt({ userPrompt: taskPrompt, structure, idevices, history, chatHistory });
+            const output = await runAgent(prompt);
+            console.log(`[WSAdapter] Raw Agent Output:\n${output}\n`);
+
+            let decision;
+            try {
+                decision = extractJson(output);
+            } catch (e) {
+                console.log(`[WSAdapter] Failed to parse JSON from agent output. Treating raw output as final report fallback.`);
+                let cleanProse = output.replace(/```json\s*/i, '').replace(/```/g, '').trim();
+                send(socket, {
+                    type: 'agent.chat',
+                    sender: senderName,
+                    role: 'assistant',
+                    content: cleanProse || `Completed all operations successfully.`,
+                    timestamp: Date.now()
+                });
+                completed = true;
+                break;
+            }
+
+            if (decision.final_report) {
+                send(socket, {
+                    type: 'agent.chat',
+                    sender: senderName,
+                    role: 'assistant',
+                    content: decision.final_report,
+                    timestamp: Date.now()
+                });
+                completed = true;
+                break;
+            }
+
+            const calls = Array.isArray(decision.tool_calls) ? decision.tool_calls : [];
+            if (calls.length === 0) {
+                send(socket, {
+                    type: 'agent.chat',
+                    sender: senderName,
+                    role: 'assistant',
+                    content: `Completed task operations successfully (no further actions proposed).`,
+                    timestamp: Date.now()
+                });
+                completed = true;
+                break;
+            }
+
+            for (const call of calls) {
+                const result = await callTool(socket, call.tool, call.args || {});
+                history.push({ call, result });
+                send(socket, {
+                    type: 'agent.log',
+                    level: result.ok ? 'info' : 'error',
+                    message: `${call.tool}: ${result.ok ? 'ok' : result.error}`,
+                    timestamp: Date.now()
+                });
+            }
+            structure = (await callTool(socket, 'read_project_structure')).result;
+        }
+
+        if (!completed) {
+            const validation = await callTool(socket, 'validate_project');
+            send(socket, {
+                type: 'agent.chat',
+                sender: senderName,
+                role: 'assistant',
+                content: `Finished task operations (iteration limit hit). Validation: ${JSON.stringify(validation.result || validation.error)}`,
                 timestamp: Date.now()
             });
         }
-        structure = (await callTool(socket, 'read_project_structure')).result;
-    }
 
-    const validation = await callTool(socket, 'validate_project');
-    send(socket, {
-        type: 'agent.chat',
-        sender: senderName,
-        role: 'assistant',
-        content: `FINAL REPORT: Iteration limit reached. Validation: ${JSON.stringify(validation.result || validation.error)}`,
-        timestamp: Date.now()
-    });
-    socket.close();
+        send(socket, {
+            type: 'agent.log',
+            level: 'info',
+            message: 'Standing by for your next instruction in the chat...',
+            timestamp: Date.now()
+        });
+    }
 }
 
 main().catch((error) => {
