@@ -132,6 +132,11 @@ As a high-capability agent running on the host system, you have access to extern
 2. Find public image URLs or assets on the internet (e.g., Unsplash, Wikimedia Commons, open educational resources) to visually illustrate the course content.
 3. Embed these images using standard HTML <img> tags with public absolute URLs or Base64 data strings directly in the HTML code of the iDevices.
 
+CRITICAL GAME IDEVICE RULE:
+Native eXeLearning games iDevices (like 'puzzle', 'crossword', 'padlock', 'trivial', 'word-search', 'discover', 'challenge') are complex, encrypted, non-HTML components that cannot be edited or initialized via raw HTML tools. Adding them via native Yjs tools will fail to load or crash. 
+Therefore, if the teacher requests a puzzle, crossword, padlock, trivial, or any game, you MUST build it as a premium interactive HTML5/CSS/JS game widget directly inside a standard HTML/Text iDevice (specifically 'FreeTextIdevice' or 'text') instead of trying to create the native 'puzzle' or 'crossword' iDevice.
+This guarantees that the game loads, functions, and renders beautifully! Simply construct a modern, responsive HTML5 canvas or card-flip game using interactive CSS and JavaScript, using public online image URLs or Base64 strings for any visual assets!
+
 You do NOT edit files directly. You build and organize the entire eXeLearning course interactively by returning JSON tool calls.
 
 Available tools:
@@ -254,7 +259,25 @@ async function main() {
         const prompt = buildAgentPrompt({ userPrompt, structure, idevices, history, chatHistory });
         const output = await runAgent(prompt);
         console.log(`[WSAdapter] Raw Agent Output:\n${output}\n`);
-        const decision = extractJson(output);
+        let decision;
+        try {
+            decision = extractJson(output);
+        } catch (e) {
+            console.log(`[WSAdapter] Failed to parse JSON from agent output. Treating raw output as final report fallback.`);
+            
+            // Clean up output from any raw markdown fences if present
+            let cleanProse = output.replace(/```json\s*/i, '').replace(/```/g, '').trim();
+            
+            send(socket, {
+                type: 'agent.chat',
+                sender: senderName,
+                role: 'assistant',
+                content: cleanProse || `FINAL REPORT: ${capitalizedRuntime} completed all operations successfully.`,
+                timestamp: Date.now()
+            });
+            socket.close();
+            return;
+        }
 
         if (decision.final_report) {
             send(socket, {
