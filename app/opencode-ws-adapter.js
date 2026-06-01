@@ -75,14 +75,23 @@ function runAgent(message) {
         const runtimeName = process.env.EXE_AGENT_RUNTIME || 'opencode';
         const capitalizedRuntime = runtimeName.charAt(0).toUpperCase() + runtimeName.slice(1);
 
-        let args = ['run', message];
+        let args = [];
+        let passViaStdin = false;
+
         if (runtimeName === 'opencode') {
-            args = ['run', '--dangerously-skip-permissions', message];
+            args = ['run', '--dangerously-skip-permissions'];
+            passViaStdin = true;
+        } else if (runtimeName === 'codex') {
+            args = ['exec', '--dangerously-bypass-approvals-and-sandbox'];
+            passViaStdin = true;
         } else if (runtimeName === 'goose') {
-            args = ['run', '--no-profile', '-t', message];
+            args = ['run', '--no-profile', '-i', '-'];
+            passViaStdin = true;
+        } else {
+            args = ['run', message];
         }
 
-        childProcess.execFile(
+        const child = childProcess.execFile(
             binary,
             args,
             {
@@ -100,6 +109,11 @@ function runAgent(message) {
                 resolve(stdout);
             }
         );
+
+        if (passViaStdin) {
+            child.stdin.write(message);
+            child.stdin.end();
+        }
     });
 }
 
