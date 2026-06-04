@@ -40,10 +40,10 @@ describe('IdeviceRegistry', () => {
     expect(slideIdevice.agentSupport).toBe('manual-only');
     expect(slideIdevice.createTool).toBeNull();
 
-    // Unknown iDevices should fall back to manual-only
+    // Unknown iDevices should fall back to schema-supported via create_idevice
     const unknownIdevice = list.find(d => d.name === 'unknown-idevice');
-    expect(unknownIdevice.agentSupport).toBe('manual-only');
-    expect(unknownIdevice.createTool).toBeNull();
+    expect(unknownIdevice.agentSupport).toBe('schema-supported');
+    expect(unknownIdevice.createTool).toBe('create_idevice');
   });
 
   it('should check if a specific iDevice is safe for direct HTML generation', async () => {
