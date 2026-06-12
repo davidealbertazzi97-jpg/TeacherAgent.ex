@@ -77,3 +77,18 @@ TeacherAgent-ex is licensed under the **GNU Affero General Public License v3.0 (
 *   **TeacherAgent-ex** is an independent, community-driven project and is **not affiliated with, sponsored by, or endorsed** by the official eXeLearning project or its maintainers (Cedec-INTEF / Junta de Extremadura / University of Auckland / eXe Project).
 *   The original codebase, file packaging standards (`.elp`, `.elpx`), and legacy styles are copyright their respective original authors and projects. We preserve all copyright notices inside the code and the **Legal Notes** dialog of the application.
 *   In accordance with Section 13 of the GNU AGPLv3, the full source code of all modifications made to this software is publicly available to all users.
+
+### Third-Party Software & Licenses (Open Source Compliance)
+We guarantee that **no proprietary software or libraries** are included in this project or our integrations. All features, adapters, and tools are built entirely upon open-source software under permissive, copyleft-compatible licenses:
+
+*   **Elysia / Bun / Node.js** (App server and CLI runtime): Licensed under the **MIT License**.
+*   **Yjs & y-websocket** (Real-time collaboration state and document synchronization): Licensed under the **MIT License**.
+*   **Kysely & SQLite** (Database query builder and local persistence): Licensed under the **MIT License** / Public Domain.
+*   **Electron & Electron Builder** (Desktop application packaging): Licensed under the **MIT License**.
+*   **Fflate & JSZip** (Package compression and file exports): Licensed under the **MIT License**.
+*   **Nunjucks** (Workarea template rendering): Licensed under the **BSD-2-Clause License**.
+*   **ws** (WebSocket server for AI Agent integration): Licensed under the **MIT License**.
+*   **Fast-xml-parser / XMLDOM** (ODE schema importing/exporting): Licensed under the **MIT License**.
+*   **MathJax** (LaTeX mathematical notation rendering): Licensed under the **Apache License 2.0**.
+*   **Mermaid** (Live diagram preview and rendering): Licensed under the **MIT License**.
+*   **AI Providers API Connectivity** (OpenAI / Anthropic / Google Gemini): Done using standard HTTP protocol calls via the browser/server native `fetch` API. No vendor-locked or proprietary SDKs are embedded.
