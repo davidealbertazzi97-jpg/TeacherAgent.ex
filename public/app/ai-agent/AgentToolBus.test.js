@@ -244,4 +244,66 @@ describe('AgentToolBus', () => {
       expect(mockProjectManager.exportToElpxViaYjs).toHaveBeenCalled();
     });
   });
+
+  describe('Download Remote Image Tool', () => {
+    let mockAssetManager;
+
+    beforeEach(() => {
+      mockAssetManager = {
+        insertImage: vi.fn().mockResolvedValue('asset://mock-uuid.jpg')
+      };
+      
+      const bridge = mockProjectManager.getYjsBridge();
+      bridge.getAssetManager = vi.fn().mockReturnValue(mockAssetManager);
+
+      global.fetch = vi.fn();
+    });
+
+    it('should download a remote image via backend proxy and register it in Yjs under AI_Downloads', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: vi.fn().mockResolvedValue({
+          ok: true,
+          base64: btoa('fake image content'),
+          mime: 'image/png',
+          filename: 'logo.png'
+        })
+      });
+
+      const res = await toolBus.download_remote_image({ url: 'https://example.com/logo.png' });
+      expect(res.ok).toBe(true);
+      expect(res.result.assetUrl).toBe('asset://mock-uuid.jpg');
+      expect(global.fetch).toHaveBeenCalledWith('/api/ai/download-remote-image', expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ url: 'https://example.com/logo.png' })
+      }));
+      expect(mockAssetManager.insertImage).toHaveBeenCalledWith(expect.any(File), { folderPath: 'AI_Downloads' });
+      
+      const passedFile = mockAssetManager.insertImage.mock.calls[0][0];
+      expect(passedFile).toBeInstanceOf(File);
+      expect(passedFile.name).toBe('logo.png');
+      expect(passedFile.type).toBe('image/png');
+    });
+
+    it('should handle proxy download errors gracefully', async () => {
+      global.fetch.mockResolvedValue({
+        ok: false,
+        status: 400,
+        json: vi.fn().mockResolvedValue({
+          ok: false,
+          error: 'Failed to download image from source: HTTP 404 Not Found'
+        })
+      });
+
+      const res = await toolBus.download_remote_image({ url: 'https://example.com/missing.png' });
+      expect(res.ok).toBe(false);
+      expect(res.error).toContain('Failed to download image from source: HTTP 404 Not Found');
+    });
+
+    it('should validate inputs using schema', async () => {
+      const res = await toolBus.download_remote_image({ url: 'invalid-url' });
+      expect(res.ok).toBe(false);
+      expect(res.error).toContain('url must be a valid http or https URL');
+    });
+  });
 });

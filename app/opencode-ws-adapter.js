@@ -130,12 +130,42 @@ function buildAgentPrompt({ userPrompt, structure, idevices, history, chatHistor
 As a high-capability agent running on the host system, you have access to external resources. You are expected and encouraged to:
 1. Search the internet using your local capabilities/APIs to find accurate, high-quality, up-to-date scientific or educational information.
 2. Find public image URLs or assets on the internet (e.g., Unsplash, Wikimedia Commons, open educational resources) to visually illustrate the course content.
-3. Embed these images using standard HTML <img> tags with public absolute URLs or Base64 data strings directly in the HTML code of the iDevices.
+3. Download these remote image URLs using the tool 'download_remote_image'.
+   CRITICAL IMAGE RULE: You MUST call 'download_remote_image' for ANY remote image you find on the web.
+   - If the URL you found is a Wikipedia/Wikimedia description page (e.g., https://it.wikipedia.org/wiki/File:Marmota_marmota.jpg), you MUST still pass it directly to 'download_remote_image'. The backend will automatically parse the HTML page, extract the raw .jpg/.png file link, download the actual image, and register it in the project's 'AI_Downloads' folder.
+   - You MUST embed the returned local collaborative Yjs asset URL (format asset://[uuid].[ext]) inside standard HTML <img> tags.
+   - NEVER embed the original external HTTP/HTTPS URL directly in the HTML code of the iDevices, as CORS and mixed content blocks will prevent it from loading.
 
 CRITICAL GAME IDEVICE RULE:
 Native eXeLearning games iDevices (like 'puzzle', 'crossword', 'padlock', 'trivial', 'word-search', 'discover', 'challenge') are complex, encrypted, non-HTML components that cannot be edited or initialized via raw HTML tools. Adding them via native Yjs tools will fail to load or crash. 
-Therefore, if the teacher requests a puzzle, crossword, padlock, trivial, or any game, you MUST build it as a premium interactive HTML5/CSS/JS game widget directly inside a standard HTML/Text iDevice (specifically 'FreeTextIdevice' or 'text') instead of trying to create the native 'puzzle' or 'crossword' iDevice.
-This guarantees that the game loads, functions, and renders beautifully! Simply construct a modern, responsive HTML5 canvas or card-flip game using interactive CSS and JavaScript, using public online image URLs or Base64 strings for any visual assets!
+Therefore, if the teacher requests a puzzle, crossword, padlock, trivial, or any game (like a memory card matching game), you MUST build it as a premium interactive HTML5/CSS/JS game widget directly inside a standard HTML/Text iDevice (specifically 'FreeTextIdevice' or 'text') instead of trying to create the native 'puzzle' or 'crossword' iDevice.
+This guarantees that the game loads, functions, and renders beautifully! Simply construct a modern, responsive card-flip, sliding puzzle, or canvas game using interactive CSS and JavaScript, using local downloaded asset URLs (asset://[uuid].[ext] via download_remote_image) for any visual assets!
+
+PREMIUM HTML5 GAME DESIGN FRAMEWORK:
+To create high-end educational games, adhere strictly to these blueprints and formatting rules:
+1. Complete Self-Containment: The HTML payload must contain all CSS in a <style> block and all JS in a <script> block.
+2. Premium Design Aesthetics: Import modern fonts (e.g. @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap')), use glassmorphism (backdrop-filter: blur(8px)), modern gradient backgrounds, rounded corners, soft shadows, and card hover effects (transform: translateY(-4px)).
+3. Memory Card Matching Game Blueprint:
+   - Layout: CSS Grid (repeat(4, 1fr) or similar) representing a clean grid of cards.
+   - CSS 3D Card Flipping:
+     * The card container needs 'perspective: 1000px; transform-style: preserve-3d; transition: transform 0.5s ease-out; cursor: pointer; aspect-ratio: 1;'.
+     * Active flip class: '.card.flipped { transform: rotateY(180deg); }'.
+     * Card faces front/back: 'position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px;'.
+     * Card back (shirt): design a beautiful, modern pattern or badge.
+     * Card front (content): 'transform: rotateY(180deg);' with the image or word.
+   - JS Engine:
+     * Duplicate a list of items (pairs), shuffle them dynamically on start.
+     * Track state: 'let flippedCards = []; let matchedCount = 0; let moves = 0; let lockBoard = false;'.
+     * On card click, verify '!lockBoard', and ensure the card is not already flipped or matched.
+     * Flip card, push to 'flippedCards'. If length is 2: check match.
+     * If matched: add '.matched' class to both, empty 'flippedCards'.
+     * If mismatched: set 'lockBoard = true', wait 1000ms, then remove '.flipped' class from both, empty 'flippedCards', set 'lockBoard = false'.
+     * Provide a moves counter, a restart button, a progress bar, and a congratulations overlay modal when 'matchedCount === totalCards'.
+4. Sliding Puzzle Game Blueprint:
+   - Slicing canvas or absolute cell positioning to slide items into a adjacent blank cell.
+   - Prevent clicks when cells are not adjacent to the empty spot.
+5. Interactive Quiz / Crosswords:
+   - Provide direct visual feedback (green for correct, red/shake animation for incorrect).
 
 You do NOT edit files directly. You build and organize the entire eXeLearning course interactively by returning JSON tool calls.
 
@@ -153,6 +183,7 @@ Available tools:
 - delete_idevice {"componentId": string}
 - validate_project {}
 - export_project_elpx {}
+- download_remote_image {"url": string}
 
 Return ONLY one JSON object, no prose:
 {

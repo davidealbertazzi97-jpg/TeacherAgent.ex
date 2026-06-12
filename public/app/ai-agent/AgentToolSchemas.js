@@ -90,5 +90,12 @@ export const AgentToolSchemas = {
     }
     if (args.html !== undefined && typeof args.html !== 'string') return 'html must be a string';
     return null;
+  },
+
+  download_remote_image(args) {
+    if (!args || typeof args !== 'object') return 'Arguments must be an object';
+    if (typeof args.url !== 'string' || args.url.trim() === '') return 'url must be a non-empty string';
+    if (!/^https?:\/\//i.test(args.url)) return 'url must be a valid http or https URL';
+    return null;
   }
 };
