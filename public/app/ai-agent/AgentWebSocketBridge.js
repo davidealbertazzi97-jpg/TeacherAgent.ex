@@ -172,7 +172,8 @@ export class AgentWebSocketBridge {
       'delete_idevice',
       'validate_project',
       'export_project_elpx',
-      'create_idevice'
+      'create_idevice',
+      'download_remote_image'
     ];
 
     if (!supportedTools.includes(tool)) {
@@ -252,6 +253,9 @@ export class AgentWebSocketBridge {
           break;
         case 'create_idevice':
           result = await this.toolBus.create_idevice(args);
+          break;
+        case 'download_remote_image':
+          result = await this.toolBus.download_remote_image(args);
           break;
       }
 

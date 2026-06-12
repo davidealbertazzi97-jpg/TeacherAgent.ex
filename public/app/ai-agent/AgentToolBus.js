@@ -397,4 +397,59 @@ export class AgentToolBus {
       return this.response(false, null, e.message);
     }
   }
+
+  /**
+   * Download a remote image, save it in IndexedDB/Yjs asset manager, and return its asset:// URL.
+   */
+  async download_remote_image(args) {
+    const schemaErr = AgentToolSchemas.download_remote_image(args);
+    if (schemaErr) return this.response(false, null, schemaErr);
+
+    const err = this.checkYjs();
+    if (err) return this.response(false, null, err);
+
+    try {
+      const bridge = this.projectManager.getYjsBridge();
+      const assetManager = bridge.getAssetManager();
+      if (!assetManager) {
+        return this.response(false, null, 'AssetManager not initialized');
+      }
+
+      // Fetch through our local backend proxy
+      const response = await fetch('/api/ai/download-remote-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: args.url })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        return this.response(false, null, errData.error || `Failed to download: HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (!data.ok) {
+        return this.response(false, null, data.error || 'Failed to download');
+      }
+
+      // Convert Base64 back to Blob/File
+      const binary = atob(data.base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      
+      const blob = new Blob([bytes], { type: data.mime });
+      const file = new File([blob], data.filename, { type: data.mime });
+
+      // Save inside a dedicated folder called 'AI_Downloads'
+      const assetUrl = await assetManager.insertImage(file, { folderPath: 'AI_Downloads' });
+      
+      return this.response(true, { assetUrl });
+    } catch (e) {
+      return this.response(false, null, e.message);
+    }
+  }
 }
