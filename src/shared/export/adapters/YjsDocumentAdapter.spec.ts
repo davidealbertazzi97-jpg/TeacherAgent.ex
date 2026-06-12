@@ -186,7 +186,7 @@ describe('YjsDocumentAdapter', () => {
 
             const metadata = adapter.getMetadata();
 
-            expect(metadata.title).toBe('eXeLearning');
+            expect(metadata.title).toBe('TeacherAgent-ex');
             expect(metadata.subtitle).toBe('');
             expect(metadata.author).toBe('');
             expect(metadata.language).toBe('en');
@@ -1207,7 +1207,7 @@ describe('YjsDocumentAdapter.getMetadata - stable identifiers (#1784)', () => {
         expect(exportMeta.odeVersionId).toBeUndefined();
         expect(exportMeta.scormIdentifier).toBeUndefined();
         // Sanity: defaults for required fields still apply.
-        expect(exportMeta.title).toBe('eXeLearning');
+        expect(exportMeta.title).toBe('TeacherAgent-ex');
         expect(exportMeta.theme).toBe('base');
 
         doc.destroy();

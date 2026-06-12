@@ -1,6 +1,6 @@
 {% extends "base.njk" %}
 
-{% block title %}{{ appName or 'eXeLearning' }}{% endblock %}
+{% block title %}{{ appName or 'TeacherAgent-ex' }}{% endblock %}
 
 {% block stylesheets %}
     {# eXeLearning styles #}
@@ -76,7 +76,7 @@
 {% block id %}main{% endblock %}
 {% block body %}
     <div id="load-screen-main" class="load-screen loading" data-testid="loading-main" data-visible="true">
-        <span>eXeLearning {{ version }}</span>
+        <span>TeacherAgent-ex {{ version }}</span>
     </div>
     <div id="workarea" class="container-fluid d-flex flex-nowrap" data-preview-pinned="false">
         <aside class="asideleft col-md-4 col-lg-3 bg-light vh-100">

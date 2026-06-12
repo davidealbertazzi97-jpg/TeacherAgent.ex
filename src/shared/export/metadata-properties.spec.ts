@@ -155,7 +155,7 @@ describe('metadata-properties', () => {
 
     describe('getDefaultValue', () => {
         it('returns correct default for string properties', () => {
-            expect(getDefaultValue('title')).toBe('eXeLearning');
+            expect(getDefaultValue('title')).toBe('TeacherAgent-ex');
             expect(getDefaultValue('language')).toBe('en');
             expect(getDefaultValue('theme')).toBe('base');
             expect(getDefaultValue('globalFont')).toBe('default');
@@ -289,7 +289,7 @@ describe('metadata-properties', () => {
             });
 
             it('returns default for undefined/null', () => {
-                expect(parsePropertyValue('title', undefined)).toBe('eXeLearning');
+                expect(parsePropertyValue('title', undefined)).toBe('TeacherAgent-ex');
                 expect(parsePropertyValue('language', null)).toBe('en');
             });
         });

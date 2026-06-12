@@ -474,7 +474,7 @@ export class Epub3Exporter extends BaseExporter {
 <package version="3.0" unique-identifier="pub-id" xmlns="${EPUB3_NAMESPACES.OPF}">
   <metadata xmlns:dc="${EPUB3_NAMESPACES.DC}">
     <dc:identifier id="pub-id">${this.escapeXml(bookId)}</dc:identifier>
-    <dc:title>${this.escapeXml(meta.title || 'eXeLearning')}</dc:title>
+    <dc:title>${this.escapeXml(meta.title || 'TeacherAgent-ex')}</dc:title>
     <dc:language>${this.escapeXml(meta.language || 'en')}</dc:language>
     <dc:creator>${this.escapeXml(meta.author || '')}</dc:creator>`;
 
@@ -655,7 +655,7 @@ export class Epub3Exporter extends BaseExporter {
 
         // Generate page content HTML then convert to XHTML
         const pageHtml = this.pageRenderer.render(page, {
-            projectTitle: meta.title || 'eXeLearning',
+            projectTitle: meta.title || 'TeacherAgent-ex',
             projectSubtitle: meta.subtitle || '',
             language: lang,
             theme: meta.theme || 'base',

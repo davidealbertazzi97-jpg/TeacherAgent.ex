@@ -83,7 +83,7 @@ export class YjsDocumentAdapter implements ExportDocument {
         const meta = this.manager.getMetadata();
 
         return {
-            title: (meta.get('title') as string) || 'eXeLearning',
+            title: (meta.get('title') as string) || 'TeacherAgent-ex',
             subtitle: (meta.get('subtitle') as string) || '',
             author: (meta.get('author') as string) || '',
             description: (meta.get('description') as string) || '',

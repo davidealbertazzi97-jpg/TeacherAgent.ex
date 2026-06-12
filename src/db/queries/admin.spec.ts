@@ -852,7 +852,7 @@ describe('Admin Queries', () => {
                     .values([
                         {
                             key: 'site_name',
-                            value: 'eXeLearning',
+                            value: 'TeacherAgent-ex',
                             type: 'string',
                             updated_at: Date.now(),
                         },

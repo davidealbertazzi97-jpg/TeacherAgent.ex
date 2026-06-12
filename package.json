@@ -128,8 +128,8 @@
   },
   "build": {
     "npmRebuild": false,
-    "appId": "es.intef.exelearning",
-    "productName": "eXeLearning",
+    "appId": "net.teacheragent-ex.teacheragent-ex",
+    "productName": "TeacherAgent-ex",
     "directories": {
       "app": "app",
       "output": "release"
@@ -218,7 +218,7 @@
       "perMachine": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "eXeLearning",
+      "shortcutName": "TeacherAgent-ex",
       "preCompressedFileExtensions": [
         ".zip",
         ".7z",
@@ -235,7 +235,7 @@
       "createStartMenuShortcut": true
     },
     "linux": {
-      "executableName": "exelearning",
+      "executableName": "teacheragent-ex",
       "executableArgs": [
         "--no-sandbox"
       ],

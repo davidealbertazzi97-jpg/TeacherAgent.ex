@@ -1,7 +1,7 @@
 {
-  "name": "exelearning",
+  "name": "teacheragent-ex",
   "version": "0.0.0-alpha",
-  "description": "eXeLearning Desktop Application",
+  "description": "TeacherAgent-ex Desktop Application",
   "main": "main.js",
   "private": true,
   "license": "AGPL-3.0-or-later",

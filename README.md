@@ -1,170 +1,79 @@
 <div align="center">
-  <a href="https://github.com/exelearning/exelearning">
-    <img src="public/images/logo_readme.png" alt="eXeLearning Logo" height="225">
-  </a>
+  <img src="public/images/logo_readme.png" alt="TeacherAgent-ex Logo" height="200">
 
-  <h1 align="center">eXeLearning</h1>
+  <h1 align="center">TeacherAgent-ex</h1>
 
   <p align="center">
-    <strong>eXeLearning</strong> is an AGPL-licensed free/libre tool to create and publish open educational resources.
+    <strong>TeacherAgent-ex</strong> is an AI-powered, AGPL-licensed educational authoring tool designed to create and publish interactive educational resources.
     <br />
-    <a href="https://github.com/exelearning/exelearning"><strong>Explore the project »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/exelearning/exelearning/issues/new?labels=bug">Report a Bug</a>
-    ·
-    <a href="https://github.com/exelearning/exelearning/issues/new?labels=enhancement">Request Feature</a>
+    <em>TeacherAgent-ex is an independent fork based on the eXeLearning project.</em>
   </p>
 </div>
 
-<p align="center">
-  <a href="https://codecov.io/gh/exelearning/exelearning">
-    <img src="https://codecov.io/gh/exelearning/exelearning/graph/badge.svg" alt="codecov" />
-  </a>
-</p>
+---
 
 ## About the Project
 
-eXeLearning is a free and open source authoring tool for creating interactive educational resources. It was originally developed within the eXeLearning.org project in New Zealand and, since 2010,it has been maintained and further developed by the eXeLearning.net project, led by the Spanish Ministry of Education, Vocational Training and Sports (MEFPD) through Cedec-INTEF.
+**TeacherAgent-ex** (Teacher + AI Agent + eX) is a next-generation fork of eXeLearning. While retaining the core structure, formats, and compatibility of the original project, it introduces **advanced AI agent coordination** to help teachers design premium interactive resources through normal language conversation.
 
-Currently, the development of the code is carried out in a coordinated manner between the MEFPD and the regional administrations, ensuring its continuous evolution, the improvement of its architecture, and the incorporation of new features.
+### 🌟 Key AI Capabilities
 
-This version is built with modern technologies (Bun, Elysia, Kysely) and provides an accessible and up-to-date user interface for creating interactive educational content.
+*   **Stay-Alive Chat Loop:** A persistent, concurrent chat session in the sidebar. The AI agent stays connected to the editing workspace, allowing teachers to continuously iterate, improve, and format the same content without losing context.
+*   **HTML5 Game Mimicking:** Advanced prompt patterns allow the AI to construct premium interactive mini-games (such as 3D card flips memory games, crosswords, word search puzzles, drag-and-drop connectors) inside standard blocks with elegant styles, animations, and state machines.
+*   **Remote Image Proxy Downloader:** A specialized tool that automatically downloads remote images (including resolving Wikipedia file pages to their direct JPG/PNG files) and saves them locally in the `AI_Downloads/` folder of the project assets, bypassing CORS and CDN issues.
+*   **Authorization Safety Mode:** An optional interactive permission system that displays a prompt in the chat whenever an agent wants to perform editing actions, letting the teacher approve or reject changes in real time.
 
-### Key Features
+---
 
-* Creation and edition of interactive educational content
-* Multiple iDevices (interactive elements)
-* Multilingual support
-* Exportation to various formats
-* Moodle integration
-* RESTful API built with [Elysia](https://elysiajs.com/)
-* Real-time collaborative editing powered by [Yjs](https://yjs.dev/) WebSocket
-* [Architecture Documentation](./doc/architecture.md)
-* Modern and accessible interface built with [Bootstrap](https://getbootstrap.com/)
-* Multiple authentication methods (Password, CAS, OpenID Connect)
-* Compatible with MySQL, PostgreSQL, and SQLite databases
-* Offline installers supported via [Electron](https://www.electronjs.org/) and [nativePHP](https://nativephp.com/)
+## Technology Stack
+
+TeacherAgent-ex is built on a high-performance modern web stack:
+
+1.  **Backend:** [Elysia Framework](https://elysiajs.com/) running on [Bun](https://bun.sh/).
+2.  **Database:** [Kysely](https://kysely.dev/) query builder supporting SQLite, MySQL, and PostgreSQL.
+3.  **Real-Time Sync:** [Yjs](https://yjs.dev/) CRDTs and WebSocket adapters for interactive operations and rollback snapshots.
+4.  **Desktop Wrapper:** [Electron](https://www.electronjs.org/) for a native offline authoring environment on Linux, macOS, and Windows.
+5.  **Styling:** Custom Vanilla CSS and Bootstrap.
+
+---
 
 ## Quick Start
 
-### Using Docker
+### 1. Launching the Desktop Client (Recommended)
+
+You can launch the Electron desktop application directly using the start script:
 
 ```bash
-docker run --pull always -p 8080:8080 --name exelearning exelearning/exelearning:latest
+./teacheragent-ex-start.sh --desktop
 ```
 
-This will start eXeLearning at `http://localhost:8080` with the default credentials: `user@exelearning.net` / `1234`.
+This script will verify dependencies, build the static assets, and spawn the Electron environment. Alternatively, you can click on the launcher icon created on your Desktop (**TeacherAgent-ex.desktop**).
 
-### Local Development
+### 2. Local Web Development (Bun)
 
-First install [Bun](https://bun.sh/) if you don't have it yet. Then:
+For developers working on the server and client-side code:
 
 ```bash
-git clone https://github.com/exelearning/exelearning.git
-cd exelearning
-make up-local
+./teacheragent-ex-start.sh --web-local
 ```
 
-This will install dependencies, build assets, and start eXeLearning at `http://localhost:8080` with hot reload.
+This will run the backend on Bun and serve the editor locally at `http://localhost:8080` with hot reload enabled.
 
-Offline installers for Linux, Windows and macOS are also available on the [Releases page](https://github.com/exelearning/exelearning/releases).
+### 3. Running with Docker Compose
 
-## Deployment
-
-To deploy eXeLearning in a production environment, see:
-
-- Overview: [doc/deployment.md](./doc/deployment.md)
-- Sample Compose files: [doc/deploy/README.md](./doc/deploy/README.md)
-- Upgrading from previous versions: [UPGRADE.md](./UPGRADE.md)
-
-## Development Environment
-
-See [doc/development/environment.md](./doc/development/environment.md) for full setup instructions.
+To launch the multi-user web environment inside Docker containers:
 
 ```bash
-git clone https://github.com/exelearning/exelearning.git
-cd exelearning
-make up-local
+./teacheragent-ex-start.sh --web-docker
 ```
 
-This will install dependencies, build assets, and start the development server at `http://localhost:8080` with hot reload.
+---
 
-More development tools, options, and real-time collaboration info are documented in the `doc/` folder. See also [Architecture Documentation](./doc/architecture.md).
-For profiling and performance investigations in Electron and export/save flows, see [doc/development/profiling.md](./doc/development/profiling.md).
+## Legal Notices & Licensing
 
+TeacherAgent-ex is licensed under the **GNU Affero General Public License v3.0 (or later)**.
 
-## Usage
-
-eXeLearning enables educators to:
-
-1. Create interactive educational projects
-2. Add different types of content using iDevices
-3. Structure content with a hierarchical index
-4. Export content for use in Moodle or other platforms
-5. Share and collaborate on educational resources
-
-## Internationalization
-
-The project supports multiple languages using [i18n](https://www.npmjs.com/package/i18n). Currently available:
-
-* English (default)
-* Español
-* Català
-* Euskara
-* Galego
-* Valencià
-* Esperanto
-
-For more information on translation management, see the [internationalization documentation](./doc/development/internationalization.md).
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-See our [versioning guide](./doc/development/version-control.md) for details about our Git workflow.
-
-### Useful Makefile Commands
-
-The project includes a Makefile to simplify development tasks:
-
-```
-make up-local         # Start development server (installs deps + hot reload)
-make up               # Start with Docker
-make test-unit        # Run unit tests
-make test-integration # Run integration tests
-make test-frontend    # Run frontend tests (Vitest)
-make test-e2e         # Run E2E tests (Playwright)
-make lint             # Run linter
-make fix              # Auto-fix linting issues
-```
-
-To see all available commands, run:
-
-```
-make help
-```
-
-## Known Issues
-
-Some legacy limitations and edge cases are documented in [KNOWN_ISSUES.md](KNOWN_ISSUES.md).
-
-## Documentation
-
-The full project documentation is available in the [`doc`](./doc/index.md) directory
-
-## Contributors
-
-<a href="https://github.com/exelearning/exelearning/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=exelearning/exelearning" alt="Contributors" />
-</a>
-
-## License
-
-Distributed under the GNU AFFERO GENERAL PUBLIC LICENSE v3.0. See `LICENSE` for more information.
+### Credits & Disclaimers
+*   **TeacherAgent-ex** is an independent, community-driven project and is **not affiliated with, sponsored by, or endorsed** by the official eXeLearning project or its maintainers (Cedec-INTEF / Junta de Extremadura / University of Auckland / eXe Project).
+*   The original codebase, file packaging standards (`.elp`, `.elpx`), and legacy styles are copyright their respective original authors and projects. We preserve all copyright notices inside the code and the **Legal Notes** dialog of the application.
+*   In accordance with Section 13 of the GNU AGPLv3, the full source code of all modifications made to this software is publicly available to all users.

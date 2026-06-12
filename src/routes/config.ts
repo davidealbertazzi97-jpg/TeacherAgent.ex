@@ -146,7 +146,7 @@ async function getDefaultParameters(uploadLimits: { maxFileSize: number }) {
 
     return {
         // General settings
-        appName: 'eXeLearning',
+        appName: 'TeacherAgent-ex',
         appVersion: '4.0.0',
         locale: 'es',
 

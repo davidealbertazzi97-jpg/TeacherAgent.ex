@@ -1,6 +1,6 @@
 /**
  * ELP Convert Command
- * Convert eXeLearning v2.x (.elp) file to v3.0 (.elpx) format
+ * Convert TeacherAgent-ex v2.x (.elp) file to v3.0 (.elpx) format
  *
  * Uses the unified import system (ElpxImporter -> Yjs -> YjsDocumentAdapter)
  * to ensure parity with web-based exports.
@@ -325,7 +325,7 @@ ${colors.cyan('Usage:')}
   bun cli elp:convert - <output> < input.elp
 
 ${colors.cyan('Description:')}
-  Convert eXeLearning v2.x (.elp) file to v3.0 (.elpx) format
+  Convert TeacherAgent-ex v2.x (.elp) file to v3.0 (.elpx) format
 
 ${colors.cyan('Arguments:')}
   input     Input ELP file path (use "-" for stdin)
