@@ -304,7 +304,7 @@ var $exeDevice = {
 						<label for="dpiButtonBGcolor">' +
             _('Background Color') +
             ': </label> \
-            <input type="color" id="dpiButtonBGcolor" class="exe-color-picker" value="#107275"/> \
+            <input type="color" id="dpiButtonBGcolor" class="exe-color-picker" value="#3730a3"/> \
 						<label for="dpiButtonTextColor" class="dpi-label-col">' +
             _('Text Color') +
             ': </label> \

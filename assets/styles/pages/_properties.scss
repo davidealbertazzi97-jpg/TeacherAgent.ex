@@ -29,12 +29,12 @@
         }
 
         &.active {
-            color: var(--brand-primary, #0BA1A1);
-            border-bottom-color: var(--brand-primary, #0BA1A1);
+            color: var(--brand-primary, #4f46e5);
+            border-bottom-color: var(--brand-primary, #4f46e5);
         }
 
         &:focus {
-            outline: 2px solid var(--brand-primary, #0BA1A1);
+            outline: 2px solid var(--brand-primary, #4f46e5);
             outline-offset: -2px;
         }
 
@@ -195,7 +195,7 @@
                     transition: transform 160ms ease;
                 }
                 .toggle-input:checked + .toggle-visual {
-                    background: var(--brand-primary, #0BA1A1);
+                    background: var(--brand-primary, #4f46e5);
                 }
                 .toggle-input:checked + .toggle-visual::after {
                     transform: translateX(16px);

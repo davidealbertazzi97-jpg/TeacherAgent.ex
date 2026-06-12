@@ -89,12 +89,12 @@ body:has(iframe.tox-edit-area__iframe[style="height: 100%; width: 100%;"]) .idev
 
 /* TinyMCE buttons */
 .tox-dialog__footer .tox-button:not(.tox-button--secondary):not(:disabled) {
-    background-color: #0BA1A1;
-    border-color: #0BA1A1;
+    background-color: #4f46e5;
+    border-color: #4f46e5;
 }
 .tox-dialog__footer .tox-button:not(.tox-button--secondary):not(:disabled):hover {
-    background-color: #107275;
-    border-color: #107275;
+    background-color: #3730a3;
+    border-color: #3730a3;
 }
 
 /* TinyMCE contents */
@@ -209,7 +209,7 @@ body:has(iframe.tox-edit-area__iframe[style="height: 100%; width: 100%;"]) .idev
 
 #workarea #menu_nav #label_menu_nav .exe-icon,
 #workarea #menu_idevices_content #label_menu_idevices .exe-icon {
-    color: #71a300;
+    color: #3b82f6;
     font-size: 18px;
     margin-right: 3px;
 }

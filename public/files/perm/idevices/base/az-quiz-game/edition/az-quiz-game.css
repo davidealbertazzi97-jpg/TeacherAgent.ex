@@ -340,7 +340,7 @@
 #roscoIdeviceForm #roscoIdeviceFormTab3 label {
     display: block;
     margin-bottom: .2em;
-    color: #0BA1A1;
+    color: #4f46e5;
     font-weight: 500;
 }
 
@@ -480,8 +480,8 @@ label[for=roscoActivitySCORM] {
 }
 
 #roscoIdeviceForm input[type="radio"]:checked.form-check-input {
-    background-color: var(--brand-primary, #0BA1A1);
-    border-color: var(--brand-primary, #0BA1A1);
+    background-color: var(--brand-primary, #4f46e5);
+    border-color: var(--brand-primary, #4f46e5);
 }
 
 .roscoImageBarEdition .roscoMetaData {

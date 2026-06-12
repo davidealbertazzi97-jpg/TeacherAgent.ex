@@ -420,8 +420,8 @@ article.box {
                 }
 
                 .form-check-input:checked {
-                    background-color: var(--brand-primary, #0BA1A1) !important;
-                    border-color: var(--brand-primary, #0BA1A1) !important;
+                    background-color: var(--brand-primary, #4f46e5) !important;
+                    border-color: var(--brand-primary, #4f46e5) !important;
                 }
 
                 .form-check {
@@ -453,7 +453,7 @@ article.box {
                 .form-check-input:focus {
                     outline: 0 !important;
                 box-shadow: 0 0 0 .2rem rgba(11, 161, 161, .25) !important;
-                border-color: var(--brand-primary, #0BA1A1) !important;
+                border-color: var(--brand-primary, #4f46e5) !important;
                 }
 
                 .form-check-label {
@@ -531,7 +531,7 @@ article.box {
                 }
 
                 .toggle-input:checked+.toggle-visual {
-                    background: var(--brand-primary, #0BA1A1);
+                    background: var(--brand-primary, #4f46e5);
                 }
 
                 .toggle-input:checked+.toggle-visual::after {
@@ -557,7 +557,7 @@ article.box {
 
                 .form-check-input[type=radio]:checked {
                     background: #fff !important;
-                    border: 1px solid var(--brand-primary, #0BA1A1) !important;
+                    border: 1px solid var(--brand-primary, #4f46e5) !important;
                 }
 
                 .form-check-input[type=radio]:checked::after {
@@ -567,7 +567,7 @@ article.box {
                     left: 50%;
                     width: 10px;
                     height: 10px;
-                    background: var(--brand-primary, #0BA1A1);
+                    background: var(--brand-primary, #4f46e5);
                     border-radius: 50%;
                     transform: translate(-50%, -50%);
                 }
@@ -611,7 +611,7 @@ article.box {
                 .eXeE-Active {
                     background: #fff !important;
                     border-bottom: 2px solid #007BFF !important;
-                    color: #0BA1A1 !important;
+                    color: #4f46e5 !important;
                 }
 
                 .eXeE-LightboxContent {
@@ -791,7 +791,7 @@ article.box {
                     }
                     a::after {
                         content: '';
-                        background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7 15L12 20L17 15M7 9L12 4L17 9' stroke='%230BA1A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                        background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7 15L12 20L17 15M7 9L12 4L17 9' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
                         position: absolute;
                         top: -2px;
                         right: 0;
@@ -811,7 +811,7 @@ article.box {
 
                 &.exe-fieldset-open > legend a::after {
                     content: '';
-                    background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7 4L12 9L17 4' stroke='%230BA1A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M7 20L12 15L17 20' stroke='%230BA1A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                    background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7 4L12 9L17 4' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M7 20L12 15L17 20' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
                     position: absolute;
                     top: -2px;
                     right: 0;

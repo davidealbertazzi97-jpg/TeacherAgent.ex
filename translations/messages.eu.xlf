@@ -157,9 +157,9 @@
         <source>Warning</source>
         <target>Kontuz</target>
       </trans-unit>
-      <trans-unit id="zhlMs3D" resname="iDevice error">
-        <source>iDevice error</source>
-        <target>iDevicearen errorea</target>
+      <trans-unit id="zhlMs3D" resname="SuperTool error">
+        <source>SuperTool error</source>
+        <target>SuperToolaren errorea</target>
       </trans-unit>
       <trans-unit id="5ieXOaE" resname="Report an Issue">
         <source>Report an Issue</source>
@@ -3909,37 +3909,37 @@
         <source>Resources designed to work on specific subject areas or topics.</source>
         <target>Gai edo arlo jakin batzuk lantzeko baliabideak.</target>
       </trans-unit>
-      <trans-unit id="w7FotCy" resname="Select or drag to place the iDevice on the page.">
-        <source>Select or drag to place the iDevice on the page.</source>
-        <target>Hautatu edo arrastatu iDevice-a orrian jartzeko.</target>
+      <trans-unit id="w7FotCy" resname="Select or drag to place the SuperTool on the page.">
+        <source>Select or drag to place the SuperTool on the page.</source>
+        <target>Hautatu edo arrastatu SuperTool-a orrian jartzeko.</target>
       </trans-unit>
       <trans-unit id="brRgELp" resname="Click to upload the file">
         <source>Click to upload the file</source>
         <target>Sakatu fitxategia igotzeko</target>
       </trans-unit>
-      <trans-unit id="HEyq1hx" resname="Import iDevice in ZIP format">
-        <source>Import iDevice in ZIP format</source>
-        <target>Inportatu iDevice ZIP formatuan</target>
+      <trans-unit id="HEyq1hx" resname="Import SuperTool in ZIP format">
+        <source>Import SuperTool in ZIP format</source>
+        <target>Inportatu SuperTool ZIP formatuan</target>
       </trans-unit>
-      <trans-unit id="o1s3geg" resname="Failed to install the new iDevice">
-        <source>Failed to install the new iDevice</source>
+      <trans-unit id="o1s3geg" resname="Failed to install the new SuperTool">
+        <source>Failed to install the new SuperTool</source>
         <target>Instalatzerakoan iDecviceak huts egin du</target>
       </trans-unit>
-      <trans-unit id="cmVmfRk" resname="Could not remove the iDevice">
-        <source>Could not remove the iDevice</source>
-        <target>Ezin da iDevicea ezabatu</target>
+      <trans-unit id="cmVmfRk" resname="Could not remove the SuperTool">
+        <source>Could not remove the SuperTool</source>
+        <target>Ezin da SuperToola ezabatu</target>
       </trans-unit>
       <trans-unit id="Jp3BFhF" resname="Export">
         <source>Export</source>
         <target>Esportatu</target>
       </trans-unit>
-      <trans-unit id="tsxZze5" resname="Delete iDevice">
-        <source>Delete iDevice</source>
-        <target>iDevicea ezabatu</target>
+      <trans-unit id="tsxZze5" resname="Delete SuperTool">
+        <source>Delete SuperTool</source>
+        <target>SuperToola ezabatu</target>
       </trans-unit>
-      <trans-unit id="VBZ1ogU" resname="Delete this iDevice: %s?">
-        <source>Delete this iDevice: %s?</source>
-        <target>Ezabatu iDevice hau: %s?</target>
+      <trans-unit id="VBZ1ogU" resname="Delete this SuperTool: %s?">
+        <source>Delete this SuperTool: %s?</source>
+        <target>Ezabatu SuperTool hau: %s?</target>
       </trans-unit>
       <trans-unit id="bcRryHO" resname="Generating preview...">
         <source>Generating preview...</source>
@@ -4125,9 +4125,9 @@
         <source>The preview has been generated.</source>
         <target>Aurrebista sortu egin da.</target>
       </trans-unit>
-      <trans-unit id="jb.15_T" resname="Upload iDevice file">
-        <source>Upload iDevice file</source>
-        <target>Igo iDevice fitxategia</target>
+      <trans-unit id="jb.15_T" resname="Upload SuperTool file">
+        <source>Upload SuperTool file</source>
+        <target>Igo SuperTool fitxategia</target>
       </trans-unit>
       <trans-unit id="TbY2TF0" resname="Broken links">
         <source>Broken links</source>
@@ -4165,13 +4165,13 @@
         <source>Content properties</source>
         <target>Edukiaren propietateak</target>
       </trans-unit>
-      <trans-unit id="1tMjRQx" resname="Drag an iDevice in and start building">
-        <source>Drag an iDevice in and start building</source>
-        <target>Arrastatu iDevice bat eta hasi sortzen</target>
+      <trans-unit id="1tMjRQx" resname="Drag an SuperTool in and start building">
+        <source>Drag an SuperTool in and start building</source>
+        <target>Arrastatu SuperTool bat eta hasi sortzen</target>
       </trans-unit>
-      <trans-unit id="YfHiFNW" resname="Just drag an iDevice onto this page to start designing your content.">
-        <source>Just drag an iDevice onto this page to start designing your content.</source>
-        <target>Arrastatu iDevice bat orri honetara zure edukia diseinatzeko.</target>
+      <trans-unit id="YfHiFNW" resname="Just drag an SuperTool onto this page to start designing your content.">
+        <source>Just drag an SuperTool onto this page to start designing your content.</source>
+        <target>Arrastatu SuperTool bat orri honetara zure edukia diseinatzeko.</target>
       </trans-unit>
       <trans-unit id="9SQZbAa" resname="Add Text">
         <source>Add Text</source>
@@ -4209,33 +4209,33 @@
         <source>Back</source>
         <target>Atzera</target>
       </trans-unit>
-      <trans-unit id="32aThvc" resname="iDevice manager">
-        <source>iDevice manager</source>
-        <target>iDeviceen kudeatzailea</target>
+      <trans-unit id="32aThvc" resname="SuperTool manager">
+        <source>SuperTool manager</source>
+        <target>SuperToolen kudeatzailea</target>
       </trans-unit>
-      <trans-unit id="fMxz8c4" resname="Search iDevices">
-        <source>Search iDevices</source>
-        <target>iDeviceak bilatu</target>
+      <trans-unit id="fMxz8c4" resname="Search SuperTools">
+        <source>Search SuperTools</source>
+        <target>SuperToolak bilatu</target>
       </trans-unit>
-      <trans-unit id="wtVkNXt" resname="Default iDevices">
-        <source>Default iDevices</source>
-        <target>iDevice lehenetsiak</target>
+      <trans-unit id="wtVkNXt" resname="Default SuperTools">
+        <source>Default SuperTools</source>
+        <target>SuperTool lehenetsiak</target>
       </trans-unit>
       <trans-unit id="Ha6Z1ij" resname="Filter items">
         <source>Filter items</source>
         <target>Elementuak iragazi</target>
       </trans-unit>
-      <trans-unit id="yIQeeyS" resname="Import iDevice">
-        <source>Import iDevice</source>
-        <target>Inportatu iDevicea</target>
+      <trans-unit id="yIQeeyS" resname="Import SuperTool">
+        <source>Import SuperTool</source>
+        <target>Inportatu SuperToola</target>
       </trans-unit>
       <trans-unit id="dRNHWgg" resname="Activate">
         <source>Activate</source>
         <target>Aktibatu</target>
       </trans-unit>
-      <trans-unit id="F.0jKf8" resname="You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.">
-        <source>You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.</source>
-        <target>5 iDevice soilik hauta ditzakezu gogoko gisa. Mesedez, kendu iDevice bat beste bat gehitu ahal izateko.</target>
+      <trans-unit id="F.0jKf8" resname="You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.">
+        <source>You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.</source>
+        <target>5 SuperTool soilik hauta ditzakezu gogoko gisa. Mesedez, kendu SuperTool bat beste bat gehitu ahal izateko.</target>
       </trans-unit>
       <trans-unit id="1Ntsh7c" resname="Legal notes">
         <source>Legal notes</source>
@@ -4325,9 +4325,9 @@
         <source>Import error</source>
         <target>Errorea inportatzean</target>
       </trans-unit>
-      <trans-unit id="S7tnRBC" resname="The content is not a box or an iDevice">
-        <source>The content is not a box or an iDevice</source>
-        <target>Edukia ez da kutxa edo iDevice bat</target>
+      <trans-unit id="S7tnRBC" resname="The content is not a box or an SuperTool">
+        <source>The content is not a box or an SuperTool</source>
+        <target>Edukia ez da kutxa edo SuperTool bat</target>
       </trans-unit>
       <trans-unit id="Fg2n1tC" resname="Error while uploading the project.">
         <source>Error while uploading the project.</source>
@@ -4481,85 +4481,85 @@
         <source>Discard changes</source>
         <target>Aldaketak baztertu</target>
       </trans-unit>
-      <trans-unit id="1QWTr7I" resname="iDevice properties">
-        <source>iDevice properties</source>
-        <target>iDevicearen propietateak</target>
+      <trans-unit id="1QWTr7I" resname="SuperTool properties">
+        <source>SuperTool properties</source>
+        <target>SuperToolaren propietateak</target>
       </trans-unit>
-      <trans-unit id="U7kZ6Nk" resname="Delete iDevice? This cannot be undone.">
-        <source>Delete iDevice? This cannot be undone.</source>
-        <target>iDevice-a ezabatu? Ekintza hau ezin da desegin.</target>
+      <trans-unit id="U7kZ6Nk" resname="Delete SuperTool? This cannot be undone.">
+        <source>Delete SuperTool? This cannot be undone.</source>
+        <target>SuperTool-a ezabatu? Ekintza hau ezin da desegin.</target>
       </trans-unit>
       <trans-unit id="BFMIJG_" resname="Discard all changes?">
         <source>Discard all changes?</source>
         <target>Aldaketa guztiak baztertu nahi dituzu?</target>
       </trans-unit>
-      <trans-unit id="dOPZCVW" resname="Move iDevice to page">
-        <source>Move iDevice to page</source>
-        <target>iDevicea orrira mugitu</target>
+      <trans-unit id="dOPZCVW" resname="Move SuperTool to page">
+        <source>Move SuperTool to page</source>
+        <target>SuperToola orrira mugitu</target>
       </trans-unit>
-      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the iDevice. It will be placed at the end of the page.">
-        <source>Select the page where you want to move the iDevice. It will be placed at the end of the page.</source>
-        <target>Aukeratu zein orritara nahi duzun mugitu iDevice-a. Orriaren amaieran jarriko da.</target>
+      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the SuperTool. It will be placed at the end of the page.">
+        <source>Select the page where you want to move the SuperTool. It will be placed at the end of the page.</source>
+        <target>Aukeratu zein orritara nahi duzun mugitu SuperTool-a. Orriaren amaieran jarriko da.</target>
       </trans-unit>
       <trans-unit id="aG4weoA" resname="An error occurred while save component in database">
         <source>An error occurred while save component in database</source>
         <target>Errore bat gertatu da osagaia datu-basean gordean</target>
       </trans-unit>
-      <trans-unit id="78RKJPa" resname="An error occurred while saving the iDevice’s properties to the database.">
-        <source>An error occurred while saving the iDevice’s properties to the database.</source>
-        <target>Errore bat gertatu da iDevice-ren propietateak datu-basean gordetzean.</target>
+      <trans-unit id="78RKJPa" resname="An error occurred while saving the SuperTool’s properties to the database.">
+        <source>An error occurred while saving the SuperTool’s properties to the database.</source>
+        <target>Errore bat gertatu da SuperTool-ren propietateak datu-basean gordetzean.</target>
       </trans-unit>
       <trans-unit id="8g6a9xW" resname="File is too large">
         <source>File is too large</source>
         <target>Fitxategia handiegia da</target>
       </trans-unit>
-      <trans-unit id="LmWdpVc" resname="Error saving the iDevice">
-        <source>Error saving the iDevice</source>
-        <target>Errorea iDevicea gordetzean</target>
+      <trans-unit id="LmWdpVc" resname="Error saving the SuperTool">
+        <source>Error saving the SuperTool</source>
+        <target>Errorea SuperToola gordetzean</target>
       </trans-unit>
-      <trans-unit id="iq1Ycbw" resname="Failed to save the iDevice to database">
-        <source>Failed to save the iDevice to database</source>
-        <target>Ezin izan da iDevice-a datu-basean gorde</target>
+      <trans-unit id="iq1Ycbw" resname="Failed to save the SuperTool to database">
+        <source>Failed to save the SuperTool to database</source>
+        <target>Ezin izan da SuperTool-a datu-basean gorde</target>
       </trans-unit>
       <trans-unit id="o0QuXoy" resname="Not allowed">
         <source>Not allowed</source>
         <target>Ez da baimentzen</target>
       </trans-unit>
-      <trans-unit id="b0l3acH" resname="You cannot edit another iDevice until you save the current one">
-        <source>You cannot edit another iDevice until you save the current one</source>
-        <target>Ezin duzu beste iDevice bat editatu oraingoa gorde arte</target>
+      <trans-unit id="b0l3acH" resname="You cannot edit another SuperTool until you save the current one">
+        <source>You cannot edit another SuperTool until you save the current one</source>
+        <target>Ezin duzu beste SuperTool bat editatu oraingoa gorde arte</target>
       </trans-unit>
       <trans-unit id="6b66eDm" resname="Remove Block">
         <source>Remove Block</source>
         <target>Kendu Blokea</target>
       </trans-unit>
-      <trans-unit id="fXgNxXg" resname="iDevice deleted. Now the box is empty. Delete the box too?">
-        <source>iDevice deleted. Now the box is empty. Delete the box too?</source>
-        <target>iDevice-a ezabatuta. Orain kaxa hutsik dago. Kaxa ere ezabatu?</target>
+      <trans-unit id="fXgNxXg" resname="SuperTool deleted. Now the box is empty. Delete the box too?">
+        <source>SuperTool deleted. Now the box is empty. Delete the box too?</source>
+        <target>SuperTool-a ezabatuta. Orain kaxa hutsik dago. Kaxa ere ezabatu?</target>
       </trans-unit>
-      <trans-unit id="fxYTEKl" resname="Failed to load the iDevice.">
-        <source>Failed to load the iDevice.</source>
-        <target>Huts egin du iDevicearen kargak</target>
+      <trans-unit id="fxYTEKl" resname="Failed to load the SuperTool.">
+        <source>Failed to load the SuperTool.</source>
+        <target>Huts egin du SuperToolaren kargak</target>
       </trans-unit>
-      <trans-unit id="uvlDjwW" resname="Failed to load the iDevice view.">
-        <source>Failed to load the iDevice view.</source>
-        <target>Huts egin du iDevicearen ikuspegia kargatzerakoan.</target>
+      <trans-unit id="uvlDjwW" resname="Failed to load the SuperTool view.">
+        <source>Failed to load the SuperTool view.</source>
+        <target>Huts egin du SuperToolaren ikuspegia kargatzerakoan.</target>
       </trans-unit>
-      <trans-unit id="Q_WMYYX" resname="You can't add an iDevice on the root page">
-        <source>You can't add an iDevice on the root page</source>
-        <target>Ezin da iDevicea gehitu erroko orrian</target>
+      <trans-unit id="Q_WMYYX" resname="You can't add an SuperTool on the root page">
+        <source>You can't add an SuperTool on the root page</source>
+        <target>Ezin da SuperToola gehitu erroko orrian</target>
       </trans-unit>
-      <trans-unit id="2Pq3_Wp" resname="Problem adding iDevice">
-        <source>Problem adding iDevice</source>
-        <target>Arazoa iDevicea gehitzerakoan</target>
+      <trans-unit id="2Pq3_Wp" resname="Problem adding SuperTool">
+        <source>Problem adding SuperTool</source>
+        <target>Arazoa SuperToola gehitzerakoan</target>
       </trans-unit>
-      <trans-unit id="fPQsnoO" resname="You are currently editing another iDevice. Please close it before continuing">
-        <source>You are currently editing another iDevice. Please close it before continuing</source>
-        <target>Une honetan beste iDevice bat editatzen ari zara. Mesedez, itxi hori jarraitu aurretik</target>
+      <trans-unit id="fPQsnoO" resname="You are currently editing another SuperTool. Please close it before continuing">
+        <source>You are currently editing another SuperTool. Please close it before continuing</source>
+        <target>Une honetan beste SuperTool bat editatzen ari zara. Mesedez, itxi hori jarraitu aurretik</target>
       </trans-unit>
-      <trans-unit id="38SLSPC" resname="An error occurred while loading the iDevice.">
-        <source>An error occurred while loading the iDevice.</source>
-        <target>Errorea iDevicea kargatzerakoan.</target>
+      <trans-unit id="38SLSPC" resname="An error occurred while loading the SuperTool.">
+        <source>An error occurred while loading the SuperTool.</source>
+        <target>Errorea SuperToola kargatzerakoan.</target>
       </trans-unit>
       <trans-unit id="_qN9nCf" resname="The box is empty. Do you want to delete it?">
         <source>The box is empty. Do you want to delete it?</source>
@@ -4597,9 +4597,9 @@
         <source>Your style has changed. Reload the page to apply changes?</source>
         <target>Zure estiloa aldatu da. Orria berriro kargatu aldaketak aplikatzeko?</target>
       </trans-unit>
-      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your iDevice before continuing.">
-        <source>Unsaved changes detected. Save your iDevice before continuing.</source>
-        <target>iDevice bat editatzen ari zara. Mesedez, jarraitu aurretik itxi ezazu.</target>
+      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your SuperTool before continuing.">
+        <source>Unsaved changes detected. Save your SuperTool before continuing.</source>
+        <target>SuperTool bat editatzen ari zara. Mesedez, jarraitu aurretik itxi ezazu.</target>
       </trans-unit>
       <trans-unit id="_t85EMU" resname="Required">
         <source>Required</source>
@@ -4965,8 +4965,8 @@
         <source>Identifier</source>
         <target>Identifikatzailea</target>
       </trans-unit>
-      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.">
-        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.</source>
+      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.">
+        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.</source>
         <target>Identifikatzailea adierazi behar duzu; hitz bat, esaldi bat edo lau karaktere baino gehiagoko zenbaki bat izan daiteke, eta aurrerapen-txosten honetan kontuan hartuko diren jarduerak markatzeko erabiliko duzu. Berdina izan behar du txosten bateko gailu guztietan, eta desberdina txosten bakoitzean.</target>
       </trans-unit>
       <trans-unit id="T1EljX." resname="Words">
@@ -6113,9 +6113,9 @@
         <source>Please select a JSON file (.json)</source>
         <target>Hautatu JSON fitxategi bat (.json), mesedez</target>
       </trans-unit>
-      <trans-unit id="qcFkxQM" resname="This is just an example iDevice.">
-        <source>This is just an example iDevice.</source>
-        <target>Hau iDevice adibide bat besterik ez da.</target>
+      <trans-unit id="qcFkxQM" resname="This is just an example SuperTool.">
+        <source>This is just an example SuperTool.</source>
+        <target>Hau SuperTool adibide bat besterik ez da.</target>
       </trans-unit>
       <trans-unit id="hww8GA_" resname="Write a text that will be saved">
         <source>Write a text that will be saved</source>
@@ -7357,8 +7357,8 @@
         <source>Interactive video</source>
         <target>Bideo interaktiboa</target>
       </trans-unit>
-      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video iDevice per page.">
-        <source>You can only add one Interactive Video iDevice per page.</source>
+      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video SuperTool per page.">
+        <source>You can only add one Interactive Video SuperTool per page.</source>
         <target>Bideo interaktibo bakarra erantsi dezakezu orri bakoitzeko.</target>
       </trans-unit>
       <trans-unit id="uSbcaZn" resname="Mediateca">
@@ -8405,9 +8405,9 @@
         <source>Download progress report</source>
         <target>Aurrerapen txostena deskargatu</target>
       </trans-unit>
-      <trans-unit id="9i7wSb7" resname="Edit this iDevice to update its contents.">
-        <source>Edit this iDevice to update its contents.</source>
-        <target>Editatu iDevice hau bere edukia eguneratzeko.</target>
+      <trans-unit id="9i7wSb7" resname="Edit this SuperTool to update its contents.">
+        <source>Edit this SuperTool to update its contents.</source>
+        <target>Editatu SuperTool hau bere edukia eguneratzeko.</target>
       </trans-unit>
       <trans-unit id="VA40URh" resname="It shows the result of the pupils in the activities linked to their average score.">
         <source>It shows the result of the pupils in the activities linked to their average score.</source>
@@ -8425,33 +8425,33 @@
         <source>Show date and time</source>
         <target>Data eta ordua erakutsi</target>
       </trans-unit>
-      <trans-unit id="tWiYaph" resname="Show type of iDevice">
-        <source>Show type of iDevice</source>
-        <target>iDevice mota erakutsi</target>
+      <trans-unit id="tWiYaph" resname="Show type of SuperTool">
+        <source>Show type of SuperTool</source>
+        <target>SuperTool mota erakutsi</target>
       </trans-unit>
       <trans-unit id="hslmn9f" resname="Link report activities">
         <source>Link report activities</source>
         <target>Txosteneko jarduerak lotu</target>
       </trans-unit>
-      <trans-unit id="N8SqHY0" resname="All pages and iDevices">
-        <source>All pages and iDevices</source>
-        <target>Orri eta iDevice guztiak</target>
+      <trans-unit id="N8SqHY0" resname="All pages and SuperTools">
+        <source>All pages and SuperTools</source>
+        <target>Orri eta SuperTool guztiak</target>
       </trans-unit>
-      <trans-unit id="BVy_DUt" resname="All pages and only evaluable iDevices">
-        <source>All pages and only evaluable iDevices</source>
-        <target>Orri guztiak eta iDevice ebaluagarriak bakarrik.</target>
+      <trans-unit id="BVy_DUt" resname="All pages and only evaluable SuperTools">
+        <source>All pages and only evaluable SuperTools</source>
+        <target>Orri guztiak eta SuperTool ebaluagarriak bakarrik.</target>
       </trans-unit>
       <trans-unit id="h0N_aPF" resname="Only pages with evaluable activities">
         <source>Only pages with evaluable activities</source>
         <target>Jarduera ebaluagarriak dituzten orriak soilik</target>
       </trans-unit>
-      <trans-unit id="Ep4G9EC" resname="Available iDevices">
-        <source>Available iDevices</source>
-        <target>iDevice eskuragarriak</target>
+      <trans-unit id="Ep4G9EC" resname="Available SuperTools">
+        <source>Available SuperTools</source>
+        <target>SuperTool eskuragarriak</target>
       </trans-unit>
-      <trans-unit id="eP0k3XT" resname="This iDevice is compatible with all game iDevices and all interactive activities.">
-        <source>This iDevice is compatible with all game iDevices and all interactive activities.</source>
-        <target>iDevice hau, joko iDevice eta jarduera interaktibo guztiekin bateragarria da.</target>
+      <trans-unit id="eP0k3XT" resname="This SuperTool is compatible with all game SuperTools and all interactive activities.">
+        <source>This SuperTool is compatible with all game SuperTools and all interactive activities.</source>
+        <target>SuperTool hau, joko SuperTool eta jarduera interaktibo guztiekin bateragarria da.</target>
       </trans-unit>
       <trans-unit id="N0bCogy" resname="Puzzle">
         <source>Puzzle</source>
@@ -9413,9 +9413,9 @@
         <source>New block</source>
         <target>Bloke berria</target>
       </trans-unit>
-      <trans-unit id="gNC320b" resname="About this iDevice">
-        <source>About this iDevice</source>
-        <target>iDevice honi buruz</target>
+      <trans-unit id="gNC320b" resname="About this SuperTool">
+        <source>About this SuperTool</source>
+        <target>SuperTool honi buruz</target>
       </trans-unit>
       <trans-unit id="xGrroVc" resname="Cofinanced by:">
         <source>Cofinanced by:</source>
@@ -11101,17 +11101,17 @@
         <source>Structure panel</source>
         <target>Egitura-panela</target>
       </trans-unit>
-      <trans-unit id="Fh_A6BL" resname="iDevices panel">
-        <source>iDevices panel</source>
-        <target>iDevice-en panela</target>
+      <trans-unit id="Fh_A6BL" resname="SuperTools panel">
+        <source>SuperTools panel</source>
+        <target>SuperTool-en panela</target>
       </trans-unit>
       <trans-unit id="9G8Nzdp" resname="User menu">
         <source>User menu</source>
         <target>Erabiltzaile menua</target>
       </trans-unit>
-      <trans-unit id="4Y_yO11" resname="iDevices">
-        <source>iDevices</source>
-        <target>iDevice-ak</target>
+      <trans-unit id="4Y_yO11" resname="SuperTools">
+        <source>SuperTools</source>
+        <target>SuperTool-ak</target>
       </trans-unit>
       <trans-unit id="5Kb4IIZ" resname="Toggle panels">
         <source>Toggle panels</source>
@@ -11257,9 +11257,9 @@
         <source>System</source>
         <target>Sistema</target>
       </trans-unit>
-      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new iDevices.">
-        <source>Someone else is editing this page. Please wait until they finish before adding new iDevices.</source>
-        <target>Norbait orrialde hau editatzen ari da. Mesedez, itxaron amaitu arte iDevice berriak sortzeko.</target>
+      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new SuperTools.">
+        <source>Someone else is editing this page. Please wait until they finish before adding new SuperTools.</source>
+        <target>Norbait orrialde hau editatzen ari da. Mesedez, itxaron amaitu arte SuperTool berriak sortzeko.</target>
       </trans-unit>
       <trans-unit id="fTgJugq" resname="Accordion">
         <source>Accordion</source>
@@ -11561,9 +11561,9 @@
         <source>Unexpected error importing file.</source>
         <target>Fitxategia inportatzean ustekabeko errorea gertatu da.</target>
       </trans-unit>
-      <trans-unit id="SIDjSV." resname="iDevice">
-        <source>iDevice</source>
-        <target>iDevice</target>
+      <trans-unit id="SIDjSV." resname="SuperTool">
+        <source>SuperTool</source>
+        <target>SuperTool</target>
       </trans-unit>
       <trans-unit id="byLNU96" resname="Import (.elpx...)">
         <source>Import (.elpx...)</source>
@@ -11973,9 +11973,9 @@
         <source>Write the term and its definition. You may use HTML and edit it in the editor.</source>
         <target>Idatzi terminoa eta definizioa. HTML erabil dezakezu eta editorean editatu.</target>
       </trans-unit>
-      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text iDevice in the specified page.">
-        <source>Show the content of the first Free Text iDevice in the specified page.</source>
-        <target>Erakutsi lehenengo Testu Askea iDevice-ren edukia dagokion orrian.</target>
+      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text SuperTool in the specified page.">
+        <source>Show the content of the first Free Text SuperTool in the specified page.</source>
+        <target>Erakutsi lehenengo Testu Askea SuperTool-ren edukia dagokion orrian.</target>
       </trans-unit>
       <trans-unit id="k_kZsMw" resname="Term">
         <source>Term</source>
@@ -12257,9 +12257,9 @@
         <source>Default AI Assistant</source>
         <target>Lehenetsitako AA laguntzailea</target>
       </trans-unit>
-      <trans-unit id="bdkckew" resname="Select the AI that will be selected by default when editing iDevices.">
-        <source>Select the AI that will be selected by default when editing iDevices.</source>
-        <target>Hautatu iDevice-ak editatzean lehenespenez hautatuko den AA.</target>
+      <trans-unit id="bdkckew" resname="Select the AI that will be selected by default when editing SuperTools.">
+        <source>Select the AI that will be selected by default when editing SuperTools.</source>
+        <target>Hautatu SuperTool-ak editatzean lehenespenez hautatuko den AA.</target>
       </trans-unit>
       <trans-unit id="ym3r8bv" resname="Hide page title">
         <source>Hide page title</source>
@@ -12669,33 +12669,33 @@
         <source>Another user</source>
         <target>Beste erabiltzaile bat</target>
       </trans-unit>
-      <trans-unit id="41vn10h" resname="Clone iDevice">
-        <source>Clone iDevice</source>
-        <target>Klonatu iDevice</target>
+      <trans-unit id="41vn10h" resname="Clone SuperTool">
+        <source>Clone SuperTool</source>
+        <target>Klonatu SuperTool</target>
       </trans-unit>
       <trans-unit id="61gzi4x" resname="Move to page">
         <source>Move to page</source>
         <target>Mugitu orrialdera</target>
       </trans-unit>
-      <trans-unit id="0wwr88n" resname="Export iDevice">
-        <source>Export iDevice</source>
-        <target>Exportatu iDevice</target>
+      <trans-unit id="0wwr88n" resname="Export SuperTool">
+        <source>Export SuperTool</source>
+        <target>Exportatu SuperTool</target>
       </trans-unit>
-      <trans-unit id="rhbkc5v" resname="iDevice locked">
-        <source>iDevice locked</source>
-        <target>iDevice blokeatuta dago</target>
+      <trans-unit id="rhbkc5v" resname="SuperTool locked">
+        <source>SuperTool locked</source>
+        <target>SuperTool blokeatuta dago</target>
       </trans-unit>
-      <trans-unit id="lxspxoa" resname="This iDevice is being edited by">
-        <source>This iDevice is being edited by</source>
-        <target>iDevice hau editatzen ari da</target>
+      <trans-unit id="lxspxoa" resname="This SuperTool is being edited by">
+        <source>This SuperTool is being edited by</source>
+        <target>SuperTool hau editatzen ari da</target>
       </trans-unit>
       <trans-unit id="rv065s3" resname="Also delete associated box">
         <source>Also delete associated box</source>
         <target>Ezabatu bloke erantsia ere</target>
       </trans-unit>
-      <trans-unit id="gldqwym" resname="Failed to export iDevice">
-        <source>Failed to export iDevice</source>
-        <target>Errorea iDevice esportatzen</target>
+      <trans-unit id="gldqwym" resname="Failed to export SuperTool">
+        <source>Failed to export SuperTool</source>
+        <target>Errorea SuperTool esportatzen</target>
       </trans-unit>
       <trans-unit id="hmppisr" resname="Being edited by">
         <source>Being edited by</source>
@@ -12721,13 +12721,13 @@
         <source>Export box</source>
         <target>Kaxa esportatu</target>
       </trans-unit>
-      <trans-unit id="ci3j0x7" resname="An iDevice in this box is being edited by another user">
-        <source>An iDevice in this box is being edited by another user</source>
-        <target>Beste erabiltzaile bat kaxa honetako iDevice bat editatzen ari da</target>
+      <trans-unit id="ci3j0x7" resname="An SuperTool in this box is being edited by another user">
+        <source>An SuperTool in this box is being edited by another user</source>
+        <target>Beste erabiltzaile bat kaxa honetako SuperTool bat editatzen ari da</target>
       </trans-unit>
-      <trans-unit id="bj90ydg" resname="iDevices in this box are being edited by other users">
-        <source>iDevices in this box are being edited by other users</source>
-        <target>Beste erabiltzaile batzuk kaxa honetako iDevice bat editatzen ari dira</target>
+      <trans-unit id="bj90ydg" resname="SuperTools in this box are being edited by other users">
+        <source>SuperTools in this box are being edited by other users</source>
+        <target>Beste erabiltzaile batzuk kaxa honetako SuperTool bat editatzen ari dira</target>
       </trans-unit>
       <trans-unit id="gn9ygj9" resname="Their changes may be lost if you delete this box.">
         <source>Their changes may be lost if you delete this box.</source>
@@ -12841,9 +12841,9 @@
         <source>Failed to delete folder</source>
         <target>Errorea karpeta ezabatzerakoan</target>
       </trans-unit>
-      <trans-unit id="1h1z5lb" resname="This asset is referenced in %1 iDevices.">
-        <source>This asset is referenced in %1 iDevices.</source>
-        <target>Elementu hau %1 iDevices-en erreferentziatua dago.</target>
+      <trans-unit id="1h1z5lb" resname="This asset is referenced in %1 SuperTools.">
+        <source>This asset is referenced in %1 SuperTools.</source>
+        <target>Elementu hau %1 SuperTools-en erreferentziatua dago.</target>
       </trans-unit>
       <trans-unit id="cd83i7x" resname="Delete %1 selected files?">
         <source>Delete %1 selected files?</source>
@@ -14065,9 +14065,9 @@
         <source>Import (.elpx…)</source>
         <target>Inportatu (.elpx…)</target>
       </trans-unit>
-      <trans-unit id="y28ca74" resname="0 iDevices">
-        <source>0 iDevices</source>
-        <target>0 iDevice</target>
+      <trans-unit id="y28ca74" resname="0 SuperTools">
+        <source>0 SuperTools</source>
+        <target>0 SuperTool</target>
       </trans-unit>
       <trans-unit id="17auca4" resname="Proprietary license">
         <source>Proprietary license</source>
@@ -14081,9 +14081,9 @@
         <source>Public domain</source>
         <target>Domeinu publikoa</target>
       </trans-unit>
-      <trans-unit id="4lfqivc" resname="%1 iDevices">
-        <source>%1 iDevices</source>
-        <target>%1 iDevice</target>
+      <trans-unit id="4lfqivc" resname="%1 SuperTools">
+        <source>%1 SuperTools</source>
+        <target>%1 SuperTool</target>
       </trans-unit>
       <trans-unit id="bl4727m" resname="creative commons: cc0 1.0">
         <source>creative commons: cc0 1.0</source>
@@ -14101,9 +14101,9 @@
         <source>Temporary files detected</source>
         <target>Aldi baterako fitxategiak detektatuta</target>
       </trans-unit>
-      <trans-unit id="h02ejc5" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.">
-        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.</source>
-        <target>Eduki honetako fitxategi batzuek blob: estekak erabiltzen dituzte, orrialde honetan soilik funtzionatuko dutenak. Beste leku batean itsatzen baduzu, baliteke irudiak edo fitxategiak faltatzea. Fitxategiak dituen edukia berrerabiltzeko, gehitu itzazu Fitxategi-kudeatzailetik edo klonatu iDevice-a.</target>
+      <trans-unit id="h02ejc5" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.">
+        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.</source>
+        <target>Eduki honetako fitxategi batzuek blob: estekak erabiltzen dituzte, orrialde honetan soilik funtzionatuko dutenak. Beste leku batean itsatzen baduzu, baliteke irudiak edo fitxategiak faltatzea. Fitxategiak dituen edukia berrerabiltzeko, gehitu itzazu Fitxategi-kudeatzailetik edo klonatu SuperTool-a.</target>
       </trans-unit>
       <trans-unit id="fxd1d6n" resname="Caption Text">
         <source>Caption Text</source>
@@ -14129,9 +14129,9 @@
         <source>Could not be checked: HTTP content is blocked on HTTPS pages.</source>
         <target>Ezin izan da egiaztatu: HTTP edukia blokeatuta dago HTTPS orrialdeetan.</target>
       </trans-unit>
-      <trans-unit id="69v4nt9" resname="You can only add one Rubric iDevice per page.">
-        <source>You can only add one Rubric iDevice per page.</source>
-        <target>Orri bakoitzeko iDevice errubrika bakarra gehitu dezakezu.</target>
+      <trans-unit id="69v4nt9" resname="You can only add one Rubric SuperTool per page.">
+        <source>You can only add one Rubric SuperTool per page.</source>
+        <target>Orri bakoitzeko SuperTool errubrika bakarra gehitu dezakezu.</target>
       </trans-unit>
       <trans-unit id="iw66par" resname="CSV import/export">
         <source>CSV import/export</source>

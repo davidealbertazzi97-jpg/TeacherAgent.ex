@@ -157,9 +157,9 @@
         <source>Warning</source>
         <target>~Aviso</target>
       </trans-unit>
-      <trans-unit id="zhlMs3D" resname="iDevice error">
-        <source>iDevice error</source>
-        <target>~Erro no iDevice</target>
+      <trans-unit id="zhlMs3D" resname="SuperTool error">
+        <source>SuperTool error</source>
+        <target>~Erro no SuperTool</target>
       </trans-unit>
       <trans-unit id="5ieXOaE" resname="Report an Issue">
         <source>Report an Issue</source>
@@ -3909,36 +3909,36 @@
         <source>Resources designed to work on specific subject areas or topics.</source>
         <target>~Recursos projetados para trabalhar em áreas ou tópicos específicos.</target>
       </trans-unit>
-      <trans-unit id="w7FotCy" resname="Select or drag to place the iDevice on the page.">
-        <source>Select or drag to place the iDevice on the page.</source>
+      <trans-unit id="w7FotCy" resname="Select or drag to place the SuperTool on the page.">
+        <source>Select or drag to place the SuperTool on the page.</source>
         <target>~Selecione ou arraste para colocar o dispositivo na página.</target>
       </trans-unit>
       <trans-unit id="brRgELp" resname="Click to upload the file">
         <source>Click to upload the file</source>
         <target>~Clique para fazer upload do arquivo</target>
       </trans-unit>
-      <trans-unit id="HEyq1hx" resname="Import iDevice in ZIP format">
-        <source>Import iDevice in ZIP format</source>
+      <trans-unit id="HEyq1hx" resname="Import SuperTool in ZIP format">
+        <source>Import SuperTool in ZIP format</source>
         <target>~Importar dispositivo em formato ZIP</target>
       </trans-unit>
-      <trans-unit id="o1s3geg" resname="Failed to install the new iDevice">
-        <source>Failed to install the new iDevice</source>
+      <trans-unit id="o1s3geg" resname="Failed to install the new SuperTool">
+        <source>Failed to install the new SuperTool</source>
         <target>~Falha ao instalar o novo dispositivo</target>
       </trans-unit>
-      <trans-unit id="cmVmfRk" resname="Could not remove the iDevice">
-        <source>Could not remove the iDevice</source>
+      <trans-unit id="cmVmfRk" resname="Could not remove the SuperTool">
+        <source>Could not remove the SuperTool</source>
         <target>~Não foi possível remover o dispositivo</target>
       </trans-unit>
       <trans-unit id="Jp3BFhF" resname="Export">
         <source>Export</source>
         <target>~Exportar</target>
       </trans-unit>
-      <trans-unit id="tsxZze5" resname="Delete iDevice">
-        <source>Delete iDevice</source>
+      <trans-unit id="tsxZze5" resname="Delete SuperTool">
+        <source>Delete SuperTool</source>
         <target>~Excluir dispositivo</target>
       </trans-unit>
-      <trans-unit id="VBZ1ogU" resname="Delete this iDevice: %s?">
-        <source>Delete this iDevice: %s?</source>
+      <trans-unit id="VBZ1ogU" resname="Delete this SuperTool: %s?">
+        <source>Delete this SuperTool: %s?</source>
         <target>~Excluir este dispositivo: %s?</target>
       </trans-unit>
       <trans-unit id="bcRryHO" resname="Generating preview...">
@@ -4125,9 +4125,9 @@
         <source>The preview has been generated.</source>
         <target>~A visualização foi gerada.</target>
       </trans-unit>
-      <trans-unit id="jb.15_T" resname="Upload iDevice file">
-        <source>Upload iDevice file</source>
-        <target>~Carregar arquivo iDevice</target>
+      <trans-unit id="jb.15_T" resname="Upload SuperTool file">
+        <source>Upload SuperTool file</source>
+        <target>~Carregar arquivo SuperTool</target>
       </trans-unit>
       <trans-unit id="TbY2TF0" resname="Broken links">
         <source>Broken links</source>
@@ -4165,13 +4165,13 @@
         <source>Content properties</source>
         <target>~Propriedades do conteúdo</target>
       </trans-unit>
-      <trans-unit id="1tMjRQx" resname="Drag an iDevice in and start building">
-        <source>Drag an iDevice in and start building</source>
-        <target>~Arraste um dispositivo iDevice e comece a construir</target>
+      <trans-unit id="1tMjRQx" resname="Drag an SuperTool in and start building">
+        <source>Drag an SuperTool in and start building</source>
+        <target>~Arraste um dispositivo SuperTool e comece a construir</target>
       </trans-unit>
-      <trans-unit id="YfHiFNW" resname="Just drag an iDevice onto this page to start designing your content.">
-        <source>Just drag an iDevice onto this page to start designing your content.</source>
-        <target>~Basta arrastar um dispositivo iDevice para esta página para começar a criar seu conteúdo.</target>
+      <trans-unit id="YfHiFNW" resname="Just drag an SuperTool onto this page to start designing your content.">
+        <source>Just drag an SuperTool onto this page to start designing your content.</source>
+        <target>~Basta arrastar um dispositivo SuperTool para esta página para começar a criar seu conteúdo.</target>
       </trans-unit>
       <trans-unit id="9SQZbAa" resname="Add Text">
         <source>Add Text</source>
@@ -4209,33 +4209,33 @@
         <source>Back</source>
         <target>~Voltar</target>
       </trans-unit>
-      <trans-unit id="32aThvc" resname="iDevice manager">
-        <source>iDevice manager</source>
-        <target>~Gerenciador de dispositivos iDevice</target>
+      <trans-unit id="32aThvc" resname="SuperTool manager">
+        <source>SuperTool manager</source>
+        <target>~Gerenciador de dispositivos SuperTool</target>
       </trans-unit>
-      <trans-unit id="fMxz8c4" resname="Search iDevices">
-        <source>Search iDevices</source>
-        <target>~Pesquisar dispositivos iDevice</target>
+      <trans-unit id="fMxz8c4" resname="Search SuperTools">
+        <source>Search SuperTools</source>
+        <target>~Pesquisar dispositivos SuperTool</target>
       </trans-unit>
-      <trans-unit id="wtVkNXt" resname="Default iDevices">
-        <source>Default iDevices</source>
-        <target>~Dispositivos iDevice padrão</target>
+      <trans-unit id="wtVkNXt" resname="Default SuperTools">
+        <source>Default SuperTools</source>
+        <target>~Dispositivos SuperTool padrão</target>
       </trans-unit>
       <trans-unit id="Ha6Z1ij" resname="Filter items">
         <source>Filter items</source>
         <target>~Filtrar itens</target>
       </trans-unit>
-      <trans-unit id="yIQeeyS" resname="Import iDevice">
-        <source>Import iDevice</source>
-        <target>~Importar iDevice</target>
+      <trans-unit id="yIQeeyS" resname="Import SuperTool">
+        <source>Import SuperTool</source>
+        <target>~Importar SuperTool</target>
       </trans-unit>
       <trans-unit id="dRNHWgg" resname="Activate">
         <source>Activate</source>
         <target>~Ativar</target>
       </trans-unit>
-      <trans-unit id="F.0jKf8" resname="You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.">
-        <source>You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.</source>
-        <target>~Você só pode selecionar 5 iDevices como favoritos. Por favor, remova um iDevice para poder adicionar outro.</target>
+      <trans-unit id="F.0jKf8" resname="You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.">
+        <source>You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.</source>
+        <target>~Você só pode selecionar 5 SuperTools como favoritos. Por favor, remova um SuperTool para poder adicionar outro.</target>
       </trans-unit>
       <trans-unit id="1Ntsh7c" resname="Legal notes">
         <source>Legal notes</source>
@@ -4325,9 +4325,9 @@
         <source>Import error</source>
         <target>~Erro ao importar  </target>
       </trans-unit>
-      <trans-unit id="S7tnRBC" resname="The content is not a box or an iDevice">
-        <source>The content is not a box or an iDevice</source>
-        <target>~O conteúdo não é uma caixa ou um iDevice  </target>
+      <trans-unit id="S7tnRBC" resname="The content is not a box or an SuperTool">
+        <source>The content is not a box or an SuperTool</source>
+        <target>~O conteúdo não é uma caixa ou um SuperTool  </target>
       </trans-unit>
       <trans-unit id="Fg2n1tC" resname="Error while uploading the project.">
         <source>Error while uploading the project.</source>
@@ -4481,85 +4481,85 @@
         <source>Discard changes</source>
         <target>~Descartar alterações</target>
       </trans-unit>
-      <trans-unit id="1QWTr7I" resname="iDevice properties">
-        <source>iDevice properties</source>
-        <target>~Propriedades do iDevice</target>
+      <trans-unit id="1QWTr7I" resname="SuperTool properties">
+        <source>SuperTool properties</source>
+        <target>~Propriedades do SuperTool</target>
       </trans-unit>
-      <trans-unit id="U7kZ6Nk" resname="Delete iDevice? This cannot be undone.">
-        <source>Delete iDevice? This cannot be undone.</source>
-        <target>~Excluir iDevice? Isso não pode ser desfeito.</target>
+      <trans-unit id="U7kZ6Nk" resname="Delete SuperTool? This cannot be undone.">
+        <source>Delete SuperTool? This cannot be undone.</source>
+        <target>~Excluir SuperTool? Isso não pode ser desfeito.</target>
       </trans-unit>
       <trans-unit id="BFMIJG_" resname="Discard all changes?">
         <source>Discard all changes?</source>
         <target>~Descartar todas as alterações?</target>
       </trans-unit>
-      <trans-unit id="dOPZCVW" resname="Move iDevice to page">
-        <source>Move iDevice to page</source>
-        <target>~Mover iDevice para a página</target>
+      <trans-unit id="dOPZCVW" resname="Move SuperTool to page">
+        <source>Move SuperTool to page</source>
+        <target>~Mover SuperTool para a página</target>
       </trans-unit>
-      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the iDevice. It will be placed at the end of the page.">
-        <source>Select the page where you want to move the iDevice. It will be placed at the end of the page.</source>
-        <target>~Selecione a página para onde deseja mover o iDevice. Ele será colocado no final da página.</target>
+      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the SuperTool. It will be placed at the end of the page.">
+        <source>Select the page where you want to move the SuperTool. It will be placed at the end of the page.</source>
+        <target>~Selecione a página para onde deseja mover o SuperTool. Ele será colocado no final da página.</target>
       </trans-unit>
       <trans-unit id="aG4weoA" resname="An error occurred while save component in database">
         <source>An error occurred while save component in database</source>
         <target>~Ocorreu um erro ao salvar o componente no banco de dados  </target>
       </trans-unit>
-      <trans-unit id="78RKJPa" resname="An error occurred while saving the iDevice’s properties to the database.">
-        <source>An error occurred while saving the iDevice’s properties to the database.</source>
-        <target>~Ocorreu um erro ao salvar as propriedades do iDevice no banco de dados.  </target>
+      <trans-unit id="78RKJPa" resname="An error occurred while saving the SuperTool’s properties to the database.">
+        <source>An error occurred while saving the SuperTool’s properties to the database.</source>
+        <target>~Ocorreu um erro ao salvar as propriedades do SuperTool no banco de dados.  </target>
       </trans-unit>
       <trans-unit id="8g6a9xW" resname="File is too large">
         <source>File is too large</source>
         <target>~Arquivo muito grande  </target>
       </trans-unit>
-      <trans-unit id="LmWdpVc" resname="Error saving the iDevice">
-        <source>Error saving the iDevice</source>
-        <target>~Erro ao salvar o iDevice  </target>
+      <trans-unit id="LmWdpVc" resname="Error saving the SuperTool">
+        <source>Error saving the SuperTool</source>
+        <target>~Erro ao salvar o SuperTool  </target>
       </trans-unit>
-      <trans-unit id="iq1Ycbw" resname="Failed to save the iDevice to database">
-        <source>Failed to save the iDevice to database</source>
-        <target>~Falha ao salvar o iDevice no banco de dados  </target>
+      <trans-unit id="iq1Ycbw" resname="Failed to save the SuperTool to database">
+        <source>Failed to save the SuperTool to database</source>
+        <target>~Falha ao salvar o SuperTool no banco de dados  </target>
       </trans-unit>
       <trans-unit id="o0QuXoy" resname="Not allowed">
         <source>Not allowed</source>
         <target>~Não permitido  </target>
       </trans-unit>
-      <trans-unit id="b0l3acH" resname="You cannot edit another iDevice until you save the current one">
-        <source>You cannot edit another iDevice until you save the current one</source>
-        <target>~Você não pode editar outro iDevice até salvar o atual  </target>
+      <trans-unit id="b0l3acH" resname="You cannot edit another SuperTool until you save the current one">
+        <source>You cannot edit another SuperTool until you save the current one</source>
+        <target>~Você não pode editar outro SuperTool até salvar o atual  </target>
       </trans-unit>
       <trans-unit id="6b66eDm" resname="Remove Block">
         <source>Remove Block</source>
         <target>~Remover Bloco  </target>
       </trans-unit>
-      <trans-unit id="fXgNxXg" resname="iDevice deleted. Now the box is empty. Delete the box too?">
-        <source>iDevice deleted. Now the box is empty. Delete the box too?</source>
-        <target>~iDevice excluído. Agora a caixa está vazia. Deseja excluir a caixa também?  </target>
+      <trans-unit id="fXgNxXg" resname="SuperTool deleted. Now the box is empty. Delete the box too?">
+        <source>SuperTool deleted. Now the box is empty. Delete the box too?</source>
+        <target>~SuperTool excluído. Agora a caixa está vazia. Deseja excluir a caixa também?  </target>
       </trans-unit>
-      <trans-unit id="fxYTEKl" resname="Failed to load the iDevice.">
-        <source>Failed to load the iDevice.</source>
-        <target>~Falha ao carregar o iDevice.</target>
+      <trans-unit id="fxYTEKl" resname="Failed to load the SuperTool.">
+        <source>Failed to load the SuperTool.</source>
+        <target>~Falha ao carregar o SuperTool.</target>
       </trans-unit>
-      <trans-unit id="uvlDjwW" resname="Failed to load the iDevice view.">
-        <source>Failed to load the iDevice view.</source>
-        <target>~Falha ao carregar a visualização do iDevice.</target>
+      <trans-unit id="uvlDjwW" resname="Failed to load the SuperTool view.">
+        <source>Failed to load the SuperTool view.</source>
+        <target>~Falha ao carregar a visualização do SuperTool.</target>
       </trans-unit>
-      <trans-unit id="Q_WMYYX" resname="You can't add an iDevice on the root page">
-        <source>You can't add an iDevice on the root page</source>
-        <target>~Você não pode adicionar um iDevice na página raiz</target>
+      <trans-unit id="Q_WMYYX" resname="You can't add an SuperTool on the root page">
+        <source>You can't add an SuperTool on the root page</source>
+        <target>~Você não pode adicionar um SuperTool na página raiz</target>
       </trans-unit>
-      <trans-unit id="2Pq3_Wp" resname="Problem adding iDevice">
-        <source>Problem adding iDevice</source>
-        <target>~Problema ao adicionar o iDevice</target>
+      <trans-unit id="2Pq3_Wp" resname="Problem adding SuperTool">
+        <source>Problem adding SuperTool</source>
+        <target>~Problema ao adicionar o SuperTool</target>
       </trans-unit>
-      <trans-unit id="fPQsnoO" resname="You are currently editing another iDevice. Please close it before continuing">
-        <source>You are currently editing another iDevice. Please close it before continuing</source>
-        <target>~Você está editando outro iDevice no momento. Por favor, feche-o antes de continuar</target>
+      <trans-unit id="fPQsnoO" resname="You are currently editing another SuperTool. Please close it before continuing">
+        <source>You are currently editing another SuperTool. Please close it before continuing</source>
+        <target>~Você está editando outro SuperTool no momento. Por favor, feche-o antes de continuar</target>
       </trans-unit>
-      <trans-unit id="38SLSPC" resname="An error occurred while loading the iDevice.">
-        <source>An error occurred while loading the iDevice.</source>
-        <target>~Ocorreu um erro ao carregar o iDevice.</target>
+      <trans-unit id="38SLSPC" resname="An error occurred while loading the SuperTool.">
+        <source>An error occurred while loading the SuperTool.</source>
+        <target>~Ocorreu um erro ao carregar o SuperTool.</target>
       </trans-unit>
       <trans-unit id="_qN9nCf" resname="The box is empty. Do you want to delete it?">
         <source>The box is empty. Do you want to delete it?</source>
@@ -4597,9 +4597,9 @@
         <source>Your style has changed. Reload the page to apply changes?</source>
         <target>~Seu estilo foi alterado. Deseja recarregar a página para aplicar as mudanças?</target>
       </trans-unit>
-      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your iDevice before continuing.">
-        <source>Unsaved changes detected. Save your iDevice before continuing.</source>
-        <target>~Você está editando um iDevice. Por favor, feche-o antes de continuar</target>
+      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your SuperTool before continuing.">
+        <source>Unsaved changes detected. Save your SuperTool before continuing.</source>
+        <target>~Você está editando um SuperTool. Por favor, feche-o antes de continuar</target>
       </trans-unit>
       <trans-unit id="_t85EMU" resname="Required">
         <source>Required</source>
@@ -4965,8 +4965,8 @@
         <source>Identifier</source>
         <target>~Identificador</target>
       </trans-unit>
-      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.">
-        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.</source>
+      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.">
+        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.</source>
         <target>~Você deve indicar o ID. Pode ser uma palavra, uma frase ou um número com mais de quatro caracteres. Você usará este ID para marcar as atividades cobertas por este relatório de progresso. Deve ser o mesmo em todos os dispositivos do relatório e diferente em cada relatório.</target>
       </trans-unit>
       <trans-unit id="T1EljX." resname="Words">
@@ -6113,9 +6113,9 @@
         <source>Please select a JSON file (.json)</source>
         <target>~Por favor, selecione um arquivo JSON (.json)</target>
       </trans-unit>
-      <trans-unit id="qcFkxQM" resname="This is just an example iDevice.">
-        <source>This is just an example iDevice.</source>
-        <target>~Este é apenas um exemplo de dispositivo iDevice.</target>
+      <trans-unit id="qcFkxQM" resname="This is just an example SuperTool.">
+        <source>This is just an example SuperTool.</source>
+        <target>~Este é apenas um exemplo de dispositivo SuperTool.</target>
       </trans-unit>
       <trans-unit id="hww8GA_" resname="Write a text that will be saved">
         <source>Write a text that will be saved</source>
@@ -7357,9 +7357,9 @@
         <source>Interactive video</source>
         <target>~Vídeo interativo</target>
       </trans-unit>
-      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video iDevice per page.">
-        <source>You can only add one Interactive Video iDevice per page.</source>
-        <target>~Você só pode adicionar um iDevice de Vídeo Interativo por página.</target>
+      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video SuperTool per page.">
+        <source>You can only add one Interactive Video SuperTool per page.</source>
+        <target>~Você só pode adicionar um SuperTool de Vídeo Interativo por página.</target>
       </trans-unit>
       <trans-unit id="uSbcaZn" resname="Mediateca">
         <source>Mediateca</source>
@@ -8405,8 +8405,8 @@
         <source>Download progress report</source>
         <target>~Baixar relatório de progresso  </target>
       </trans-unit>
-      <trans-unit id="9i7wSb7" resname="Edit this iDevice to update its contents.">
-        <source>Edit this iDevice to update its contents.</source>
+      <trans-unit id="9i7wSb7" resname="Edit this SuperTool to update its contents.">
+        <source>Edit this SuperTool to update its contents.</source>
         <target>~Edite este dispositivo para atualizar seu conteúdo.  </target>
       </trans-unit>
       <trans-unit id="VA40URh" resname="It shows the result of the pupils in the activities linked to their average score.">
@@ -8425,33 +8425,33 @@
         <source>Show date and time</source>
         <target>~Mostrar data e hora</target>
       </trans-unit>
-      <trans-unit id="tWiYaph" resname="Show type of iDevice">
-        <source>Show type of iDevice</source>
-        <target>~Mostrar tipo de iDevice</target>
+      <trans-unit id="tWiYaph" resname="Show type of SuperTool">
+        <source>Show type of SuperTool</source>
+        <target>~Mostrar tipo de SuperTool</target>
       </trans-unit>
       <trans-unit id="hslmn9f" resname="Link report activities">
         <source>Link report activities</source>
         <target>~Vincular atividades do relatório</target>
       </trans-unit>
-      <trans-unit id="N8SqHY0" resname="All pages and iDevices">
-        <source>All pages and iDevices</source>
-        <target>~Todas as páginas e iDevices</target>
+      <trans-unit id="N8SqHY0" resname="All pages and SuperTools">
+        <source>All pages and SuperTools</source>
+        <target>~Todas as páginas e SuperTools</target>
       </trans-unit>
-      <trans-unit id="BVy_DUt" resname="All pages and only evaluable iDevices">
-        <source>All pages and only evaluable iDevices</source>
-        <target>~Todas as páginas e apenas iDevices avaliáveis</target>
+      <trans-unit id="BVy_DUt" resname="All pages and only evaluable SuperTools">
+        <source>All pages and only evaluable SuperTools</source>
+        <target>~Todas as páginas e apenas SuperTools avaliáveis</target>
       </trans-unit>
       <trans-unit id="h0N_aPF" resname="Only pages with evaluable activities">
         <source>Only pages with evaluable activities</source>
         <target>~Apenas páginas com atividades avaliáveis</target>
       </trans-unit>
-      <trans-unit id="Ep4G9EC" resname="Available iDevices">
-        <source>Available iDevices</source>
-        <target>~iDevices disponíveis</target>
+      <trans-unit id="Ep4G9EC" resname="Available SuperTools">
+        <source>Available SuperTools</source>
+        <target>~SuperTools disponíveis</target>
       </trans-unit>
-      <trans-unit id="eP0k3XT" resname="This iDevice is compatible with all game iDevices and all interactive activities.">
-        <source>This iDevice is compatible with all game iDevices and all interactive activities.</source>
-        <target>~Este iDevice é compatível com todos os iDevices de jogos e todas as atividades interativas.</target>
+      <trans-unit id="eP0k3XT" resname="This SuperTool is compatible with all game SuperTools and all interactive activities.">
+        <source>This SuperTool is compatible with all game SuperTools and all interactive activities.</source>
+        <target>~Este SuperTool é compatível com todos os SuperTools de jogos e todas as atividades interativas.</target>
       </trans-unit>
       <trans-unit id="N0bCogy" resname="Puzzle">
         <source>Puzzle</source>
@@ -9413,8 +9413,8 @@
         <source>New block</source>
         <target>~Novo bloco</target>
       </trans-unit>
-      <trans-unit id="gNC320b" resname="About this iDevice">
-        <source>About this iDevice</source>
+      <trans-unit id="gNC320b" resname="About this SuperTool">
+        <source>About this SuperTool</source>
         <target>~Sobre este dispositivo</target>
       </trans-unit>
       <trans-unit id="xGrroVc" resname="Cofinanced by:">
@@ -11101,17 +11101,17 @@
         <source>Structure panel</source>
         <target>~Painel de estrutura</target>
       </trans-unit>
-      <trans-unit id="Fh_A6BL" resname="iDevices panel">
-        <source>iDevices panel</source>
-        <target>~Painel de iDevices</target>
+      <trans-unit id="Fh_A6BL" resname="SuperTools panel">
+        <source>SuperTools panel</source>
+        <target>~Painel de SuperTools</target>
       </trans-unit>
       <trans-unit id="9G8Nzdp" resname="User menu">
         <source>User menu</source>
         <target>~Menu do usuário</target>
       </trans-unit>
-      <trans-unit id="4Y_yO11" resname="iDevices">
-        <source>iDevices</source>
-        <target>~iDevices</target>
+      <trans-unit id="4Y_yO11" resname="SuperTools">
+        <source>SuperTools</source>
+        <target>~SuperTools</target>
       </trans-unit>
       <trans-unit id="5Kb4IIZ" resname="Toggle panels">
         <source>Toggle panels</source>
@@ -11257,9 +11257,9 @@
         <source>System</source>
         <target>~Sistema  </target>
       </trans-unit>
-      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new iDevices.">
-        <source>Someone else is editing this page. Please wait until they finish before adding new iDevices.</source>
-        <target>~Outra pessoa está editando esta página. Por favor, aguarde até que ela termine antes de adicionar novos iDevices.  </target>
+      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new SuperTools.">
+        <source>Someone else is editing this page. Please wait until they finish before adding new SuperTools.</source>
+        <target>~Outra pessoa está editando esta página. Por favor, aguarde até que ela termine antes de adicionar novos SuperTools.  </target>
       </trans-unit>
       <trans-unit id="fTgJugq" resname="Accordion">
         <source>Accordion</source>
@@ -11561,9 +11561,9 @@
         <source>Unexpected error importing file.</source>
         <target>~Erro inesperado ao importar arquivo.</target>
       </trans-unit>
-      <trans-unit id="SIDjSV." resname="iDevice">
-        <source>iDevice</source>
-        <target>~iDevice</target>
+      <trans-unit id="SIDjSV." resname="SuperTool">
+        <source>SuperTool</source>
+        <target>~SuperTool</target>
       </trans-unit>
       <trans-unit id="byLNU96" resname="Import (.elpx...)">
         <source>Import (.elpx...)</source>
@@ -11973,8 +11973,8 @@
         <source>Write the term and its definition. You may use HTML and edit it in the editor.</source>
         <target>~Escreva o termo e sua definição. Você pode usar HTML e editá-lo no editor.</target>
       </trans-unit>
-      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text iDevice in the specified page.">
-        <source>Show the content of the first Free Text iDevice in the specified page.</source>
+      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text SuperTool in the specified page.">
+        <source>Show the content of the first Free Text SuperTool in the specified page.</source>
         <target>~Mostrar o conteúdo do primeiro dispositivo de texto livre na página especificada.  </target>
       </trans-unit>
       <trans-unit id="k_kZsMw" resname="Term">
@@ -12257,9 +12257,9 @@
         <source>Default AI Assistant</source>
         <target>~Assistente de IA padrão</target>
       </trans-unit>
-      <trans-unit id="3fsntsq" resname="Select the AI that will be selected by default when editing iDevices.">
-        <source>Select the AI that will be selected by default when editing iDevices.</source>
-        <target>~Selecione a IA que será usada por padrão ao editar iDevices.</target>
+      <trans-unit id="3fsntsq" resname="Select the AI that will be selected by default when editing SuperTools.">
+        <source>Select the AI that will be selected by default when editing SuperTools.</source>
+        <target>~Selecione a IA que será usada por padrão ao editar SuperTools.</target>
       </trans-unit>
       <trans-unit id="k38kk65" resname="Hide page title">
         <source>Hide page title</source>
@@ -12669,33 +12669,33 @@
         <source>Another user</source>
         <target>~Outro usuário</target>
       </trans-unit>
-      <trans-unit id="hi8n2w7" resname="Clone iDevice">
-        <source>Clone iDevice</source>
-        <target>~Clonar iDevice</target>
+      <trans-unit id="hi8n2w7" resname="Clone SuperTool">
+        <source>Clone SuperTool</source>
+        <target>~Clonar SuperTool</target>
       </trans-unit>
       <trans-unit id="mhoedi2" resname="Move to page">
         <source>Move to page</source>
         <target>~Mover para página</target>
       </trans-unit>
-      <trans-unit id="x9io4g0" resname="Export iDevice">
-        <source>Export iDevice</source>
-        <target>~Exportar iDevice</target>
+      <trans-unit id="x9io4g0" resname="Export SuperTool">
+        <source>Export SuperTool</source>
+        <target>~Exportar SuperTool</target>
       </trans-unit>
-      <trans-unit id="gwfro78" resname="iDevice locked">
-        <source>iDevice locked</source>
-        <target>~iDevice bloqueado</target>
+      <trans-unit id="gwfro78" resname="SuperTool locked">
+        <source>SuperTool locked</source>
+        <target>~SuperTool bloqueado</target>
       </trans-unit>
-      <trans-unit id="5s98vrx" resname="This iDevice is being edited by">
-        <source>This iDevice is being edited by</source>
-        <target>~Este iDevice está sendo editado por</target>
+      <trans-unit id="5s98vrx" resname="This SuperTool is being edited by">
+        <source>This SuperTool is being edited by</source>
+        <target>~Este SuperTool está sendo editado por</target>
       </trans-unit>
       <trans-unit id="6vfmxey" resname="Also delete associated box">
         <source>Also delete associated box</source>
         <target>~Excluir também o bloqueio associado</target>
       </trans-unit>
-      <trans-unit id="2fmdxpy" resname="Failed to export iDevice">
-        <source>Failed to export iDevice</source>
-        <target>~Erro ao exportar iDevice</target>
+      <trans-unit id="2fmdxpy" resname="Failed to export SuperTool">
+        <source>Failed to export SuperTool</source>
+        <target>~Erro ao exportar SuperTool</target>
       </trans-unit>
       <trans-unit id="0nvfb8g" resname="Being edited by">
         <source>Being edited by</source>
@@ -12721,13 +12721,13 @@
         <source>Export box</source>
         <target>~Exportar caixa</target>
       </trans-unit>
-      <trans-unit id="c8e2h3q" resname="An iDevice in this box is being edited by another user">
-        <source>An iDevice in this box is being edited by another user</source>
-        <target>~Há outro usuário editando um iDevice desta caixa</target>
+      <trans-unit id="c8e2h3q" resname="An SuperTool in this box is being edited by another user">
+        <source>An SuperTool in this box is being edited by another user</source>
+        <target>~Há outro usuário editando um SuperTool desta caixa</target>
       </trans-unit>
-      <trans-unit id="x23mti2" resname="iDevices in this box are being edited by other users">
-        <source>iDevices in this box are being edited by other users</source>
-        <target>~Há outros usuários editando um iDevice desta caixa</target>
+      <trans-unit id="x23mti2" resname="SuperTools in this box are being edited by other users">
+        <source>SuperTools in this box are being edited by other users</source>
+        <target>~Há outros usuários editando um SuperTool desta caixa</target>
       </trans-unit>
       <trans-unit id="z8w8on0" resname="Their changes may be lost if you delete this box.">
         <source>Their changes may be lost if you delete this box.</source>
@@ -12841,9 +12841,9 @@
         <source>Failed to delete folder</source>
         <target>~Erro ao excluir a pasta</target>
       </trans-unit>
-      <trans-unit id="dlgr0uw" resname="This asset is referenced in %1 iDevices.">
-        <source>This asset is referenced in %1 iDevices.</source>
-        <target>~Este recurso está referenciado en %1 iDevices.</target>
+      <trans-unit id="dlgr0uw" resname="This asset is referenced in %1 SuperTools.">
+        <source>This asset is referenced in %1 SuperTools.</source>
+        <target>~Este recurso está referenciado en %1 SuperTools.</target>
       </trans-unit>
       <trans-unit id="rul0uo8" resname="Delete %1 selected files?">
         <source>Delete %1 selected files?</source>
@@ -14065,9 +14065,9 @@
         <source>Import (.elpx…)</source>
         <target>~Importar (.elpx…)</target>
       </trans-unit>
-      <trans-unit id="qmaj9kb" resname="0 iDevices">
-        <source>0 iDevices</source>
-        <target>~0 iDevices</target>
+      <trans-unit id="qmaj9kb" resname="0 SuperTools">
+        <source>0 SuperTools</source>
+        <target>~0 SuperTools</target>
       </trans-unit>
       <trans-unit id="ul9dis0" resname="Proprietary license">
         <source>Proprietary license</source>
@@ -14081,9 +14081,9 @@
         <source>Public domain</source>
         <target>~Domínio público</target>
       </trans-unit>
-      <trans-unit id="pqla3ky" resname="%1 iDevices">
-        <source>%1 iDevices</source>
-        <target>~%1 iDevices</target>
+      <trans-unit id="pqla3ky" resname="%1 SuperTools">
+        <source>%1 SuperTools</source>
+        <target>~%1 SuperTools</target>
       </trans-unit>
       <trans-unit id="fijc7cx" resname="creative commons: cc0 1.0">
         <source>creative commons: cc0 1.0</source>
@@ -14101,9 +14101,9 @@
         <source>Temporary files detected</source>
         <target>~Ficheiros temporários detetados</target>
       </trans-unit>
-      <trans-unit id="dinulrv" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.">
-        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.</source>
-        <target>~Alguns ficheiros neste conteúdo utilizam ligações blob: que só funcionam nesta página. Se colar este conteúdo noutro lugar, imagens ou ficheiros podem estar em falta. Para reutilizar conteúdo com ficheiros, adicione-os a partir do Gestor de ficheiros ou clone o iDevice.</target>
+      <trans-unit id="dinulrv" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.">
+        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.</source>
+        <target>~Alguns ficheiros neste conteúdo utilizam ligações blob: que só funcionam nesta página. Se colar este conteúdo noutro lugar, imagens ou ficheiros podem estar em falta. Para reutilizar conteúdo com ficheiros, adicione-os a partir do Gestor de ficheiros ou clone o SuperTool.</target>
       </trans-unit>
       <trans-unit id="kllo4fv" resname="Caption Text">
         <source>Caption Text</source>
@@ -14129,9 +14129,9 @@
         <source>Could not be checked: HTTP content is blocked on HTTPS pages.</source>
         <target>~Não foi possível verificar: o conteúdo HTTP está bloqueado em páginas HTTPS.</target>
       </trans-unit>
-      <trans-unit id="4j27qef" resname="You can only add one Rubric iDevice per page.">
-        <source>You can only add one Rubric iDevice per page.</source>
-        <target>~Só pode adicionar um iDevice Rubrica por página.</target>
+      <trans-unit id="4j27qef" resname="You can only add one Rubric SuperTool per page.">
+        <source>You can only add one Rubric SuperTool per page.</source>
+        <target>~Só pode adicionar um SuperTool Rubrica por página.</target>
       </trans-unit>
       <trans-unit id="ixqh44d" resname="CSV import/export">
         <source>CSV import/export</source>

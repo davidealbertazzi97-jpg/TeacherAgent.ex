@@ -235,7 +235,7 @@ describe('download-source-file iDevice (edition)', () => {
 
       expect(bgColor).not.toBeNull();
       expect(bgColor.type).toBe('color');
-      expect(bgColor.value).toBe('#107275');
+      expect(bgColor.value).toBe('#3730a3');
 
       expect(textColor).not.toBeNull();
       expect(textColor.type).toBe('color');
@@ -292,7 +292,7 @@ describe('download-source-file iDevice (edition)', () => {
           <option value="1.1">110%</option>
           <option value="1.2">120%</option>
         </select>
-        <input type="color" id="dpiButtonBGcolor" value="#107275" />
+        <input type="color" id="dpiButtonBGcolor" value="#3730a3" />
         <input type="color" id="dpiButtonTextColor" value="#ffffff" />
       `;
       document.body.appendChild(container);
@@ -364,7 +364,7 @@ describe('download-source-file iDevice (edition)', () => {
           <option value="1" selected>100%</option>
           <option value="1.2">120%</option>
         </select>
-        <input type="color" id="dpiButtonBGcolor" value="#107275" />
+        <input type="color" id="dpiButtonBGcolor" value="#3730a3" />
         <input type="color" id="dpiButtonTextColor" value="#ffffff" />
       `;
       document.body.appendChild(container);

@@ -13,12 +13,12 @@
  *   }
  */
 .lomloeIdeviceContent {
-    --lomloe-th-bg:          #107275;  /* eXe brand-primary-700 */
+    --lomloe-th-bg:          #3730a3;  /* eXe brand-primary-700 */
     --lomloe-th-color:       #ffffff;
     --lomloe-border:         #d0d0d0;
     --lomloe-stripe:         rgba(0, 0, 0, 0.025);
     --lomloe-hover:          rgba(0, 0, 0, 0.055);
-    --lomloe-accent:         #0BA1A1;  /* eXe brand-primary-600 */
+    --lomloe-accent:         #4f46e5;  /* eXe brand-primary-600 */
     --lomloe-accent-bg:      #e3f8f9;  /* eXe brand-primary-50  */
     --lomloe-accent-border:  #99F6EB;  /* eXe brand-primary-200 */
 
@@ -32,14 +32,14 @@
     font-size: 1.2em;
     font-weight: bold;
     margin: 0 0 0.5em 0;
-    color: var(--lomloe-accent, #0BA1A1);
+    color: var(--lomloe-accent, #4f46e5);
 }
 
 .lomloeIdeviceContent h4.lomloe-export-subtitle {
     font-size: 1em;
     font-weight: bold;
     margin: 1em 0 0.4em 0;
-    color: var(--lomloe-accent, #0BA1A1);
+    color: var(--lomloe-accent, #4f46e5);
 }
 
 .lomloeIdeviceContent .lomloe-export-meta {
@@ -66,7 +66,7 @@
 }
 
 .lomloe-export-table th {
-    background-color: var(--lomloe-th-bg, #107275);
+    background-color: var(--lomloe-th-bg, #3730a3);
     color: var(--lomloe-th-color, #fff);
     font-weight: bold;
     white-space: nowrap;
@@ -92,7 +92,7 @@
     font-weight: bold;
     font-family: monospace;
     background-color: var(--lomloe-accent-bg, #e3f8f9);
-    color: var(--lomloe-accent, #0BA1A1);
+    color: var(--lomloe-accent, #4f46e5);
     border: 1px solid var(--lomloe-accent-border, #99F6EB);
 }
 
@@ -111,7 +111,7 @@
     border-radius: 3px;
     font-size: 0.75em;
     background-color: var(--lomloe-accent-bg, #e3f8f9);
-    color: var(--lomloe-accent, #0BA1A1);
+    color: var(--lomloe-accent, #4f46e5);
     border: 1px solid var(--lomloe-accent-border, #99F6EB);
 }
 

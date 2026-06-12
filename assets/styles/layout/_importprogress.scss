@@ -31,7 +31,7 @@
     height: 48px;
     margin: 0 auto 1rem;
     border: 3px solid #e0e0e0;
-    border-top-color: var(--dark-exe-color, #0BA1A1);
+    border-top-color: var(--dark-exe-color, #4f46e5);
     border-radius: 50%;
     animation: import-progress-spin 1s linear infinite;
 }
@@ -54,7 +54,7 @@
 
 .import-progress-bar {
     height: 100%;
-    background: var(--dark-exe-color, #0BA1A1);
+    background: var(--dark-exe-color, #4f46e5);
     border-radius: 2px;
     transition: width 0.2s ease-out;
 }

@@ -73,7 +73,7 @@ export function buildConfigParams(deps: ConfigParamsDeps) {
         },
         defaultAI: {
             title: `${TRANS_PREFIX}Default AI Assistant`,
-            help: `${TRANS_PREFIX}Select the AI that will be selected by default when editing iDevices.`,
+            help: `${TRANS_PREFIX}Select the AI that will be selected by default when editing SuperTools.`,
             value: 'https://chatgpt.com/?q=',
             type: 'select',
             options: {

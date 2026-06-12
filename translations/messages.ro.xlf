@@ -157,9 +157,9 @@
         <source>Warning</source>
         <target>Avertizare</target>
       </trans-unit>
-      <trans-unit id="zhlMs3D" resname="iDevice error">
-        <source>iDevice error</source>
-        <target>Eroare de iDevice</target>
+      <trans-unit id="zhlMs3D" resname="SuperTool error">
+        <source>SuperTool error</source>
+        <target>Eroare de SuperTool</target>
       </trans-unit>
       <trans-unit id="5ieXOaE" resname="Report an Issue">
         <source>Report an Issue</source>
@@ -3909,37 +3909,37 @@
         <source>Resources designed to work on specific subject areas or topics.</source>
         <target>Resurse concepute pentru a lucra pe domenii sau subiecte specifice.</target>
       </trans-unit>
-      <trans-unit id="w7FotCy" resname="Select or drag to place the iDevice on the page.">
-        <source>Select or drag to place the iDevice on the page.</source>
-        <target>Selectați sau trageți pentru a plasa iDevice pe pagină.</target>
+      <trans-unit id="w7FotCy" resname="Select or drag to place the SuperTool on the page.">
+        <source>Select or drag to place the SuperTool on the page.</source>
+        <target>Selectați sau trageți pentru a plasa SuperTool pe pagină.</target>
       </trans-unit>
       <trans-unit id="brRgELp" resname="Click to upload the file">
         <source>Click to upload the file</source>
         <target>Clic pentru a încărca fișierul</target>
       </trans-unit>
-      <trans-unit id="HEyq1hx" resname="Import iDevice in ZIP format">
-        <source>Import iDevice in ZIP format</source>
-        <target>Importă iDevice în format ZIP</target>
+      <trans-unit id="HEyq1hx" resname="Import SuperTool in ZIP format">
+        <source>Import SuperTool in ZIP format</source>
+        <target>Importă SuperTool în format ZIP</target>
       </trans-unit>
-      <trans-unit id="o1s3geg" resname="Failed to install the new iDevice">
-        <source>Failed to install the new iDevice</source>
-        <target>Nu s-a putut instala noul iDevice</target>
+      <trans-unit id="o1s3geg" resname="Failed to install the new SuperTool">
+        <source>Failed to install the new SuperTool</source>
+        <target>Nu s-a putut instala noul SuperTool</target>
       </trans-unit>
-      <trans-unit id="cmVmfRk" resname="Could not remove the iDevice">
-        <source>Could not remove the iDevice</source>
-        <target>Nu s-a putut elimina iDevice-ul</target>
+      <trans-unit id="cmVmfRk" resname="Could not remove the SuperTool">
+        <source>Could not remove the SuperTool</source>
+        <target>Nu s-a putut elimina SuperTool-ul</target>
       </trans-unit>
       <trans-unit id="Jp3BFhF" resname="Export">
         <source>Export</source>
         <target>Exportă</target>
       </trans-unit>
-      <trans-unit id="tsxZze5" resname="Delete iDevice">
-        <source>Delete iDevice</source>
-        <target>Șterge iDevice</target>
+      <trans-unit id="tsxZze5" resname="Delete SuperTool">
+        <source>Delete SuperTool</source>
+        <target>Șterge SuperTool</target>
       </trans-unit>
-      <trans-unit id="VBZ1ogU" resname="Delete this iDevice: %s?">
-        <source>Delete this iDevice: %s?</source>
-        <target>Șterge acest iDevice: %s?</target>
+      <trans-unit id="VBZ1ogU" resname="Delete this SuperTool: %s?">
+        <source>Delete this SuperTool: %s?</source>
+        <target>Șterge acest SuperTool: %s?</target>
       </trans-unit>
       <trans-unit id="bcRryHO" resname="Generating preview...">
         <source>Generating preview...</source>
@@ -4125,9 +4125,9 @@
         <source>The preview has been generated.</source>
         <target>Previzualizarea a fost generată.</target>
       </trans-unit>
-      <trans-unit id="jb.15_T" resname="Upload iDevice file">
-        <source>Upload iDevice file</source>
-        <target>Încărcare fișier iDevice</target>
+      <trans-unit id="jb.15_T" resname="Upload SuperTool file">
+        <source>Upload SuperTool file</source>
+        <target>Încărcare fișier SuperTool</target>
       </trans-unit>
       <trans-unit id="TbY2TF0" resname="Broken links">
         <source>Broken links</source>
@@ -4165,13 +4165,13 @@
         <source>Content properties</source>
         <target>Proprietăți ale conținutului</target>
       </trans-unit>
-      <trans-unit id="1tMjRQx" resname="Drag an iDevice in and start building">
-        <source>Drag an iDevice in and start building</source>
-        <target>Trage un iDevice și începe să construiești</target>
+      <trans-unit id="1tMjRQx" resname="Drag an SuperTool in and start building">
+        <source>Drag an SuperTool in and start building</source>
+        <target>Trage un SuperTool și începe să construiești</target>
       </trans-unit>
-      <trans-unit id="YfHiFNW" resname="Just drag an iDevice onto this page to start designing your content.">
-        <source>Just drag an iDevice onto this page to start designing your content.</source>
-        <target>Doar trage un iDevice pe această pagină pentru a începe să-ți proiectezi conținutul.</target>
+      <trans-unit id="YfHiFNW" resname="Just drag an SuperTool onto this page to start designing your content.">
+        <source>Just drag an SuperTool onto this page to start designing your content.</source>
+        <target>Doar trage un SuperTool pe această pagină pentru a începe să-ți proiectezi conținutul.</target>
       </trans-unit>
       <trans-unit id="9SQZbAa" resname="Add Text">
         <source>Add Text</source>
@@ -4209,33 +4209,33 @@
         <source>Back</source>
         <target>Înapoi</target>
       </trans-unit>
-      <trans-unit id="32aThvc" resname="iDevice manager">
-        <source>iDevice manager</source>
-        <target>Manager de iDevice</target>
+      <trans-unit id="32aThvc" resname="SuperTool manager">
+        <source>SuperTool manager</source>
+        <target>Manager de SuperTool</target>
       </trans-unit>
-      <trans-unit id="fMxz8c4" resname="Search iDevices">
-        <source>Search iDevices</source>
-        <target>Caută iDevices</target>
+      <trans-unit id="fMxz8c4" resname="Search SuperTools">
+        <source>Search SuperTools</source>
+        <target>Caută SuperTools</target>
       </trans-unit>
-      <trans-unit id="wtVkNXt" resname="Default iDevices">
-        <source>Default iDevices</source>
-        <target>iDevices implicite</target>
+      <trans-unit id="wtVkNXt" resname="Default SuperTools">
+        <source>Default SuperTools</source>
+        <target>SuperTools implicite</target>
       </trans-unit>
       <trans-unit id="Ha6Z1ij" resname="Filter items">
         <source>Filter items</source>
         <target>Filtrează elemente</target>
       </trans-unit>
-      <trans-unit id="yIQeeyS" resname="Import iDevice">
-        <source>Import iDevice</source>
-        <target>Importă iDevices</target>
+      <trans-unit id="yIQeeyS" resname="Import SuperTool">
+        <source>Import SuperTool</source>
+        <target>Importă SuperTools</target>
       </trans-unit>
       <trans-unit id="dRNHWgg" resname="Activate">
         <source>Activate</source>
         <target>Activează</target>
       </trans-unit>
-      <trans-unit id="F.0jKf8" resname="You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.">
-        <source>You can only select 5 iDevices as favourites. Please remove an iDevice so you can add another one.</source>
-        <target>Poți selecta doar 5 iDevice-uri ca favorite. Te rugăm să elimini un iDevice pentru a putea adăuga unul nou.</target>
+      <trans-unit id="F.0jKf8" resname="You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.">
+        <source>You can only select 5 SuperTools as favourites. Please remove an SuperTool so you can add another one.</source>
+        <target>Poți selecta doar 5 SuperTool-uri ca favorite. Te rugăm să elimini un SuperTool pentru a putea adăuga unul nou.</target>
       </trans-unit>
       <trans-unit id="1Ntsh7c" resname="Legal notes">
         <source>Legal notes</source>
@@ -4325,9 +4325,9 @@
         <source>Import error</source>
         <target>Eroare la import</target>
       </trans-unit>
-      <trans-unit id="S7tnRBC" resname="The content is not a box or an iDevice">
-        <source>The content is not a box or an iDevice</source>
-        <target>Conținutul nu este o casetă sau un iDevice</target>
+      <trans-unit id="S7tnRBC" resname="The content is not a box or an SuperTool">
+        <source>The content is not a box or an SuperTool</source>
+        <target>Conținutul nu este o casetă sau un SuperTool</target>
       </trans-unit>
       <trans-unit id="Fg2n1tC" resname="Error while uploading the project.">
         <source>Error while uploading the project.</source>
@@ -4481,85 +4481,85 @@
         <source>Discard changes</source>
         <target>Anulează modificările</target>
       </trans-unit>
-      <trans-unit id="1QWTr7I" resname="iDevice properties">
-        <source>iDevice properties</source>
-        <target>Proprietățile iDevice</target>
+      <trans-unit id="1QWTr7I" resname="SuperTool properties">
+        <source>SuperTool properties</source>
+        <target>Proprietățile SuperTool</target>
       </trans-unit>
-      <trans-unit id="U7kZ6Nk" resname="Delete iDevice? This cannot be undone.">
-        <source>Delete iDevice? This cannot be undone.</source>
-        <target>Șterge iDevice? Această acțiune nu poate fi anulată.</target>
+      <trans-unit id="U7kZ6Nk" resname="Delete SuperTool? This cannot be undone.">
+        <source>Delete SuperTool? This cannot be undone.</source>
+        <target>Șterge SuperTool? Această acțiune nu poate fi anulată.</target>
       </trans-unit>
       <trans-unit id="BFMIJG_" resname="Discard all changes?">
         <source>Discard all changes?</source>
         <target>Anulează toate modificările?</target>
       </trans-unit>
-      <trans-unit id="dOPZCVW" resname="Move iDevice to page">
-        <source>Move iDevice to page</source>
-        <target>Mută iDevice pe pagină</target>
+      <trans-unit id="dOPZCVW" resname="Move SuperTool to page">
+        <source>Move SuperTool to page</source>
+        <target>Mută SuperTool pe pagină</target>
       </trans-unit>
-      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the iDevice. It will be placed at the end of the page.">
-        <source>Select the page where you want to move the iDevice. It will be placed at the end of the page.</source>
-        <target>Selectează pagina pe care vrei să muți iDevice-ul. Va fi plasat la sfârșitul paginii.</target>
+      <trans-unit id="qMGbqBh" resname="Select the page where you want to move the SuperTool. It will be placed at the end of the page.">
+        <source>Select the page where you want to move the SuperTool. It will be placed at the end of the page.</source>
+        <target>Selectează pagina pe care vrei să muți SuperTool-ul. Va fi plasat la sfârșitul paginii.</target>
       </trans-unit>
       <trans-unit id="aG4weoA" resname="An error occurred while save component in database">
         <source>An error occurred while save component in database</source>
         <target>A apărut o eroare în timpul salvării componentei în bazele de date</target>
       </trans-unit>
-      <trans-unit id="78RKJPa" resname="An error occurred while saving the iDevice’s properties to the database.">
-        <source>An error occurred while saving the iDevice’s properties to the database.</source>
-        <target>A apărut o eroare în timpul salvării proprietăților iDevice-ului în bazele de date.</target>
+      <trans-unit id="78RKJPa" resname="An error occurred while saving the SuperTool’s properties to the database.">
+        <source>An error occurred while saving the SuperTool’s properties to the database.</source>
+        <target>A apărut o eroare în timpul salvării proprietăților SuperTool-ului în bazele de date.</target>
       </trans-unit>
       <trans-unit id="8g6a9xW" resname="File is too large">
         <source>File is too large</source>
         <target>Fișierul este prea mare</target>
       </trans-unit>
-      <trans-unit id="LmWdpVc" resname="Error saving the iDevice">
-        <source>Error saving the iDevice</source>
-        <target>Eroare la salvarea iDevice-ului</target>
+      <trans-unit id="LmWdpVc" resname="Error saving the SuperTool">
+        <source>Error saving the SuperTool</source>
+        <target>Eroare la salvarea SuperTool-ului</target>
       </trans-unit>
-      <trans-unit id="iq1Ycbw" resname="Failed to save the iDevice to database">
-        <source>Failed to save the iDevice to database</source>
-        <target>Salvarea iDevice-ului a eșuat</target>
+      <trans-unit id="iq1Ycbw" resname="Failed to save the SuperTool to database">
+        <source>Failed to save the SuperTool to database</source>
+        <target>Salvarea SuperTool-ului a eșuat</target>
       </trans-unit>
       <trans-unit id="o0QuXoy" resname="Not allowed">
         <source>Not allowed</source>
         <target>Nu este permis</target>
       </trans-unit>
-      <trans-unit id="b0l3acH" resname="You cannot edit another iDevice until you save the current one">
-        <source>You cannot edit another iDevice until you save the current one</source>
-        <target>Nu puteți edita alt iDevice până nu salvați cel curent</target>
+      <trans-unit id="b0l3acH" resname="You cannot edit another SuperTool until you save the current one">
+        <source>You cannot edit another SuperTool until you save the current one</source>
+        <target>Nu puteți edita alt SuperTool până nu salvați cel curent</target>
       </trans-unit>
       <trans-unit id="6b66eDm" resname="Remove Block">
         <source>Remove Block</source>
         <target>Eliminați Blocul</target>
       </trans-unit>
-      <trans-unit id="fXgNxXg" resname="iDevice deleted. Now the box is empty. Delete the box too?">
-        <source>iDevice deleted. Now the box is empty. Delete the box too?</source>
-        <target>iDevice șters. Acum caseta este goală. Să ștergem și caseta?</target>
+      <trans-unit id="fXgNxXg" resname="SuperTool deleted. Now the box is empty. Delete the box too?">
+        <source>SuperTool deleted. Now the box is empty. Delete the box too?</source>
+        <target>SuperTool șters. Acum caseta este goală. Să ștergem și caseta?</target>
       </trans-unit>
-      <trans-unit id="fxYTEKl" resname="Failed to load the iDevice.">
-        <source>Failed to load the iDevice.</source>
-        <target>Încărcarea iDevice-ului a eșuat.</target>
+      <trans-unit id="fxYTEKl" resname="Failed to load the SuperTool.">
+        <source>Failed to load the SuperTool.</source>
+        <target>Încărcarea SuperTool-ului a eșuat.</target>
       </trans-unit>
-      <trans-unit id="uvlDjwW" resname="Failed to load the iDevice view.">
-        <source>Failed to load the iDevice view.</source>
-        <target>Nu s-a putut încărca vizualizarea iDevice-ului.</target>
+      <trans-unit id="uvlDjwW" resname="Failed to load the SuperTool view.">
+        <source>Failed to load the SuperTool view.</source>
+        <target>Nu s-a putut încărca vizualizarea SuperTool-ului.</target>
       </trans-unit>
-      <trans-unit id="Q_WMYYX" resname="You can't add an iDevice on the root page">
-        <source>You can't add an iDevice on the root page</source>
-        <target>Nu puteți adăuga un iDevice pe pagina principală</target>
+      <trans-unit id="Q_WMYYX" resname="You can't add an SuperTool on the root page">
+        <source>You can't add an SuperTool on the root page</source>
+        <target>Nu puteți adăuga un SuperTool pe pagina principală</target>
       </trans-unit>
-      <trans-unit id="2Pq3_Wp" resname="Problem adding iDevice">
-        <source>Problem adding iDevice</source>
-        <target>Problema la adăugarea iDevice-ului</target>
+      <trans-unit id="2Pq3_Wp" resname="Problem adding SuperTool">
+        <source>Problem adding SuperTool</source>
+        <target>Problema la adăugarea SuperTool-ului</target>
       </trans-unit>
-      <trans-unit id="fPQsnoO" resname="You are currently editing another iDevice. Please close it before continuing">
-        <source>You are currently editing another iDevice. Please close it before continuing</source>
-        <target>În prezent editați un alt iDevice. Vă rugăm să îl închideți înainte de a continua</target>
+      <trans-unit id="fPQsnoO" resname="You are currently editing another SuperTool. Please close it before continuing">
+        <source>You are currently editing another SuperTool. Please close it before continuing</source>
+        <target>În prezent editați un alt SuperTool. Vă rugăm să îl închideți înainte de a continua</target>
       </trans-unit>
-      <trans-unit id="38SLSPC" resname="An error occurred while loading the iDevice.">
-        <source>An error occurred while loading the iDevice.</source>
-        <target>A apărut o eroare în timpul încărcării iDevice-ului.</target>
+      <trans-unit id="38SLSPC" resname="An error occurred while loading the SuperTool.">
+        <source>An error occurred while loading the SuperTool.</source>
+        <target>A apărut o eroare în timpul încărcării SuperTool-ului.</target>
       </trans-unit>
       <trans-unit id="_qN9nCf" resname="The box is empty. Do you want to delete it?">
         <source>The box is empty. Do you want to delete it?</source>
@@ -4597,9 +4597,9 @@
         <source>Your style has changed. Reload the page to apply changes?</source>
         <target>Stilul tău s-a schimbat. Vrei să reîncarci pagina pentru a aplica modificările?</target>
       </trans-unit>
-      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your iDevice before continuing.">
-        <source>Unsaved changes detected. Save your iDevice before continuing.</source>
-        <target>Editezi un iDevice. Te rugăm să îl închizi înainte de a continua</target>
+      <trans-unit id="A3_STN3" resname="Unsaved changes detected. Save your SuperTool before continuing.">
+        <source>Unsaved changes detected. Save your SuperTool before continuing.</source>
+        <target>Editezi un SuperTool. Te rugăm să îl închizi înainte de a continua</target>
       </trans-unit>
       <trans-unit id="_t85EMU" resname="Required">
         <source>Required</source>
@@ -4965,8 +4965,8 @@
         <source>Identifier</source>
         <target>Identificator</target>
       </trans-unit>
-      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.">
-        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all iDevices of a report and different in each report.</source>
+      <trans-unit id="xoz0qI8" resname="You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.">
+        <source>You must indicate the ID. It can be a word, a phrase or a number of more than four characters. You will use this ID to mark the activities covered by this progress report. It must be the same in all SuperTools of a report and different in each report.</source>
         <target>Trebuie să indicați ID-ul. Poate fi un cuvânt, o expresie sau un număr de mai mult de patru caractere. Veți folosi acest ID pentru a marca activitățile acoperite de acest raport de progres. Trebuie să fie același în toate dispozitivele raportului și diferit în fiecare raport.</target>
       </trans-unit>
       <trans-unit id="T1EljX." resname="Words">
@@ -6113,9 +6113,9 @@
         <source>Please select a JSON file (.json)</source>
         <target>Vă rugăm să selectați un fișier JSON (.json)</target>
       </trans-unit>
-      <trans-unit id="qcFkxQM" resname="This is just an example iDevice.">
-        <source>This is just an example iDevice.</source>
-        <target>Aceasta este doar o mostră de iDevice.</target>
+      <trans-unit id="qcFkxQM" resname="This is just an example SuperTool.">
+        <source>This is just an example SuperTool.</source>
+        <target>Aceasta este doar o mostră de SuperTool.</target>
       </trans-unit>
       <trans-unit id="hww8GA_" resname="Write a text that will be saved">
         <source>Write a text that will be saved</source>
@@ -7357,9 +7357,9 @@
         <source>Interactive video</source>
         <target>Video interactiv</target>
       </trans-unit>
-      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video iDevice per page.">
-        <source>You can only add one Interactive Video iDevice per page.</source>
-        <target>Puteți adăuga un singur dispozitiv iDevice Video Interactiv pe pagină.</target>
+      <trans-unit id="R5KPHB6" resname="You can only add one Interactive Video SuperTool per page.">
+        <source>You can only add one Interactive Video SuperTool per page.</source>
+        <target>Puteți adăuga un singur dispozitiv SuperTool Video Interactiv pe pagină.</target>
       </trans-unit>
       <trans-unit id="uSbcaZn" resname="Mediateca">
         <source>Mediateca</source>
@@ -8405,8 +8405,8 @@
         <source>Download progress report</source>
         <target>Descărcați raportul de progres</target>
       </trans-unit>
-      <trans-unit id="9i7wSb7" resname="Edit this iDevice to update its contents.">
-        <source>Edit this iDevice to update its contents.</source>
+      <trans-unit id="9i7wSb7" resname="Edit this SuperTool to update its contents.">
+        <source>Edit this SuperTool to update its contents.</source>
         <target>Editați acest dispozitiv pentru a actualiza conținutul său.</target>
       </trans-unit>
       <trans-unit id="VA40URh" resname="It shows the result of the pupils in the activities linked to their average score.">
@@ -8425,33 +8425,33 @@
         <source>Show date and time</source>
         <target>Afișează data și ora</target>
       </trans-unit>
-      <trans-unit id="tWiYaph" resname="Show type of iDevice">
-        <source>Show type of iDevice</source>
-        <target>Afișează tipul de dispozitiv iDevice</target>
+      <trans-unit id="tWiYaph" resname="Show type of SuperTool">
+        <source>Show type of SuperTool</source>
+        <target>Afișează tipul de dispozitiv SuperTool</target>
       </trans-unit>
       <trans-unit id="hslmn9f" resname="Link report activities">
         <source>Link report activities</source>
         <target>Link către activitățile raportului</target>
       </trans-unit>
-      <trans-unit id="N8SqHY0" resname="All pages and iDevices">
-        <source>All pages and iDevices</source>
-        <target>Toate paginile și iDevice-urile</target>
+      <trans-unit id="N8SqHY0" resname="All pages and SuperTools">
+        <source>All pages and SuperTools</source>
+        <target>Toate paginile și SuperTool-urile</target>
       </trans-unit>
-      <trans-unit id="BVy_DUt" resname="All pages and only evaluable iDevices">
-        <source>All pages and only evaluable iDevices</source>
-        <target>Toate paginile și doar iDevice-urile evaluabile</target>
+      <trans-unit id="BVy_DUt" resname="All pages and only evaluable SuperTools">
+        <source>All pages and only evaluable SuperTools</source>
+        <target>Toate paginile și doar SuperTool-urile evaluabile</target>
       </trans-unit>
       <trans-unit id="h0N_aPF" resname="Only pages with evaluable activities">
         <source>Only pages with evaluable activities</source>
         <target>Doar paginile cu activități evaluabile</target>
       </trans-unit>
-      <trans-unit id="Ep4G9EC" resname="Available iDevices">
-        <source>Available iDevices</source>
-        <target>iDevice-uri disponibile</target>
+      <trans-unit id="Ep4G9EC" resname="Available SuperTools">
+        <source>Available SuperTools</source>
+        <target>SuperTool-uri disponibile</target>
       </trans-unit>
-      <trans-unit id="eP0k3XT" resname="This iDevice is compatible with all game iDevices and all interactive activities.">
-        <source>This iDevice is compatible with all game iDevices and all interactive activities.</source>
-        <target>Acest iDevice este compatibil cu toate iDevice-urile de joc și toate activitățile interactive.</target>
+      <trans-unit id="eP0k3XT" resname="This SuperTool is compatible with all game SuperTools and all interactive activities.">
+        <source>This SuperTool is compatible with all game SuperTools and all interactive activities.</source>
+        <target>Acest SuperTool este compatibil cu toate SuperTool-urile de joc și toate activitățile interactive.</target>
       </trans-unit>
       <trans-unit id="N0bCogy" resname="Puzzle">
         <source>Puzzle</source>
@@ -9413,9 +9413,9 @@
         <source>New block</source>
         <target>Bloc nou</target>
       </trans-unit>
-      <trans-unit id="gNC320b" resname="About this iDevice">
-        <source>About this iDevice</source>
-        <target>Despre acest dispozitiv iDevice</target>
+      <trans-unit id="gNC320b" resname="About this SuperTool">
+        <source>About this SuperTool</source>
+        <target>Despre acest dispozitiv SuperTool</target>
       </trans-unit>
       <trans-unit id="xGrroVc" resname="Cofinanced by:">
         <source>Cofinanced by:</source>
@@ -11101,17 +11101,17 @@
         <source>Structure panel</source>
         <target>Panou de structură</target>
       </trans-unit>
-      <trans-unit id="Fh_A6BL" resname="iDevices panel">
-        <source>iDevices panel</source>
-        <target>Panou iDevices</target>
+      <trans-unit id="Fh_A6BL" resname="SuperTools panel">
+        <source>SuperTools panel</source>
+        <target>Panou SuperTools</target>
       </trans-unit>
       <trans-unit id="9G8Nzdp" resname="User menu">
         <source>User menu</source>
         <target>Meniu utilizator</target>
       </trans-unit>
-      <trans-unit id="4Y_yO11" resname="iDevices">
-        <source>iDevices</source>
-        <target>iDevice-uri</target>
+      <trans-unit id="4Y_yO11" resname="SuperTools">
+        <source>SuperTools</source>
+        <target>SuperTool-uri</target>
       </trans-unit>
       <trans-unit id="5Kb4IIZ" resname="Toggle panels">
         <source>Toggle panels</source>
@@ -11257,9 +11257,9 @@
         <source>System</source>
         <target>Sistem</target>
       </trans-unit>
-      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new iDevices.">
-        <source>Someone else is editing this page. Please wait until they finish before adding new iDevices.</source>
-        <target>Altcineva editează această pagină. Vă rugăm să așteptați până termină înainte de a adăuga noi iDevice-uri.</target>
+      <trans-unit id="y7yTA4h" resname="Someone else is editing this page. Please wait until they finish before adding new SuperTools.">
+        <source>Someone else is editing this page. Please wait until they finish before adding new SuperTools.</source>
+        <target>Altcineva editează această pagină. Vă rugăm să așteptați până termină înainte de a adăuga noi SuperTool-uri.</target>
       </trans-unit>
       <trans-unit id="fTgJugq" resname="Accordion">
         <source>Accordion</source>
@@ -11561,9 +11561,9 @@
         <source>Unexpected error importing file.</source>
         <target>Eroare neașteptată la importarea fișierului.</target>
       </trans-unit>
-      <trans-unit id="SIDjSV." resname="iDevice">
-        <source>iDevice</source>
-        <target>Dispozitiv iDevice</target>
+      <trans-unit id="SIDjSV." resname="SuperTool">
+        <source>SuperTool</source>
+        <target>Dispozitiv SuperTool</target>
       </trans-unit>
       <trans-unit id="byLNU96" resname="Import (.elpx...)">
         <source>Import (.elpx...)</source>
@@ -11973,8 +11973,8 @@
         <source>Write the term and its definition. You may use HTML and edit it in the editor.</source>
         <target>Scrieți termenul și definiția sa. Puteți folosi HTML și îl puteți edita în editor.</target>
       </trans-unit>
-      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text iDevice in the specified page.">
-        <source>Show the content of the first Free Text iDevice in the specified page.</source>
+      <trans-unit id="v5ZRdyM" resname="Show the content of the first Free Text SuperTool in the specified page.">
+        <source>Show the content of the first Free Text SuperTool in the specified page.</source>
         <target>Afișează conținutul primului dispozitiv Free Text din pagina specificată.</target>
       </trans-unit>
       <trans-unit id="k_kZsMw" resname="Term">
@@ -12257,9 +12257,9 @@
         <source>Default AI Assistant</source>
         <target>Asistent AI implicit</target>
       </trans-unit>
-      <trans-unit id="bgxohh4" resname="Select the AI that will be selected by default when editing iDevices.">
-        <source>Select the AI that will be selected by default when editing iDevices.</source>
-        <target>Selectați AI-ul care va fi utilizat implicit la editarea iDevices.</target>
+      <trans-unit id="bgxohh4" resname="Select the AI that will be selected by default when editing SuperTools.">
+        <source>Select the AI that will be selected by default when editing SuperTools.</source>
+        <target>Selectați AI-ul care va fi utilizat implicit la editarea SuperTools.</target>
       </trans-unit>
       <trans-unit id="ig3flxn" resname="Hide page title">
         <source>Hide page title</source>
@@ -12669,33 +12669,33 @@
         <source>Another user</source>
         <target>Alt utilizator</target>
       </trans-unit>
-      <trans-unit id="ritvp8h" resname="Clone iDevice">
-        <source>Clone iDevice</source>
-        <target>Clonare iDevice</target>
+      <trans-unit id="ritvp8h" resname="Clone SuperTool">
+        <source>Clone SuperTool</source>
+        <target>Clonare SuperTool</target>
       </trans-unit>
       <trans-unit id="8h54062" resname="Move to page">
         <source>Move to page</source>
         <target>Mutare pe pagină</target>
       </trans-unit>
-      <trans-unit id="cgphc10" resname="Export iDevice">
-        <source>Export iDevice</source>
-        <target>Exportare iDevice</target>
+      <trans-unit id="cgphc10" resname="Export SuperTool">
+        <source>Export SuperTool</source>
+        <target>Exportare SuperTool</target>
       </trans-unit>
-      <trans-unit id="yglt14e" resname="iDevice locked">
-        <source>iDevice locked</source>
-        <target>iDevice blocat</target>
+      <trans-unit id="yglt14e" resname="SuperTool locked">
+        <source>SuperTool locked</source>
+        <target>SuperTool blocat</target>
       </trans-unit>
-      <trans-unit id="tnnocmy" resname="This iDevice is being edited by">
-        <source>This iDevice is being edited by</source>
-        <target>Acest iDevice este în curs de editare de către</target>
+      <trans-unit id="tnnocmy" resname="This SuperTool is being edited by">
+        <source>This SuperTool is being edited by</source>
+        <target>Acest SuperTool este în curs de editare de către</target>
       </trans-unit>
       <trans-unit id="vz2jmri" resname="Also delete associated box">
         <source>Also delete associated box</source>
         <target>Ștergeți și blocul asociat</target>
       </trans-unit>
-      <trans-unit id="oqep5qo" resname="Failed to export iDevice">
-        <source>Failed to export iDevice</source>
-        <target>Eroare la exportare iDevice</target>
+      <trans-unit id="oqep5qo" resname="Failed to export SuperTool">
+        <source>Failed to export SuperTool</source>
+        <target>Eroare la exportare SuperTool</target>
       </trans-unit>
       <trans-unit id="wekuocl" resname="Being edited by">
         <source>Being edited by</source>
@@ -12721,13 +12721,13 @@
         <source>Export box</source>
         <target>Exportare cutie</target>
       </trans-unit>
-      <trans-unit id="3d87g66" resname="An iDevice in this box is being edited by another user">
-        <source>An iDevice in this box is being edited by another user</source>
-        <target>Un iDevice din aceasta casetă este editat de alt utilizator</target>
+      <trans-unit id="3d87g66" resname="An SuperTool in this box is being edited by another user">
+        <source>An SuperTool in this box is being edited by another user</source>
+        <target>Un SuperTool din aceasta casetă este editat de alt utilizator</target>
       </trans-unit>
-      <trans-unit id="5l8sdqp" resname="iDevices in this box are being edited by other users">
-        <source>iDevices in this box are being edited by other users</source>
-        <target>Dispozitivele iDevice din această casetă sunt editate de alți utilizatori</target>
+      <trans-unit id="5l8sdqp" resname="SuperTools in this box are being edited by other users">
+        <source>SuperTools in this box are being edited by other users</source>
+        <target>Dispozitivele SuperTool din această casetă sunt editate de alți utilizatori</target>
       </trans-unit>
       <trans-unit id="e9ns54v" resname="Their changes may be lost if you delete this box.">
         <source>Their changes may be lost if you delete this box.</source>
@@ -12841,9 +12841,9 @@
         <source>Failed to delete folder</source>
         <target>Eroare la ștergerea folderului</target>
       </trans-unit>
-      <trans-unit id="8113y67" resname="This asset is referenced in %1 iDevices.">
-        <source>This asset is referenced in %1 iDevices.</source>
-        <target>Această resursă este referită în %1 iDevices.</target>
+      <trans-unit id="8113y67" resname="This asset is referenced in %1 SuperTools.">
+        <source>This asset is referenced in %1 SuperTools.</source>
+        <target>Această resursă este referită în %1 SuperTools.</target>
       </trans-unit>
       <trans-unit id="ji78b98" resname="Delete %1 selected files?">
         <source>Delete %1 selected files?</source>
@@ -14065,9 +14065,9 @@
         <source>Import (.elpx…)</source>
         <target>Importă (.elpx…)</target>
       </trans-unit>
-      <trans-unit id="bxvsxea" resname="0 iDevices">
-        <source>0 iDevices</source>
-        <target>0 iDevices</target>
+      <trans-unit id="bxvsxea" resname="0 SuperTools">
+        <source>0 SuperTools</source>
+        <target>0 SuperTools</target>
       </trans-unit>
       <trans-unit id="60jc3a0" resname="Proprietary license">
         <source>Proprietary license</source>
@@ -14081,9 +14081,9 @@
         <source>Public domain</source>
         <target>Domeniu public</target>
       </trans-unit>
-      <trans-unit id="dfvf7if" resname="%1 iDevices">
-        <source>%1 iDevices</source>
-        <target>%1 iDevices</target>
+      <trans-unit id="dfvf7if" resname="%1 SuperTools">
+        <source>%1 SuperTools</source>
+        <target>%1 SuperTools</target>
       </trans-unit>
       <trans-unit id="2e5y7vp" resname="creative commons: cc0 1.0">
         <source>creative commons: cc0 1.0</source>
@@ -14101,9 +14101,9 @@
         <source>Temporary files detected</source>
         <target>Fișiere temporare detectate</target>
       </trans-unit>
-      <trans-unit id="6lq7u1q" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.">
-        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the iDevice.</source>
-        <target>Unele fișiere din acest conținut folosesc blob: linkuri, care funcționează doar pe această pagină. Dacă lipiți aceste linkuri în altă parte, este posibil să lipsească imagini sau fișiere. Pentru a reutiliza conținutul cu fișiere, adăugați-le din Managerul de fișiere sau clonați dispozitivul iDevice.</target>
+      <trans-unit id="6lq7u1q" resname="Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.">
+        <source>Some files in this content use blob: links, which only work on this page. If you paste this elsewhere, images or files may be missing. To reuse content with files, add them from the File Manager or clone the SuperTool.</source>
+        <target>Unele fișiere din acest conținut folosesc blob: linkuri, care funcționează doar pe această pagină. Dacă lipiți aceste linkuri în altă parte, este posibil să lipsească imagini sau fișiere. Pentru a reutiliza conținutul cu fișiere, adăugați-le din Managerul de fișiere sau clonați dispozitivul SuperTool.</target>
       </trans-unit>
       <trans-unit id="s6qju87" resname="Caption Text">
         <source>Caption Text</source>
@@ -14129,9 +14129,9 @@
         <source>Could not be checked: HTTP content is blocked on HTTPS pages.</source>
         <target>Nu a putut fi verificat: conținutul HTTP este blocat pe paginile HTTPS.</target>
       </trans-unit>
-      <trans-unit id="906przj" resname="You can only add one Rubric iDevice per page.">
-        <source>You can only add one Rubric iDevice per page.</source>
-        <target>Puteți adăuga un singur iDevice Rubrică pe pagină.</target>
+      <trans-unit id="906przj" resname="You can only add one Rubric SuperTool per page.">
+        <source>You can only add one Rubric SuperTool per page.</source>
+        <target>Puteți adăuga un singur SuperTool Rubrică pe pagină.</target>
       </trans-unit>
       <trans-unit id="4aak4d7" resname="CSV import/export">
         <source>CSV import/export</source>
