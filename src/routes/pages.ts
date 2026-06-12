@@ -961,7 +961,7 @@ export function createPagesRoutes(deps: PagesDependencies = defaultDependencies)
                     save_as: trans('Save as', {}, locale),
                     download_as: trans('Download as...', {}, locale),
                     export_as: trans('Export as...', {}, locale),
-                    exelearning_content: trans('eXeLearning content (.elpx)', {}, locale),
+                    exelearning_content: trans('TeacherAgent-ex content (.elpx)', {}, locale),
                     website: trans('Website', {}, locale),
                     single_page: trans('Single page', {}, locale),
                     export_to_folder: trans('Export to Folder (Unzipped Website)', {}, locale),
@@ -982,10 +982,10 @@ export function createPagesRoutes(deps: PagesDependencies = defaultDependencies)
                     assistant: trans('Assistant', {}, locale),
                     user_manual: trans('User manual', {}, locale),
                     api_reference: trans('API Reference (Swagger)', {}, locale),
-                    about_exelearning: trans('About eXeLearning', {}, locale),
+                    about_exelearning: trans('About TeacherAgent-ex', {}, locale),
                     release_notes: trans('Release notes', {}, locale),
                     legal_notes: trans('Legal notes', {}, locale),
-                    exelearning_website: trans('eXeLearning website', {}, locale),
+                    exelearning_website: trans('TeacherAgent-ex website', {}, locale),
                     report_bug: trans('Report a bug', {}, locale),
                     download: trans('Download', {}, locale),
                     styles: trans('Styles', {}, locale),
@@ -1050,11 +1050,11 @@ export function createPagesRoutes(deps: PagesDependencies = defaultDependencies)
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>eXeLearning Workarea</title>
+    <title>TeacherAgent-ex Workarea</title>
     <script>window.eXeLearning = { version: "${getAppVersion()}", user: ${JSON.stringify(user)}, config: ${JSON.stringify(config)} };</script>
   </head>
   <body>
-    <div id="root">eXeLearning workarea - Template error: ${errorMessage}</div>
+    <div id="root">TeacherAgent-ex workarea - Template error: ${errorMessage}</div>
   </body>
 </html>`;
                     return new Response(fallbackHtml, {
@@ -1282,10 +1282,10 @@ export function createPagesRoutes(deps: PagesDependencies = defaultDependencies)
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>eXeLearning Admin</title>
+    <title>TeacherAgent-ex Admin</title>
   </head>
   <body>
-    <div id="root">eXeLearning Admin - Template error: ${errorMessage}</div>
+    <div id="root">TeacherAgent-ex Admin - Template error: ${errorMessage}</div>
   </body>
 </html>`;
                     return new Response(fallbackHtml, {

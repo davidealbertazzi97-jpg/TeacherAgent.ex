@@ -1753,7 +1753,7 @@ describe('Pages Routes', () => {
 
             expect(res.status).toBe(200);
             const html = await res.text();
-            expect(html).toContain('eXeLearning Workarea');
+            expect(html).toContain('TeacherAgent-ex Workarea');
             expect(html).toContain('Template error');
         });
     });
@@ -2226,7 +2226,7 @@ describe('Pages Routes', () => {
 
             expect(res.status).toBe(200);
             const html = await res.text();
-            expect(html).toContain('eXeLearning Admin');
+            expect(html).toContain('TeacherAgent-ex Admin');
             expect(html).toContain('Template error');
         });
 

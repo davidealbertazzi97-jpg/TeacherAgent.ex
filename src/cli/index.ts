@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * eXeLearning CLI
+ * TeacherAgent-ex CLI
  * Command line interface for administration tasks
  *
  * Usage: bun cli <command> [arguments] [options]
@@ -170,7 +170,7 @@ const ALIASES: Record<string, { command: string; transform?: (args: ParsedArgs) 
 
 function printHelp(): void {
     console.log(`
-${colors.bold('eXeLearning CLI')}
+${colors.bold('TeacherAgent-ex CLI')}
 
 ${colors.cyan('Usage:')} bun cli <command> [arguments] [options]
 
@@ -235,9 +235,9 @@ function printVersion(): void {
     // Read version from package.json
     try {
         const pkg = require('../../package.json');
-        console.log(`eXeLearning CLI v${pkg.version}`);
+        console.log(`TeacherAgent-ex CLI v${pkg.version}`);
     } catch {
-        console.log('eXeLearning CLI');
+        console.log('TeacherAgent-ex CLI');
     }
 }
 

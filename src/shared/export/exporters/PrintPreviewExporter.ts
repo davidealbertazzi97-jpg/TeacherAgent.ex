@@ -135,7 +135,7 @@ export class PrintPreviewExporter {
             // Generate the single-page HTML components using PageRenderer
             // This ensures we use the exact same logic as the "Single Page" export
             let html = this.pageRenderer.renderSinglePage(processedPages, {
-                projectTitle: meta.title || 'eXeLearning',
+                projectTitle: meta.title || 'TeacherAgent-ex',
                 projectSubtitle: meta.subtitle || '',
                 language: meta.language || 'en',
                 customStyles: meta.customStyles || '',

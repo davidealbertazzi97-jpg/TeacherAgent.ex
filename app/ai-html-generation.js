@@ -8,18 +8,18 @@ const DEFAULT_MAX_OUTPUT_TOKENS = 8192;
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
 
 const HTML_SYSTEM_PROMPT =
-    'You generate production-quality interactive educational HTML mini-games for eXeLearning, not short toy snippets. ' +
+    'You generate production-quality interactive educational HTML mini-games for TeacherAgent-ex, not short toy snippets. ' +
     'The default output must be a substantial self-contained HTML fragment with semantic markup, embedded CSS, and embedded JavaScript. ' +
     'Include a premium visual direction with atmospheric backgrounds, cohesive color palette, illustrated UI elements or safe placeholders, polished typography, responsive layout, meaningful animations, and micro-interactions. ' +
     'Build real interaction: game state, scoring or progress, feedback, restart/next-step controls, branching or multiple-choice dialogue when relevant, memory/matching or challenge mechanics when useful, theory blocks, checkpoints, and final questions. ' +
     'Keep it accessible with keyboard-friendly controls, readable contrast, ARIA/status feedback where useful, and no external dependencies. ' +
     'Return only the HTML fragment, without Markdown fences or explanations.';
 const PROMPT_ENGINEERING_SYSTEM_PROMPT =
-    'You are a senior instructional designer and premium visual prompt engineer for eXeLearning. ' +
+    'You are a senior instructional designer and premium visual prompt engineer for TeacherAgent-ex. ' +
     'Rewrite the teacher request into a detailed, production-ready prompt for a premium HTML educational mini-game, not a basic card or worksheet. ' +
     'Always specify visual art direction, atmospheric background, cohesive palette, layout system, animation style, UI states, responsive behavior, and optional image placeholders. ' +
     'Always specify concrete learning mechanics: story/scenario, multiple-choice dialogue, game loop, scoring/progress, memory or matching/challenge mechanics when appropriate, theory blocks, feedback states, checkpoints, and final reflection questions. ' +
-    'Require accessible, responsive, self-contained HTML/CSS/JS suitable for eXeLearning, without external dependencies, with enough implementation detail to produce rich code. ' +
+    'Require accessible, responsive, self-contained HTML/CSS/JS suitable for TeacherAgent-ex, without external dependencies, with enough implementation detail to produce rich code. ' +
     'Return only the improved prompt text, not HTML, not Markdown fences, and no explanations.';
 
 function stripHtmlCodeFences(value) {

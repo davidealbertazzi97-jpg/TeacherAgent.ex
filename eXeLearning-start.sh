@@ -18,7 +18,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 if [ "$MODE" = "--desktop" ]; then
     cd "$BASE_DIR"
     echo "=================================="
-    echo "  eXeLearning Desktop (Electron)"
+    echo "  TeacherAgent-ex Desktop (Electron)"
     echo "=================================="
     echo ""
     if [ ! -f "$BASE_DIR/app/dist/static/index.html" ]; then
@@ -34,7 +34,7 @@ fi
 if [ "$MODE" = "--web-docker" ]; then
     mkdir -p "$DATA_DIR"
     echo "=================================="
-    echo "  eXeLearning via Docker"
+    echo "  TeacherAgent-ex via Docker"
     echo "  Porta: $APP_PORT"
     echo "  Dati:  $DATA_DIR"
     echo "=================================="
@@ -57,7 +57,7 @@ if [ "$MODE" = "--web-local" ]; then
     mkdir -p "$DATA_DIR"
 
     echo "=================================="
-    echo "  eXeLearning - Avvio server..."
+    echo "  TeacherAgent-ex - Avvio server..."
     echo "  Porta: $APP_PORT"
     echo "  DB:    $DB_PATH"
     echo "=================================="

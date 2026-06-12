@@ -149,7 +149,7 @@ describe('xml-parser', () => {
 
             const result = parseFromString(xml, undefined, { skipValidation: true });
             // Default title comes from centralized metadata-properties config
-            expect(result.meta.title).toBe('eXeLearning');
+            expect(result.meta.title).toBe('TeacherAgent-ex');
             expect(result.meta.author).toBe('');
         });
 
@@ -228,7 +228,7 @@ describe('xml-parser', () => {
 
             const result = parseFromString(xml, undefined, { skipValidation: true });
             // When property has no value, falls back to centralized default
-            expect(result.meta.title).toBe('eXeLearning');
+            expect(result.meta.title).toBe('TeacherAgent-ex');
         });
 
         it('should handle null/undefined properties', () => {
@@ -239,7 +239,7 @@ describe('xml-parser', () => {
 
             const result = parseFromString(xml, undefined, { skipValidation: true });
             // Default title comes from centralized metadata-properties config
-            expect(result.meta.title).toBe('eXeLearning');
+            expect(result.meta.title).toBe('TeacherAgent-ex');
         });
 
         it('should extract theme from userPreferences', () => {

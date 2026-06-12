@@ -614,7 +614,7 @@ if (registerRootRoutes) {
         .use(agentBridgeRoutes)
         .use(createWebSocketRoutes())
         .get('/api', () => ({
-            name: 'eXeLearning API',
+            name: 'TeacherAgent-ex API',
             version: '4.0.0-elysia',
             framework: 'Elysia',
             runtime: 'Bun',
@@ -653,7 +653,7 @@ if (routePrefix) {
             .use(uploadSessionRoutes)
             .use(createWebSocketRoutes())
             .get('/api', () => ({
-                name: 'eXeLearning API',
+                name: 'TeacherAgent-ex API',
                 version: '4.0.0-elysia',
                 framework: 'Elysia',
                 runtime: 'Bun',

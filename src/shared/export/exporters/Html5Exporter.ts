@@ -411,7 +411,7 @@ export class Html5Exporter extends BaseExporter {
         }
 
         return this.pageRenderer.render(page, {
-            projectTitle: meta.title || 'eXeLearning',
+            projectTitle: meta.title || 'TeacherAgent-ex',
             projectSubtitle: meta.subtitle || '',
             language: meta.language || 'en',
             theme: meta.theme || 'base',

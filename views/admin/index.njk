@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
-    <title>{{ t.admin_panel or 'Admin Panel' }} - eXeLearning</title>
+    <title>{{ t.admin_panel or 'Admin Panel' }} - TeacherAgent-ex</title>
     <link rel="icon" href="{{ basePath }}/favicon.ico">
     <link rel="stylesheet" href="{{ basePath }}/libs/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="{{ basePath }}/style/workarea/main.css">
@@ -1257,7 +1257,7 @@
                 <span class="mi">admin_panel_settings</span>
                 {{ t.admin_panel or 'Admin Panel' }}
             </h5>
-            <small>eXeLearning {{ version }}</small>
+            <small>TeacherAgent-ex {{ version }}</small>
         </div>
         <div class="admin-nav">
             <div class="admin-nav-section">{{ t.menu or 'Menu' }}</div>
@@ -1912,8 +1912,8 @@
                                         <div class="admin-settings-group">
                                             <div class="admin-field">
                                                 <label for="appNameInput">{{ t.app_name_label or 'Application name' }}</label>
-                                                <input id="appNameInput" class="admin-input" type="text" data-setting-key="APP_NAME" data-setting-type="string" value="{{ adminSettings.presentation.app_name }}" placeholder="eXeLearning">
-                                                <small>{{ t.app_name_help or 'Page title shown in the browser tab. Leave empty to use "eXeLearning".' }}</small>
+                                                <input id="appNameInput" class="admin-input" type="text" data-setting-key="APP_NAME" data-setting-type="string" value="{{ adminSettings.presentation.app_name }}" placeholder="TeacherAgent-ex">
+                                                <small>{{ t.app_name_help or 'Page title shown in the browser tab. Leave empty to use "TeacherAgent-ex".' }}</small>
                                             </div>
                                             <div class="admin-field">
                                                 <label>{{ t.app_favicon_label or 'Favicon' }}</label>

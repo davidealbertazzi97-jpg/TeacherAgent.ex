@@ -53,7 +53,7 @@ export const METADATA_PROPERTIES: MetadataPropertyConfig[] = [
         key: 'title',
         xmlKey: 'pp_title',
         type: 'string',
-        defaultValue: 'eXeLearning',
+        defaultValue: 'TeacherAgent-ex',
         category: 'core',
     },
     {

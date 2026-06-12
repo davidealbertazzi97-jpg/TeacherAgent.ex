@@ -77,7 +77,7 @@ export class ImsExporter extends Html5Exporter {
                 {
                     identifier: manifestIdentifier,
                     pages: pages,
-                    title: meta.title || 'eXeLearning',
+                    title: meta.title || 'TeacherAgent-ex',
                     language: meta.language || 'en',
                     author: meta.author || '',
                     description: meta.description || '',
@@ -411,7 +411,7 @@ export class ImsExporter extends Html5Exporter {
         }
 
         return this.pageRenderer.render(page, {
-            projectTitle: meta.title || 'eXeLearning',
+            projectTitle: meta.title || 'TeacherAgent-ex',
             projectSubtitle: meta.subtitle || '',
             language: meta.language || 'en',
             theme: meta.theme || 'base',

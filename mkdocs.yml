@@ -1,5 +1,5 @@
 # mkdocs.yml
-site_name: eXeLearning Docs
+site_name: TeacherAgent-ex Docs
 docs_dir: doc
 repo_url: https://github.com/exelearning/exelearning
 edit_uri: edit/main/doc/
