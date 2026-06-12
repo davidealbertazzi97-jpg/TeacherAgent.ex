@@ -1,0 +1,8 @@
+{
+  "wsUrl": "ws://127.0.0.1:42393/agent-bridge",
+  "token": "35b72b22-1bf8-4294-9a84-b268a20628ca",
+  "projectId": "99bd0615-4e51-4c3d-830a-b1fce97cb19b",
+  "activeProjects": [
+    "99bd0615-4e51-4c3d-830a-b1fce97cb19b"
+  ]
+}
