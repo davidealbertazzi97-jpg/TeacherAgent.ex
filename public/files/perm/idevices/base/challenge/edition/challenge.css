@@ -195,7 +195,7 @@
 #desafioIdeviceForm #desafioIdeviceFormTab1 label {
     display: block;
     margin-bottom: .2em;
-    color: #0BA1A1;
+    color: #4f46e5;
     font-weight: 500;
 }
 
@@ -336,13 +336,13 @@ label[for=desafioActivitySCORM] {
 }
 
 #desafioIdeviceForm .desafioToggle input:hover+label {
-    border-color: var(--brand-primary, #0BA1A1) !important;
+    border-color: var(--brand-primary, #4f46e5) !important;
 }
 
 #desafioIdeviceForm .desafioToggle input:checked+label {
-    background-color: var(--brand-primary, #0BA1A1) !important;
+    background-color: var(--brand-primary, #4f46e5) !important;
     color: #fff !important;
-    border-color: var(--brand-primary, #0BA1A1) !important;
+    border-color: var(--brand-primary, #4f46e5) !important;
     z-index: 1 !important;
 }
 

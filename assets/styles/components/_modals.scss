@@ -2020,8 +2020,8 @@
                             }
 
                             &.active {
-                                color: var(--brand-primary, #0BA1A1);
-                                border-bottom-color: var(--brand-primary, #0BA1A1);
+                                color: var(--brand-primary, #4f46e5);
+                                border-bottom-color: var(--brand-primary, #4f46e5);
                             }
 
                             .ode-tab-count {
@@ -2030,7 +2030,7 @@
                             }
 
                             &.active .ode-tab-count {
-                                color: var(--brand-primary-400, #0BA1A1);
+                                color: var(--brand-primary-400, #4f46e5);
                             }
                         }
                     }
@@ -2049,7 +2049,7 @@
                                 width: 16px;
                                 height: 16px;
                                 cursor: pointer;
-                                accent-color: var(--brand-primary-400, #0BA1A1);
+                                accent-color: var(--brand-primary-400, #4f46e5);
                             }
                         }
 
@@ -2269,7 +2269,7 @@
                                             stroke: var(--gray-600, #4b5563);
                                         }
                                         &:hover svg path {
-                                            stroke: var(--brand-primary, #0BA1A1);
+                                            stroke: var(--brand-primary, #4f46e5);
                                         }
                                     }
                                 }
@@ -2899,7 +2899,7 @@
             content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
             background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.15); transition: transform 160ms ease;
         }
-        .toggle-input:checked + .toggle-visual { background: var(--brand-primary, #0BA1A1); }
+        .toggle-input:checked + .toggle-visual { background: var(--brand-primary, #4f46e5); }
         .toggle-input:checked + .toggle-visual::after { transform: translateX(16px); }
         .toggle-input:disabled + .toggle-visual { opacity: .5; filter: grayscale(.3); cursor: not-allowed; }
     }
@@ -3019,7 +3019,7 @@
 
 
     .toggle-input:focus-visible + .toggle-visual {
-        outline: 2px solid var(--brand-primary, #0BA1A1);
+        outline: 2px solid var(--brand-primary, #4f46e5);
         outline-offset: 2px;
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
     }
@@ -3617,7 +3617,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 
 #modalFileManager .media-library-breadcrumbs .breadcrumb-item:hover {
     background-color: var(--gray-100, #f3f4f6);
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
     text-decoration: underline;
 }
 
@@ -3653,7 +3653,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 
 #modalFileManager .media-library-search-indicator .breadcrumb-home:hover {
     background-color: var(--gray-100, #f3f4f6);
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
 }
 
 #modalFileManager .media-library-search-indicator .breadcrumb-separator {
@@ -3663,7 +3663,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 }
 
 #modalFileManager .media-library-search-indicator .search-term {
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
 }
 
 #modalFileManager .media-library-search-indicator .clear-search-btn {
@@ -3705,7 +3705,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    background: var(--brand-primary, #0BA1A1);
+    background: var(--brand-primary, #4f46e5);
     color: white;
     padding: 2px 4px;
     border-radius: 3px;
@@ -3737,7 +3737,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 
 #modalFileManager .col-location .location-link {
     cursor: pointer;
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
     text-decoration: none;
     display: inline-block;
     max-width: 100%;
@@ -3759,7 +3759,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 }
 
 #modalFileManager .media-library-location-value {
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
     font-size: 12px;
 }
 
@@ -3770,7 +3770,7 @@ body[mode="advanced"] .modal .form-properties .exe-properties-form-content {
 }
 
 #modalFileManager .media-library-open-folder-btn:hover {
-    color: var(--brand-primary, #0BA1A1);
+    color: var(--brand-primary, #4f46e5);
 }
 
 /* Fixed modal height - NEVER changes based on content */

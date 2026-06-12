@@ -1,13 +1,13 @@
 :root {
-    --brand-primary: #0BA1A1;
-    --brand-primary-dark: #098585;
+    --brand-primary: #4f46e5;
+    --brand-primary-dark: #3730a3;
     --white: #fff;
     --gray-100: #f3f4f6;
     --gray-200: #e5e7eb;
 }
 body{background:#fafafa}
 .lead{font-size:1.8em}
-.btn-dark{background-color:#438606;border-color:#2A6D00}
+.btn-dark{background-color:#4f46e5;border-color:#3730a3}
 .card{border-radius:8px}
 img{border-radius:8px 0 0 8px}
 #exe-version{position:absolute;bottom:0;right:0}
