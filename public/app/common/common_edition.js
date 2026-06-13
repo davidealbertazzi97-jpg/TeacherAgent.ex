@@ -1610,16 +1610,16 @@ var $exeDevicesEdition = {
                         aspect-ratio: 1 / 1;
                         flex-shrink: 0;
                         line-height: 1;
-                        color: var(--brand-primary, #0BA1A1);
-                        border-color: var(--brand-primary, #0BA1A1);
+                        color: var(--brand-primary, #4f46e5);
+                        border-color: var(--brand-primary, #4f46e5);
                         background: #fff;
                     }
                     .exe-voice-recorder-toggle:hover,
                     .exe-voice-recorder-toggle:focus,
                     .exe-voice-recorder-toggle:active {
-                        color: #087d7d;
-                        border-color: #087d7d;
-                        background: #e6f6f6;
+                        color: #3730a3;
+                        border-color: #3730a3;
+                        background: #e0e7ff;
                     }
                     .exe-voice-recorder-toggle svg {
                         width: 1rem;
