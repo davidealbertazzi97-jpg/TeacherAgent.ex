@@ -20,20 +20,24 @@ Il progetto è stato sviluppato inizialmente per rispondere ad ad una mia person
 
 ---
 
-## 🤖 I Due Livelli di Integrazione AI
+## 🤖 I Due Livelli di Integrazione AI e Privacy Policy
 
-Il sistema è strutturato su due modalità di funzionamento AI distinte e indipendenti:
+Il sistema è strutturato su due modalità di funzionamento AI distinte e indipendenti, con differenti implicazioni per la privacy:
 
 ### Livello 1: Assistente AI integrato nell'interfaccia (iDevice Assistant)
 * **Descrizione**: Consente di invocare un assistente generativo direttamente nella barra laterale dell'applicazione per supportare la scrittura di codice sorgente HTML5/JS/CSS all'interno dei blocchi di testo.
 * **Configurazione**: Funziona inserendo le proprie chiavi API personali direttamente nella configurazione dell'app.
-* **Modello Testato**: Questa integrazione è stata ottimizzata e testata con successo esclusivamente con le API di **Mistral (Codestral)**, ideali per la generazione e la formattazione pulita di codice di gioco (non è consigliato l'uso delle chiavi Google in questa modalità diretta). 
-* **Sviluppi Futuri**: In futuro l'assistente verrà testato ed esteso a più provider AI, con l'intenzione di integrare anche altri agenti di coding esterni.
+* **Modello Testato**: Questa integrazione è stata ottimizzata e testata con successo esclusivamente con le API di **Mistral (Codestral)**. 
+* **UI & Provider**: I pulsanti per gli altri provider di terze parti nella schermata delle impostazioni sono attualmente contrassegnati come **Work in Progress (Lavori in corso)**.
+* **Privacy Policy**: Nel Livello 1, il trattamento dei dati e la privacy dipendono interamente dal provider di cui si inserisce la chiave API personale (es. Mistral). I dati inseriti nel prompt dell'assistente saranno inviati al rispettivo provider secondo i suoi termini di servizio.
 
 ### Livello 2: Integrazione con l'agente autonomo locale (OpenCode Bridge)
 * **Descrizione**: Consente ad un agente AI esterno ed autonomo di controllare l'applicazione e di generare percorsi didattici strutturati e complessi in totale autonomia con pochissimi click.
 * **Come funziona**: Quando l'utente scarica ed esegue **OpenCode** sul proprio computer, TeacherAgent-ex ne rileva la presenza in locale. Selezionando la voce "Agent" nella barra laterale del programma, l'app mostrerà gli agenti installati e disponibili sul computer. Cliccando sul pulsante **"Connect" (Connetti)**, l'app stabilirà una connessione tramite un bridge WebSocket locale chiuso (`127.0.0.1`), consentendo all'agente di controllare l'area di lavoro.
-* **Modello Consigliato**: **Non consigliamo** l'uso di OpenCode con le API di Google Gemini. OpenCode è stato esplicitamente ottimizzato per lavorare con i **modelli locali "Zen" gratuiti inclusi di default** al momento del download di OpenCode. Questi modelli funzionano localmente senza richiedere chiavi esterne e offrono prestazioni ottimali out-of-the-box.
+* **Modello Consigliato (Zen Cloud)**: L'integrazione è stata ottimizzata e testata per funzionare con i **modelli "Zen" inclusi nel piano gratuito di OpenCode**.
+  - *Nota Importante*: **I modelli Zen non sono locali**; essi girano in cloud sui server di OpenCode. Di conseguenza, dopo l'installazione di OpenCode è necessario effettuare l'autenticazione del proprio account OpenCode.
+  - *Modelli Locali*: Se l'utente lo desidera, OpenCode supporta la connessione a modelli locali (es. tramite Ollama), sebbene questa modalità non sia stata testata dall'autore per questo specifico fork.
+* **Privacy Policy**: L'autore ha testato e ottimizzato solo l'agente OpenCode. Quando si utilizza questo agente, il trattamento dei dati è soggetto alla **Privacy Policy di OpenCode**. Per qualsiasi altro agente di coding esterno che l'utente decidesse di connettere, la privacy dipenderà esclusivamente dalle politiche di quell'agente.
 
 ---
 
@@ -63,7 +67,7 @@ Il codice di questo progetto è stato **"vibe-codato"** (sviluppato in un flusso
 
 ## 🛠️ Come installare e configurare OpenCode
 
-Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode** utilizzando i suoi modelli locali Zen gratuiti, segui questi passaggi:
+Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode** utilizzando i suoi modelli Zen gratuiti, segui questi passaggi:
 
 ### 1. Clonazione del repository di OpenCode
 Apri un terminale sulla stessa macchina in cui è in esecuzione TeacherAgent-ex e clona il repository di OpenCode:
@@ -80,18 +84,22 @@ npm install -g opencode-cli
 npm install
 ```
 
-### 3. Avvio dell'agente (con modelli Zen gratuiti)
-Avvia l'agente abilitando l'esecuzione dei comandi locali per consentirgli di interfacciarsi con il bridge di TeacherAgent-ex. L'agente utilizzerà i modelli locali Zen inclusi nel download:
+### 3. Autenticazione e Avvio dell'agente
+Effettua l'autenticazione del tuo account OpenCode (necessaria per utilizzare i modelli in cloud del piano Zen gratuito) ed avvia l'agente:
 ```bash
+# Esegui l'autenticazione iniziale seguendo le istruzioni a schermo
+opencode auth login
+
+# Avvia l'agente abilitando l'integrazione WebSocket
 opencode run --dangerously-skip-permissions
 ```
-All'avvio, l'interfaccia grafica di TeacherAgent-ex mostrerà l'agente disponibile. Selezionalo e premi su **Connect** per avviare il controllo automatico.
+All'avvio, l'interfaccia grafica di TeacherAgent-ex rileverà la presenza dell'agente sulla porta locale. Selezionalo nella sezione "Agent" e clicca su **Connect** per avviare il controllo automatico.
 
 ---
 
 ## 🚀 Download e Installazione di TeacherAgent-ex (Cross-Platform)
 
-L'applicazione è compatibile e può essere installata su **Linux, Windows e macOS**.
+L'applicazione è pienamente compatibile e installabile su **Linux, Windows e macOS**.
 
 ### 🐧 Installazione su Linux (Ubuntu/Debian/Mint/ecc.)
 Apri il terminale ed esegui i seguenti comandi:
@@ -100,7 +108,7 @@ Apri il terminale ed esegui i seguenti comandi:
 git clone https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex.git
 cd TeacherAgent.ex
 
-# Avvio dell'applicazione desktop
+# Avvio dell'applicazione desktop tramite script
 ./teacheragent-ex-start.sh --desktop
 ```
 
