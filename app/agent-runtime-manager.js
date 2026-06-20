@@ -206,7 +206,7 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
     scrubbedEnv['EXE_AGENT_PROMPT'] = prompt;
     scrubbedEnv['EXE_AGENT_OPENCODE_BIN'] = binary;
     scrubbedEnv['EXE_AGENT_RUNTIME'] = runtime;
-    scrubbedEnv['EXE_AGENT_WORKDIR'] = '/home/asus/exelearning-code';
+    scrubbedEnv['EXE_AGENT_WORKDIR'] = path.resolve(__dirname, '..');
     scrubbedEnv['ELECTRON_RUN_AS_NODE'] = '1';
 
     const adapterPath = path.join(__dirname, 'opencode-ws-adapter.js');
@@ -214,7 +214,7 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
     console.log(`[RuntimeManager] Spawning AI Agent adapter [${runtime}] for projectId: ${projectId}`);
 
     activeProcess = child_process.spawn(process.execPath, [adapterPath], {
-        cwd: '/home/asus/exelearning-code',
+        cwd: path.resolve(__dirname, '..'),
         env: scrubbedEnv
     });
 

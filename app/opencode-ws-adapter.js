@@ -1,5 +1,6 @@
 const childProcess = require('child_process');
 const WebSocket = require('ws');
+const path = require('path');
 
 const MAX_ITERATIONS = 8;
 const OPENCODE_TIMEOUT_MS = 10 * 60 * 1000;
@@ -95,7 +96,7 @@ function runAgent(message) {
             binary,
             args,
             {
-                cwd: process.env.EXE_AGENT_WORKDIR || '/home/asus/exelearning-code',
+                cwd: process.env.EXE_AGENT_WORKDIR || path.resolve(__dirname, '..'),
                 env: process.env,
                 timeout: OPENCODE_TIMEOUT_MS,
                 maxBuffer: 20 * 1024 * 1024
