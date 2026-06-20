@@ -21,8 +21,9 @@ function updateBridgeConfig() {
     try {
         const configPath = path.join(__dirname, 'bridge-config.json');
         const activeProjects = Array.from(rooms.keys()).filter(id => rooms.get(id).client !== null);
+        const host = process.env.EXE_AGENT_BROKER_HOST || '127.0.0.1';
         const configData = {
-            wsUrl: `ws://127.0.0.1:${activePort}/agent-bridge`,
+            wsUrl: `ws://${host}:${activePort}/agent-bridge`,
             token: agentSessionToken,
             projectId: activeProjects[0] || 'default-project',
             activeProjects: activeProjects
@@ -161,10 +162,10 @@ function startAgentBroker() {
             });
         });
         
-        // Bind to 127.0.0.1 loopback only for local secure IPC
-        server.listen(0, '127.0.0.1', () => {
+        const host = process.env.EXE_AGENT_BROKER_HOST || '127.0.0.1';
+        server.listen(0, host, () => {
             activePort = server.address().port;
-            console.log(`[AgentBroker] Local desktop agent broker active on 127.0.0.1:${activePort}`);
+            console.log(`[AgentBroker] Desktop agent broker active on ${host}:${activePort}`);
             updateBridgeConfig();
             resolve();
         });
@@ -178,8 +179,9 @@ function getAgentBridgeConfig(projectId = 'default-project') {
     if (!activePort || !agentSessionToken) {
         return null;
     }
+    const host = process.env.EXE_AGENT_BROKER_HOST || '127.0.0.1';
     return {
-        wsUrl: `ws://127.0.0.1:${activePort}/agent-bridge`,
+        wsUrl: `ws://${host}:${activePort}/agent-bridge`,
         token: agentSessionToken,
         projectId: projectId
     };
