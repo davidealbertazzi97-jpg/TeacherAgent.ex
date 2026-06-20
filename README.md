@@ -33,7 +33,10 @@ Il sistema è strutturato su due modalità di funzionamento AI distinte e indipe
 
 ### Livello 2: Integrazione con l'agente autonomo locale (OpenCode Bridge)
 * **Descrizione**: Consente ad un agente AI esterno ed autonomo di controllare l'applicazione e di generare percorsi didattici strutturati e complessi in totale autonomia con pochissimi click.
-* **Come funziona**: Quando l'utente scarica ed esegue **OpenCode** sul proprio computer, TeacherAgent-ex ne rileva la presenza in locale. Selezionando la voce "Agent" nella barra laterale del programma, l'app mostrerà gli agenti installati e disponibili sul computer. Cliccando sul pulsante **"Connect" (Connetti)**, l'app stabilirà una connessione tramite un bridge WebSocket locale chiuso (`127.0.0.1`), consentendo all'agente di controllare l'area di lavoro.
+* **Come funziona**: Quando l'utente scarica ed esegue **OpenCode** sul proprio computer, TeacherAgent-ex ne rileva la presenza in locale. Selezionando la voce "Agent" nella barra laterale del programma, l'app mostrerà gli agenti installati e disponibili sul computer. Cliccando sul pulsante **"Connect" (Connetti)**, l'app stabilirà una connessione tramite un bridge WebSocket locale.
+  - *Connessione su altre macchine*: Di default, per motivi di sicurezza, il WebSocket bridge si lega a `127.0.0.1`. Se si desidera connettere OpenCode da un altro computer presente sulla stessa rete locale, basta avviare l'applicazione impostando la variabile d'ambiente `EXE_AGENT_BROKER_HOST=0.0.0.0` (o l'IP LAN del computer che esegue l'app).
+    * Su Linux/macOS: `EXE_AGENT_BROKER_HOST=0.0.0.0 ./teacheragent-ex-start.sh --desktop`
+    * Su Windows (PowerShell): `$env:EXE_AGENT_BROKER_HOST="0.0.0.0"; bun run electron`
 * **Modello Consigliato (Zen Cloud)**: L'integrazione è stata ottimizzata e testata per funzionare con i **modelli "Zen" inclusi nel piano gratuito di OpenCode**.
   - *Nota Importante*: **I modelli Zen non sono locali**; essi girano in cloud sui server di OpenCode. Di conseguenza, dopo l'installazione di OpenCode è necessario effettuare l'autenticazione del proprio account OpenCode.
   - *Modelli Locali*: Se l'utente lo desidera, OpenCode supporta la connessione a modelli locali (es. tramite Ollama), sebbene questa modalità non sia stata testata dall'autore per questo specifico fork.
