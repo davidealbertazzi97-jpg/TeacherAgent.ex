@@ -16,7 +16,7 @@
 
 **TeacherAgent-ex** (Teacher + AI Agent + eX) nasce come progetto sperimentale con l'obiettivo di integrare il supporto dell'intelligenza artificiale e degli agenti autonomi all'interno di eXeLearning. Questo consente di automatizzare la creazione di contenuti didattici, pagine strutturate, e soprattutto giochi o attività interattive in formato HTML5/JS/CSS direttamente dentro i blocchi di testo tradizionali (iDevices standard come *FreeText* / *Testo*).
 
-Il progetto è stato sviluppato inizialmente per rispondere ad un'esigenza personale dell'autore e dei suoi colleghi docenti, per poi essere rilasciato pubblicamente e gratuitamente al fine di consentire a insegnanti, formatori e appassionati di utilizzarlo, modificarlo e distribuirlo liberamente nel pieno rispetto della filosofia open source.
+Il progetto è stato sviluppato inizialmente per rispondere ad ad una mia personale esigenza e ad un'esigenza che vedevo nei miei colleghi docenti, per poi decidere di renderlo pubblico gratuitamente nel rispetto delle licenze in modo che chiunque (insegnanti, formatori o semplici appassionati) possa utilizzarlo, modificarlo e distribuirlo liberamente.
 
 ---
 
@@ -27,12 +27,13 @@ Il sistema è strutturato su due modalità di funzionamento AI distinte e indipe
 ### Livello 1: Assistente AI integrato nell'interfaccia (iDevice Assistant)
 * **Descrizione**: Consente di invocare un assistente generativo direttamente nella barra laterale dell'applicazione per supportare la scrittura di codice sorgente HTML5/JS/CSS all'interno dei blocchi di testo.
 * **Configurazione**: Funziona inserendo le proprie chiavi API personali direttamente nella configurazione dell'app.
-* **Modello Testato**: Questa integrazione è stata ottimizzata e testata con successo con le API di **Mistral (Codestral)**, ideali per la generazione e la formattazione pulita di codice di gioco (non è ottimizzato per le API di Google Gemini in questa modalità diretta).
+* **Modello Testato**: Questa integrazione è stata ottimizzata e testata con successo esclusivamente con le API di **Mistral (Codestral)**, ideali per la generazione e la formattazione pulita di codice di gioco (non è consigliato l'uso delle chiavi Google in questa modalità diretta). 
+* **Sviluppi Futuri**: In futuro l'assistente verrà testato ed esteso a più provider AI, con l'intenzione di integrare anche altri agenti di coding esterni.
 
 ### Livello 2: Integrazione con l'agente autonomo locale (OpenCode Bridge)
 * **Descrizione**: Consente ad un agente AI esterno ed autonomo di controllare l'applicazione e di generare percorsi didattici strutturati e complessi in totale autonomia con pochissimi click.
-* **Funzionamento**: L'applicazione include un broker WebSocket integrato su porta locale. Se sulla stessa macchina è installato ed eseguito il software **OpenCode**, TeacherAgent-ex rileva automaticamente la connessione tramite un bridge WebSocket a circuito chiuso (`127.0.0.1`).
-* **Modello Testato**: In questo caso, l'agente OpenCode locale si interfaccia efficacemente per orchestrare la creazione delle pagine e degli iDevice.
+* **Come funziona**: Quando l'utente scarica ed esegue **OpenCode** sul proprio computer, TeacherAgent-ex ne rileva la presenza in locale. Selezionando la voce "Agent" nella barra laterale del programma, l'app mostrerà gli agenti installati e disponibili sul computer. Cliccando sul pulsante **"Connect" (Connetti)**, l'app stabilirà una connessione tramite un bridge WebSocket locale chiuso (`127.0.0.1`), consentendo all'agente di controllare l'area di lavoro.
+* **Modello Consigliato**: **Non consigliamo** l'uso di OpenCode con le API di Google Gemini. OpenCode è stato esplicitamente ottimizzato per lavorare con i **modelli locali "Zen" gratuiti inclusi di default** al momento del download di OpenCode. Questi modelli funzionano localmente senza richiedere chiavi esterne e offrono prestazioni ottimali out-of-the-box.
 
 ---
 
@@ -53,19 +54,19 @@ Il sistema è strutturato su due modalità di funzionamento AI distinte e indipe
 
 ## ⚖️ Esclusione di Responsabilità (Disclaimer)
 
-Il codice di questo progetto è stato **"vibe-codato"** (sviluppato in un flusso di programmazione assistita e prototipazione rapida) con l'ausilio di modelli di intelligenza artificiale avanzati (tra cui *GPT*, *Codex*, *Google Antigravity CLI* e *OpenCode*).
+Il codice di questo progetto è stato **"vibe-codato"** (sviluppato in un flusso di programmazione assistita e prototipazione rapida) con l'ausilio di modelli di intelligenza artificiale avanzati e strumenti agentici (tra cui *GPT Codex*, *Google Antigravity CLI* e *OpenCode*).
 
 * Il software viene fornito **"così com'è" (AS IS)**, senza garanzie di alcun tipo, esplicite o implicite.
 * Il creatore e i contributori del progetto **non si assumono alcuna responsabilità** per eventuali bug, crash, perdite di dati, falle di sicurezza o qualsiasi danno diretto o indiretto derivante dall'installazione o dall'uso di questo software o dei relativi agenti esterni.
 
 ---
 
-## 🛠️ Come installare e configurare OpenCode e Gemini
+## 🛠️ Come installare e configurare OpenCode
 
-Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode**, segui questi passaggi:
+Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode** utilizzando i suoi modelli locali Zen gratuiti, segui questi passaggi:
 
 ### 1. Clonazione del repository di OpenCode
-Apri un terminale sulla stessa macchina in cui è in esecuzione TeacherAgent-ex e clona il repository ufficiale di OpenCode:
+Apri un terminale sulla stessa macchina in cui è in esecuzione TeacherAgent-ex e clona il repository di OpenCode:
 ```bash
 git clone https://github.com/opencode-ai/opencode.git
 cd opencode
@@ -79,36 +80,69 @@ npm install -g opencode-cli
 npm install
 ```
 
-### 3. Configurazione delle variabili d'ambiente (Gemini)
-Per consentire a OpenCode di utilizzare i modelli AI di Google (Gemini) durante l'orchestrazione, esporta la tua chiave API nel terminale:
-```bash
-export GEMINI_API_KEY="LA_TUA_CHIAVE_API_GEMINI"
-```
-
-### 4. Avvio dell'agente
-Avvia l'agente abilitando l'esecuzione dei comandi locali per consentirgli di interfacciarsi con il bridge di TeacherAgent-ex:
+### 3. Avvio dell'agente (con modelli Zen gratuiti)
+Avvia l'agente abilitando l'esecuzione dei comandi locali per consentirgli di interfacciarsi con il bridge di TeacherAgent-ex. L'agente utilizzerà i modelli locali Zen inclusi nel download:
 ```bash
 opencode run --dangerously-skip-permissions
 ```
-All'avvio, l'interfaccia grafica di TeacherAgent-ex intercetterà automaticamente la presenza dell'agente sulla porta WebSocket locale e si collegherà per consentire la generazione assistita.
+All'avvio, l'interfaccia grafica di TeacherAgent-ex mostrerà l'agente disponibile. Selezionalo e premi su **Connect** per avviare il controllo automatico.
 
 ---
 
-## 🚀 Avvio Rapido di TeacherAgent-ex
+## 🚀 Download e Installazione di TeacherAgent-ex (Cross-Platform)
 
-### 1. Avvio dell'applicazione Desktop (Electron)
-Se hai installato i lanciatori sul Desktop, fai doppio clic su **TeacherAgent-ex.desktop** o **eXeLearning.desktop**. 
-In alternativa, da terminale esegui:
+L'applicazione è compatibile e può essere installata su **Linux, Windows e macOS**.
+
+### 🐧 Installazione su Linux (Ubuntu/Debian/Mint/ecc.)
+Apri il terminale ed esegui i seguenti comandi:
 ```bash
+# Clona il repository
+git clone https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex.git
+cd TeacherAgent.ex
+
+# Avvio dell'applicazione desktop
 ./teacheragent-ex-start.sh --desktop
 ```
 
-### 2. Avvio Web locale (Bun)
-Per sviluppare o utilizzare la versione server locale:
-```bash
-./teacheragent-ex-start.sh --web-local
+---
+
+### 💻 Installazione su Windows
+**Prerequisiti**: Assicurati di aver installato [Bun](https://bun.sh/) e [Node.js](https://nodejs.org/) sul tuo sistema.
+Apri il Prompt dei comandi o PowerShell ed esegui:
+```powershell
+# Clona il repository
+git clone https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex.git
+cd TeacherAgent.ex
+
+# Installa le dipendenze di progetto
+bun install
+
+# Prepara e compila gli asset per Electron
+bun run package:prepare
+
+# Avvia l'applicazione desktop
+bun run electron
 ```
-L'editor sarà disponibile su `http://localhost:8080`.
+
+---
+
+### 🍎 Installazione su macOS
+**Prerequisiti**: Assicurati di aver installato [Bun](https://bun.sh/) e [Node.js](https://nodejs.org/) sul tuo sistema.
+Apri il Terminale ed esegui:
+```bash
+# Clona il repository
+git clone https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex.git
+cd TeacherAgent.ex
+
+# Installa le dipendenze di progetto
+bun install
+
+# Prepara e compila gli asset per Electron
+bun run package:prepare
+
+# Avvia l'applicazione desktop
+bun run electron
+```
 
 ---
 
