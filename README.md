@@ -1,94 +1,129 @@
 <div align="center">
   <img src="public/images/logo_readme.png" alt="TeacherAgent-ex Logo" height="200">
 
-  <h1 align="center">TeacherAgent-ex</h1>
+  <h1 align="center">TeacherAgent.ex (TeacherAgent-ex)</h1>
 
   <p align="center">
-    <strong>TeacherAgent-ex</strong> is an AI-powered, AGPL-licensed educational authoring tool designed to create and publish interactive educational resources.
+    <strong>TeacherAgent-ex</strong> è un software autore per la creazione e pubblicazione di risorse didattiche interattive, basato su licenza open source copyleft <strong>GNU AGPLv3</strong>.
     <br />
-    <em>TeacherAgent-ex is an independent fork based on the eXeLearning project.</em>
+    <em>Si tratta di un fork sperimentale e indipendente derivato direttamente dal progetto originale <strong>eXeLearning</strong>.</em>
   </p>
 </div>
 
 ---
 
-## About the Project
+## 📌 Cos'è TeacherAgent-ex?
 
-**TeacherAgent-ex** (Teacher + AI Agent + eX) is a next-generation fork of eXeLearning. While retaining the core structure, formats, and compatibility of the original project, it introduces **advanced AI agent coordination** to help teachers design premium interactive resources through normal language conversation.
+**TeacherAgent-ex** (Teacher + AI Agent + eX) nasce come progetto sperimentale con l'obiettivo di integrare il supporto dell'intelligenza artificiale e degli agenti autonomi all'interno di eXeLearning. Questo consente di automatizzare la creazione di contenuti didattici, pagine strutturate, e soprattutto giochi o attività interattive in formato HTML5/JS/CSS direttamente dentro i blocchi di testo tradizionali (iDevices standard come *FreeText* / *Testo*).
 
-### 🌟 Key AI Capabilities
-
-*   **Stay-Alive Chat Loop:** A persistent, concurrent chat session in the sidebar. The AI agent stays connected to the editing workspace, allowing teachers to continuously iterate, improve, and format the same content without losing context.
-*   **HTML5 Game Mimicking:** Advanced prompt patterns allow the AI to construct premium interactive mini-games (such as 3D card flips memory games, crosswords, word search puzzles, drag-and-drop connectors) inside standard blocks with elegant styles, animations, and state machines.
-*   **Remote Image Proxy Downloader:** A specialized tool that automatically downloads remote images (including resolving Wikipedia file pages to their direct JPG/PNG files) and saves them locally in the `AI_Downloads/` folder of the project assets, bypassing CORS and CDN issues.
-*   **Authorization Safety Mode:** An optional interactive permission system that displays a prompt in the chat whenever an agent wants to perform editing actions, letting the teacher approve or reject changes in real time.
+Il progetto è stato sviluppato inizialmente per rispondere ad un'esigenza personale dell'autore e dei suoi colleghi docenti, per poi essere rilasciato pubblicamente e gratuitamente al fine di consentire a insegnanti, formatori e appassionati di utilizzarlo, modificarlo e distribuirlo liberamente nel pieno rispetto della filosofia open source.
 
 ---
 
-## Technology Stack
+## 🤖 I Due Livelli di Integrazione AI
 
-TeacherAgent-ex is built on a high-performance modern web stack:
+Il sistema è strutturato su due modalità di funzionamento AI distinte e indipendenti:
 
-1.  **Backend:** [Elysia Framework](https://elysiajs.com/) running on [Bun](https://bun.sh/).
-2.  **Database:** [Kysely](https://kysely.dev/) query builder supporting SQLite, MySQL, and PostgreSQL.
-3.  **Real-Time Sync:** [Yjs](https://yjs.dev/) CRDTs and WebSocket adapters for interactive operations and rollback snapshots.
-4.  **Desktop Wrapper:** [Electron](https://www.electronjs.org/) for a native offline authoring environment on Linux, macOS, and Windows.
-5.  **Styling:** Custom Vanilla CSS and Bootstrap.
+### Livello 1: Assistente AI integrato nell'interfaccia (iDevice Assistant)
+* **Descrizione**: Consente di invocare un assistente generativo direttamente nella barra laterale dell'applicazione per supportare la scrittura di codice sorgente HTML5/JS/CSS all'interno dei blocchi di testo.
+* **Configurazione**: Funziona inserendo le proprie chiavi API personali direttamente nella configurazione dell'app.
+* **Modello Testato**: Questa integrazione è stata ottimizzata e testata con successo con le API di **Mistral (Codestral)**, ideali per la generazione e la formattazione pulita di codice di gioco (non è ottimizzato per le API di Google Gemini in questa modalità diretta).
+
+### Livello 2: Integrazione con l'agente autonomo locale (OpenCode Bridge)
+* **Descrizione**: Consente ad un agente AI esterno ed autonomo di controllare l'applicazione e di generare percorsi didattici strutturati e complessi in totale autonomia con pochissimi click.
+* **Funzionamento**: L'applicazione include un broker WebSocket integrato su porta locale. Se sulla stessa macchina è installato ed eseguito il software **OpenCode**, TeacherAgent-ex rileva automaticamente la connessione tramite un bridge WebSocket a circuito chiuso (`127.0.0.1`).
+* **Modello Testato**: In questo caso, l'agente OpenCode locale si interfaccia efficacemente per orchestrare la creazione delle pagine e degli iDevice.
 
 ---
 
-## Quick Start
+## ⚠️ Avvertenze sulla Sicurezza e Rischi importanti
 
-### 1. Launching the Desktop Client (Recommended)
+> [!CAUTION]
+> ### RISCHIO DI SICUREZZA NELL'ESECUZIONE DI AGENTI AI LOCALI
+> L'esecuzione di un agente autonomo locale (come OpenCode o altri agenti CLI) a cui viene concesso l'accesso alla cartella `home` o alla directory di lavoro del proprio computer comporta **gravi rischi per la sicurezza dei dati**.
+> 
+> Un agente AI autonomo ha la capacità tecnica di:
+> - Leggere, scrivere o eliminare qualsiasi file presente nelle directory a cui ha accesso.
+> - Eseguire comandi shell sul sistema operativo locale.
+> - Effettuare richieste di rete ed inviare dati.
+> 
+> Si raccomanda caldamente di eseguire l'applicazione e gli agenti in ambienti controllati o sandbox. L'utente assume la totale responsabilità in merito alla sicurezza dei propri dati ed all'uso degli agenti locali.
 
-You can launch the Electron desktop application directly using the start script:
+---
 
+## ⚖️ Esclusione di Responsabilità (Disclaimer)
+
+Il codice di questo progetto è stato **"vibe-codato"** (sviluppato in un flusso di programmazione assistita e prototipazione rapida) con l'ausilio di modelli di intelligenza artificiale avanzati (tra cui *GPT*, *Codex*, *Google Antigravity CLI* e *OpenCode*).
+
+* Il software viene fornito **"così com'è" (AS IS)**, senza garanzie di alcun tipo, esplicite o implicite.
+* Il creatore e i contributori del progetto **non si assumono alcuna responsabilità** per eventuali bug, crash, perdite di dati, falle di sicurezza o qualsiasi danno diretto o indiretto derivante dall'installazione o dall'uso di questo software o dei relativi agenti esterni.
+
+---
+
+## 🛠️ Come installare e configurare OpenCode e Gemini
+
+Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode**, segui questi passaggi:
+
+### 1. Clonazione del repository di OpenCode
+Apri un terminale sulla stessa macchina in cui è in esecuzione TeacherAgent-ex e clona il repository ufficiale di OpenCode:
+```bash
+git clone https://github.com/opencode-ai/opencode.git
+cd opencode
+```
+
+### 2. Installazione delle dipendenze
+Installa le dipendenze del runtime di OpenCode tramite npm (o il gestore di pacchetti indicato dal repository):
+```bash
+npm install -g opencode-cli
+# oppure installazione locale
+npm install
+```
+
+### 3. Configurazione delle variabili d'ambiente (Gemini)
+Per consentire a OpenCode di utilizzare i modelli AI di Google (Gemini) durante l'orchestrazione, esporta la tua chiave API nel terminale:
+```bash
+export GEMINI_API_KEY="LA_TUA_CHIAVE_API_GEMINI"
+```
+
+### 4. Avvio dell'agente
+Avvia l'agente abilitando l'esecuzione dei comandi locali per consentirgli di interfacciarsi con il bridge di TeacherAgent-ex:
+```bash
+opencode run --dangerously-skip-permissions
+```
+All'avvio, l'interfaccia grafica di TeacherAgent-ex intercetterà automaticamente la presenza dell'agente sulla porta WebSocket locale e si collegherà per consentire la generazione assistita.
+
+---
+
+## 🚀 Avvio Rapido di TeacherAgent-ex
+
+### 1. Avvio dell'applicazione Desktop (Electron)
+Se hai installato i lanciatori sul Desktop, fai doppio clic su **TeacherAgent-ex.desktop** o **eXeLearning.desktop**. 
+In alternativa, da terminale esegui:
 ```bash
 ./teacheragent-ex-start.sh --desktop
 ```
 
-This script will verify dependencies, build the static assets, and spawn the Electron environment. Alternatively, you can click on the launcher icon created on your Desktop (**TeacherAgent-ex.desktop**).
-
-### 2. Local Web Development (Bun)
-
-For developers working on the server and client-side code:
-
+### 2. Avvio Web locale (Bun)
+Per sviluppare o utilizzare la versione server locale:
 ```bash
 ./teacheragent-ex-start.sh --web-local
 ```
-
-This will run the backend on Bun and serve the editor locally at `http://localhost:8080` with hot reload enabled.
-
-### 3. Running with Docker Compose
-
-To launch the multi-user web environment inside Docker containers:
-
-```bash
-./teacheragent-ex-start.sh --web-docker
-```
+L'editor sarà disponibile su `http://localhost:8080`.
 
 ---
 
-## Legal Notices & Licensing
+## 📜 Note Legali e Rispetto dei Diritti originali
 
-TeacherAgent-ex is licensed under the **GNU Affero General Public License v3.0 (or later)**.
+* **TeacherAgent-ex** è un fork indipendente a fini sperimentali e **non è affiliato, sponsorizzato o supportato** in alcun modo dal progetto ufficiale eXeLearning o dai suoi enti di coordinamento (Cedec-INTEF / Junta de Extremadura / Università di Auckland / eXe Project).
+* Tutti i riferimenti sul copyright del codice originale, degli stili legacy e dei formati `.elp` / `.elpx` rimangono di proprietà dei rispettivi autori originari e sono preservati intatti all'interno del codice sorgente e della finestra informativa dell'applicazione.
+* Il software è interamente rilasciato sotto la licenza copyleft **GNU Affero General Public License v3.0 (o successiva)**. Chiunque lo utilizzi e lo modifichi ha il diritto di accedere all'intero codice sorgente delle modifiche, garantendo la continuità open-source del lavoro svolto.
 
-### Credits & Disclaimers
-*   **TeacherAgent-ex** is an independent, community-driven project and is **not affiliated with, sponsored by, or endorsed** by the official eXeLearning project or its maintainers (Cedec-INTEF / Junta de Extremadura / University of Auckland / eXe Project).
-*   The original codebase, file packaging standards (`.elp`, `.elpx`), and legacy styles are copyright their respective original authors and projects. We preserve all copyright notices inside the code and the **Legal Notes** dialog of the application.
-*   In accordance with Section 13 of the GNU AGPLv3, the full source code of all modifications made to this software is publicly available to all users.
-
-### Third-Party Software & Licenses (Open Source Compliance)
-We guarantee that **no proprietary software or libraries** are included in this project or our integrations. All features, adapters, and tools are built entirely upon open-source software under permissive, copyleft-compatible licenses:
-
-*   **Elysia / Bun / Node.js** (App server and CLI runtime): Licensed under the **MIT License**.
-*   **Yjs & y-websocket** (Real-time collaboration state and document synchronization): Licensed under the **MIT License**.
-*   **Kysely & SQLite** (Database query builder and local persistence): Licensed under the **MIT License** / Public Domain.
-*   **Electron & Electron Builder** (Desktop application packaging): Licensed under the **MIT License**.
-*   **Fflate & JSZip** (Package compression and file exports): Licensed under the **MIT License**.
-*   **Nunjucks** (Workarea template rendering): Licensed under the **BSD-2-Clause License**.
-*   **ws** (WebSocket server for AI Agent integration): Licensed under the **MIT License**.
-*   **Fast-xml-parser / XMLDOM** (ODE schema importing/exporting): Licensed under the **MIT License**.
-*   **MathJax** (LaTeX mathematical notation rendering): Licensed under the **Apache License 2.0**.
-*   **Mermaid** (Live diagram preview and rendering): Licensed under the **MIT License**.
-*   **AI Providers API Connectivity** (OpenAI / Anthropic / Google Gemini): Done using standard HTTP protocol calls via the browser/server native `fetch` API. No vendor-locked or proprietary SDKs are embedded.
+### Conformità delle librerie di terze parti:
+Non sono state utilizzate librerie o SDK proprietari o chiusi. Tutte le dipendenze sono open source e compatibili con la licenza AGPLv3:
+- **Elysia / Bun / Node.js** (Server e CLI): *MIT License*
+- **Yjs & y-websocket** (Sincronizzazione in tempo reale): *MIT License*
+- **Kysely & SQLite** (Database e persistenza locale): *MIT License / Public Domain*
+- **Electron & Electron Builder** (Wrapper Desktop): *MIT License*
+- **ws** (Broker WebSocket interno): *MIT License*
+- **MathJax** (Rendering LaTeX): *Apache License 2.0*
+- **Mermaid** (Rendering diagrammi): *MIT License*
