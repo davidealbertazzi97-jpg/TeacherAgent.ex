@@ -4,11 +4,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'bun:test';
 import { Kysely, sql } from 'kysely';
 import { BunSqliteDialect } from 'kysely-bun-worker/normal';
-import * as fs from 'fs-extra';
 import { up, down } from './001_initial';
-
-// Test database path
-const TEST_DB_PATH = '/tmp/migration-test.db';
 
 // Use in-memory database for testing
 let db: Kysely<any>;
@@ -36,25 +32,16 @@ async function getIndexes(tableName: string) {
 
 describe('001_initial Migration', () => {
     beforeEach(async () => {
-        // Clean up any existing test database
-        if (await fs.pathExists(TEST_DB_PATH)) {
-            await fs.remove(TEST_DB_PATH);
-        }
-
-        // Create database using the project's dialect
+        // Create database using in-memory SQLite dialect
         db = new Kysely({
             dialect: new BunSqliteDialect({
-                url: TEST_DB_PATH,
+                url: ':memory:',
             }),
         });
     });
 
     afterEach(async () => {
         await db.destroy();
-        // Clean up test database
-        if (await fs.pathExists(TEST_DB_PATH)) {
-            await fs.remove(TEST_DB_PATH);
-        }
     });
 
     describe('up migration', () => {
