@@ -28,7 +28,12 @@ describe('Redis Client', () => {
     afterEach(() => {
         resetRedisState();
         // Restore original env
-        process.env = { ...originalEnv };
+        for (const key of Object.keys(process.env)) {
+            if (!(key in originalEnv)) {
+                delete process.env[key];
+            }
+        }
+        Object.assign(process.env, originalEnv);
     });
 
     describe('isRedisEnabled', () => {
