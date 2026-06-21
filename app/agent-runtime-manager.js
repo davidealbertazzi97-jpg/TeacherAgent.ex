@@ -1,18 +1,49 @@
 const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { getAgentBridgeConfig } = require('./agent-broker');
 
 let activeProcess = null;
 
+/**
+ * Returns the resolved path to the OpenCode binary on the host system.
+ */
+function getOpenCodePath() {
+    const base = path.join(os.homedir(), '.opencode', 'bin');
+    const extensions = ['', '.cmd', '.bat', '.exe'];
+    for (const ext of extensions) {
+        const fullPath = path.join(base, 'opencode' + ext);
+        if (fs.existsSync(fullPath)) {
+            return fullPath;
+        }
+    }
+    return path.join(os.homedir(), '.opencode', 'bin', process.platform === 'win32' ? 'opencode.cmd' : 'opencode');
+}
+
+/**
+ * Returns the resolved path to the Goose binary on the host system.
+ */
+function getGoosePath() {
+    const base = path.join(os.homedir(), '.local', 'bin');
+    const extensions = ['', '.exe', '.cmd', '.bat'];
+    for (const ext of extensions) {
+        const fullPath = path.join(base, 'goose' + ext);
+        if (fs.existsSync(fullPath)) {
+            return fullPath;
+        }
+    }
+    return path.join(os.homedir(), '.local', 'bin', process.platform === 'win32' ? 'goose.exe' : 'goose');
+}
+
 // Command allowlist constraint
 const COMMAND_ALLOWLIST = [
     'opencode',
-    '/home/asus/.opencode/bin/opencode',
+    getOpenCodePath(),
     'codex',
     'claude',
     'goose',
-    '/home/asus/.local/bin/goose',
+    getGoosePath(),
     'qwen',
     'antigravity',
     'custom'
@@ -26,8 +57,11 @@ function isCommandAvailable(command) {
         if (path.isAbsolute(command)) {
             return fs.existsSync(command);
         }
-        // standard Linux command-v checks
-        child_process.execSync(`command -v ${command}`, { stdio: 'ignore' });
+        if (process.platform === 'win32') {
+            child_process.execSync(`where ${command}`, { stdio: 'ignore' });
+        } else {
+            child_process.execSync(`command -v ${command}`, { stdio: 'ignore' });
+        }
         return true;
     } catch (e) {
         return false;
@@ -38,11 +72,14 @@ function isCommandAvailable(command) {
  * List the available agent runtimes on the host.
  */
 function listAgentRuntimes() {
+    const openCodePath = getOpenCodePath();
+    const goosePath = getGoosePath();
+
     const runtimes = [
         {
             id: 'opencode',
             name: 'OpenCode CLI',
-            path: '/home/asus/.opencode/bin/opencode',
+            path: openCodePath,
             available: false
         },
         {
@@ -60,7 +97,7 @@ function listAgentRuntimes() {
         {
             id: 'goose',
             name: 'Goose CLI (Esterno)',
-            path: 'goose',
+            path: goosePath,
             available: false
         },
         {
@@ -83,7 +120,7 @@ function listAgentRuntimes() {
         }
     ];
 
-    if (isCommandAvailable('/home/asus/.opencode/bin/opencode') || isCommandAvailable('opencode')) {
+    if (isCommandAvailable(openCodePath) || isCommandAvailable('opencode')) {
         runtimes[0].available = true;
     }
     if (isCommandAvailable('codex')) {
@@ -92,7 +129,7 @@ function listAgentRuntimes() {
     if (isCommandAvailable('claude')) {
         runtimes[2].available = true;
     }
-    if (isCommandAvailable('/home/asus/.local/bin/goose') || isCommandAvailable('goose')) {
+    if (isCommandAvailable(goosePath) || isCommandAvailable('goose')) {
         runtimes[3].available = true;
     }
     if (isCommandAvailable('qwen')) {
@@ -118,11 +155,14 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
         throw new Error('An active agent runtime is already running. Stop it first.');
     }
 
+    const openCodePath = getOpenCodePath();
+    const goosePath = getGoosePath();
+
     // Determine binary based on selected agent runtime
     let binary = '';
     if (runtime === 'opencode') {
-        if (isCommandAvailable('/home/asus/.opencode/bin/opencode')) {
-            binary = '/home/asus/.opencode/bin/opencode';
+        if (isCommandAvailable(openCodePath)) {
+            binary = openCodePath;
         } else if (isCommandAvailable('opencode')) {
             binary = 'opencode';
         } else {
@@ -141,8 +181,8 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
             throw new Error('Claude Code binary not found on the host system.');
         }
     } else if (runtime === 'goose') {
-        if (isCommandAvailable('/home/asus/.local/bin/goose')) {
-            binary = '/home/asus/.local/bin/goose';
+        if (isCommandAvailable(goosePath)) {
+            binary = goosePath;
         } else if (isCommandAvailable('goose')) {
             binary = 'goose';
         } else {

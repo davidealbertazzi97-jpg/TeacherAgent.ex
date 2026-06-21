@@ -15,7 +15,7 @@ describe('Desktop Agent Runtime Manager', () => {
 
     it('defines a strict command allowlist', () => {
         expect(COMMAND_ALLOWLIST).toContain('opencode');
-        expect(COMMAND_ALLOWLIST).toContain('/home/asus/.opencode/bin/opencode');
+        expect(COMMAND_ALLOWLIST.some(p => p.includes('.opencode'))).toBe(true);
     });
 
     it('lists available agent runtimes correctly', () => {
