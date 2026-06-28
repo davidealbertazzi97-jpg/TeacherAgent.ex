@@ -70,33 +70,50 @@ Il codice di questo progetto è stato **"vibe-codato"** (sviluppato in un flusso
 
 ## 🛠️ Come installare e configurare OpenCode
 
-Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode** utilizzando i suoi modelli Zen gratuiti, segui questi passaggi:
+Per sfruttare l'integrazione di **Livello 2** con l'agente autonomo locale **OpenCode** utilizzando i suoi modelli Zen (gratuiti o a pagamento offerti da OpenCode), segui questi passaggi per installare l'agente ed effettuare l'autenticazione:
 
-### 1. Clonazione del repository di OpenCode
-Apri un terminale sulla stessa macchina in cui è in esecuzione TeacherAgent-ex e clona il repository di OpenCode:
+### 1. Installazione di OpenCode CLI
+
+#### 🐧 Linux & 🍎 macOS
+Apri il terminale ed esegui il comando ufficiale di installazione:
 ```bash
-git clone https://github.com/opencode-ai/opencode.git
-cd opencode
+curl -fsSL https://opencode.ai/install | bash
+```
+In alternativa, se hai Node.js installato, puoi usare `npm`:
+```bash
+npm install -g opencode-ai
+```
+Oppure tramite Homebrew (macOS/Linux):
+```bash
+brew install opencode-ai/tap/opencode
 ```
 
-### 2. Installazione delle dipendenze
-Installa le dipendenze del runtime di OpenCode tramite npm (o il gestore di pacchetti indicato dal repository):
+#### 💻 Windows
+Il metodo consigliato per Windows è utilizzare **WSL (Windows Subsystem for Linux)** eseguendo all'interno del terminale WSL:
 ```bash
-npm install -g opencode-cli
-# oppure installazione locale
-npm install
+curl -fsSL https://opencode.ai/install | bash
+```
+Se invece preferisci un'installazione nativa per Windows, puoi usare `npm` (richiede Node.js):
+```bash
+npm install -g opencode-ai
+```
+Oppure tramite Scoop:
+```bash
+scoop install opencode
 ```
 
-### 3. Autenticazione e Avvio dell'agente
-Effettua l'autenticazione del tuo account OpenCode (necessaria per utilizzare i modelli in cloud del piano Zen gratuito) ed avvia l'agente:
+### 2. Autenticazione dell'account OpenCode
+Per utilizzare i modelli Zen inclusi nel piano di OpenCode, effettua l'autenticazione iniziale eseguendo:
 ```bash
-# Esegui l'autenticazione iniziale seguendo le istruzioni a schermo
 opencode auth login
-
-# Avvia l'agente abilitando l'integrazione WebSocket
-opencode run --dangerously-skip-permissions
 ```
-All'avvio, l'interfaccia grafica di TeacherAgent-ex rileverà la presenza dell'agente sulla porta locale. Selezionalo nella sezione "Agent" e clicca su **Connect** per avviare il controllo automatico.
+Segui le istruzioni a schermo per completare il login e attivare i modelli Zen cloud (o il tuo abbonamento).
+
+### 3. Connessione a TeacherAgent-ex
+Una volta installato ed autenticato l'agente:
+1. Avvia l'applicazione desktop **TeacherAgent-ex**.
+2. Seleziona la voce **"Agent"** nella barra laterale sinistra dell'applicazione.
+3. L'applicazione rileverà automaticamente la presenza dell'agente OpenCode locale. Clicca sul pulsante **"Connect" (Connetti)** per stabilire la connessione e iniziare ad automatizzare la creazione di contenuti!
 
 ---
 
@@ -104,12 +121,40 @@ All'avvio, l'interfaccia grafica di TeacherAgent-ex rileverà la presenza dell'a
 
 L'applicazione è pienamente compatibile e installabile su **Linux, Windows e macOS**.
 
+### 📦 Opzione 1: Installatori Precompilati (Consigliato per gli utenti)
+I pacchetti precompilati pronti all'uso sono disponibili nella sezione **[Releases](https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex/releases)** di questa repository:
+
+*   **💻 Windows (ZIP portatile)**:
+    *   Scarica il file `teacheragent-ex-windows-portable.zip` (presente anche localmente nella cartella `release/` dopo la compilazione).
+    *   Estrai il file ZIP in una cartella a tua scelta.
+    *   Fai doppio clic su `TeacherAgent-ex.exe` all'interno della cartella estratta per avviare l'applicazione.
+*   **🍎 macOS (ZIP / DMG)**:
+    *   Scarica il file `TeacherAgent-ex-0.0.0-alpha-mac.zip` o l'immagine `.dmg`.
+    *   Estrai il file ZIP (o apri il file `.dmg`) e trascina `TeacherAgent-ex.app` all'interno della cartella **Applicazioni** (Applications) per l'installazione con un click.
+*   **🐧 Ubuntu / Debian (DEB)**:
+    *   Scarica il pacchetto `teacheragent-ex_0.0.0-alpha_amd64.deb` (presente anche in `release/`).
+    *   Fai doppio clic sul file per aprirlo nel Software Center di Ubuntu e installarlo con un click tramite interfaccia grafica.
+    *   In alternativa, installalo da terminale con:
+        ```bash
+        sudo dpkg -i teacheragent-ex_0.0.0-alpha_amd64.deb
+        sudo apt-get install -f
+        ```
+
+---
+
+### 🛠️ Opzione 2: Installazione da sorgente (Sviluppatori)
+Se desideri avviare l'applicazione in modalità sviluppo o compilarla autonomamente, segui le istruzioni relative al tuo sistema operativo:
+
 ### 🐧 Installazione su Linux (Ubuntu/Debian/Mint/ecc.)
+**Prerequisiti**: Assicurati di aver installato [Bun](https://bun.sh/) e [Node.js](https://nodejs.org/) sul tuo sistema.
 Apri il terminale ed esegui i seguenti comandi:
 ```bash
 # Clona il repository
 git clone https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex.git
 cd TeacherAgent.ex
+
+# Installa le dipendenze di progetto
+bun install
 
 # Avvio dell'applicazione desktop tramite script
 ./teacheragent-ex-start.sh --desktop
