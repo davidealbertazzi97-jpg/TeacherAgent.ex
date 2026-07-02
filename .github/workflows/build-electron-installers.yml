@@ -20,6 +20,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Configure Git for long paths (Windows)
+        if: matrix.os == 'windows-latest'
+        run: git config --system core.longpaths true
+        shell: bash
+
       - name: Checkout code
         uses: actions/checkout@v6
 
