@@ -217,7 +217,13 @@ function startAgentRuntime({ runtime, projectId, prompt, customCommand, provider
     const allowedEnvKeys = [
         'PATH', 'HOME', 'USER', 'SHELL', 'LANG', 'LC_ALL',
         'MISTRAL_API_KEY', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GEMINI_API_KEY',
-        'OLLAMA_HOST', 'OLLAMA_PORT'
+        'OLLAMA_HOST', 'OLLAMA_PORT',
+        // Windows system/user profile variables
+        'SystemRoot', 'SystemDrive', 'windir', 'COMSPEC', 'PATHEXT',
+        'TEMP', 'TMP', 'USERPROFILE', 'HOMEDRIVE', 'HOMEPATH',
+        'APPDATA', 'LOCALAPPDATA', 'USERNAME',
+        // macOS temporary directory
+        'TMPDIR'
     ];
     for (const key of allowedEnvKeys) {
         if (process.env[key]) {
