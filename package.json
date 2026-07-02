@@ -156,6 +156,7 @@
       "preload.js",
       "save-utils.js",
       "update-manager.js",
+      "ai-html-generation.js",
       "package.json",
       "node_modules/**/*",
       "dist/static/**/*",
