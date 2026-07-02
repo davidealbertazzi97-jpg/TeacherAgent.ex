@@ -84,12 +84,12 @@ jobs:
           # - when triggered by a release.prereleased -> publish (PUBLISH=always)
           # - when triggered by push/merged PR -> do not publish (PUBLISH=never)
           # - skip publishing on forks
-          PUBLISH: ${{ github.event_name == 'release' && github.repository_owner == 'exelearning' && 'always' || 'never' }}
+          PUBLISH: ${{ github.event_name == 'release' && (github.repository_owner == 'exelearning' || github.repository_owner == 'davidealbertazzi97-jpg') && 'always' || 'never' }}
         run: |
           # GitHub Releases API token for electron-builder
           export GH_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-          if [ "${{ github.repository_owner }}" = "exelearning" ]; then
+          if [ "${{ github.repository_owner }}" = "exelearning" ] || [ "${{ github.repository_owner }}" = "davidealbertazzi97-jpg" ]; then
             echo "Official repo detected. Enabling signing/notarization only when secrets are available."
 
             if [ -n "${{ secrets.MAC_CERT_P12 }}" ]; then
