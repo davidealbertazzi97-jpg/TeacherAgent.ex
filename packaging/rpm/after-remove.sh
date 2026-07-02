@@ -1,27 +1,28 @@
 #!/bin/bash
 
 # After-remove script for Fedora/RHEL/openSUSE (RPM).
-# Merges standard electron-builder cleanup with RPM repository removal.
+# Merges standard electron-builder cleanup with repository removal.
 
 # ── Standard electron-builder cleanup ─────────────────────────────────────────
 
 # Remove /usr/bin symlink
 if type update-alternatives >/dev/null 2>&1; then
-    update-alternatives --remove 'exelearning' '/usr/bin/exelearning'
+    update-alternatives --remove 'teacheragent-ex' '/usr/bin/teacheragent-ex'
 else
-    rm -f '/usr/bin/exelearning'
+    rm -f '/usr/bin/teacheragent-ex'
 fi
 
 # Remove AppArmor profile
-APPARMOR_PROFILE_DEST='/etc/apparmor.d/exelearning'
+APPARMOR_PROFILE_DEST='/etc/apparmor.d/teacheragent-ex'
 if [ -f "$APPARMOR_PROFILE_DEST" ]; then
   rm -f "$APPARMOR_PROFILE_DEST"
 fi
 
-# ── eXeLearning RPM repository cleanup ───────────────────────────────────────
+# ── YUM/DNF repository cleanup ───────────────────────────────────────
 
 # Remove repo file
-rm -f /etc/yum.repos.d/exelearning.repo
+rm -f /etc/yum.repos.d/teacheragent-ex.repo
 
 # Remove GPG key
-rm -f /etc/pki/rpm-gpg/RPM-GPG-KEY-exelearning
+rm -f /etc/pki/rpm-gpg/RPM-GPG-KEY-teacheragent-ex
+
