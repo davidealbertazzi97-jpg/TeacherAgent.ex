@@ -1,6 +1,6 @@
 {
   "name": "teacheragent-ex",
-  "version": "0.0.0-alpha",
+  "version": "0.0.1",
   "license": "AGPL-3.0-or-later",
   "description": "TeacherAgent-ex is an AGPL-licensed free/libre tool to create and publish open educational resources, with AI integration.",
   "homepage": "https://github.com/davidealbertazzi97-jpg/TeacherAgent.ex",
