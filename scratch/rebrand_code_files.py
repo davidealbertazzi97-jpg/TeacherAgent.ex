@@ -1,8 +1,11 @@
-import os
+from pathlib import Path
+
+
+repository_root = Path(__file__).resolve().parents[1]
 
 files_to_modify = [
     # src/routes/pages.ts
-    ("./src/routes/pages.ts", [
+    (repository_root / "src/routes/pages.ts", [
         ("exelearning_content: trans('eXeLearning content (.elpx)'", "exelearning_content: trans('TeacherAgent-ex content (.elpx)'"),
         ("about_exelearning: trans('About eXeLearning'", "about_exelearning: trans('About TeacherAgent-ex'"),
         ("exelearning_website: trans('eXeLearning website'", "exelearning_website: trans('TeacherAgent-ex website'"),
@@ -13,26 +16,26 @@ files_to_modify = [
     ]),
     
     # src/shared/export/adapters/YjsDocumentAdapter.ts
-    ("./src/shared/export/adapters/YjsDocumentAdapter.ts", [
+    (repository_root / "src/shared/export/adapters/YjsDocumentAdapter.ts", [
         ("title: (meta.get('title') as string) || 'eXeLearning'", "title: (meta.get('title') as string) || 'TeacherAgent-ex'")
     ]),
     
     # src/cli/index.ts
-    ("./src/cli/index.ts", [
+    (repository_root / "src/cli/index.ts", [
         ("eXeLearning CLI", "TeacherAgent-ex CLI")
     ]),
     
     # src/cli/commands/elp-convert.ts
-    ("./src/cli/commands/elp-convert.ts", [
+    (repository_root / "src/cli/commands/elp-convert.ts", [
         ("Convert eXeLearning v2.x", "Convert TeacherAgent-ex v2.x"),
         ("Convert eXeLearning v2.x (.elp) file to v3.0 (.elpx) format", "Convert TeacherAgent-ex v2.x (.elp) file to v3.0 (.elpx) format")
     ])
 ]
 
 for file_path, edits in files_to_modify:
-    if os.path.exists(file_path):
+    if file_path.exists():
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with file_path.open('r', encoding='utf-8') as f:
                 content = f.read()
             
             new_content = content
@@ -43,12 +46,12 @@ for file_path, edits in files_to_modify:
                     modified = True
             
             if modified:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with file_path.open('w', encoding='utf-8') as f:
                     f.write(new_content)
                 print(f"Successfully rebranded code file: {file_path}")
             else:
                 print(f"No changes needed for code file: {file_path}")
         except Exception as e:
             print(f"Error updating code file {file_path}: {e}")
-else:
-    print(f"File not found: {file_path}")
+    else:
+        print(f"File not found: {file_path}")

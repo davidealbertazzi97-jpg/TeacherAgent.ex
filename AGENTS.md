@@ -2,15 +2,18 @@
 
 Canonical instruction file for all AI coding agents working on this repository.
 
-## Local Memory Rule on This Machine
+## Portable Repository and Optional Memory
 
-This local clone lives at `.`.
+Treat the directory containing this file as the repository root. Never assume a
+fixed absolute path: the clone may live anywhere on Linux, macOS, or Windows.
 
-For this machine, all reasoning, planning, audits, decisions, prompts, task handoffs and final reports about this codebase must also be saved in the dedicated Obsidian vault:
+Use a project-memory or Obsidian directory only when the user explicitly provides
+one, or when `EXELEARNING_MEMORY_DIR` is configured. Skip persistent memory when
+neither is available.
 
-- `../Exelearning`
-
-Do not read or modify `../hivemind` unless the user explicitly asks for a HiveMind task. Do not read real `.env` files unless explicitly required and approved by the user.
+Do not read or modify unrelated HiveMind directories unless the user explicitly
+asks for a HiveMind task. Do not read real `.env` files unless explicitly required
+and approved by the user.
 
 ## 1. Project Identity
 
